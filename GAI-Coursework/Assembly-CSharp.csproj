@@ -67,7 +67,6 @@
     <Compile Include="Assets\Scripts\DO NOT CHANGE\SteeringAgent.cs" />
     <Compile Include="Assets\Scripts\DO NOT CHANGE\FastNoiseLite.cs" />
     <Compile Include="Assets\Scripts\DO NOT CHANGE\EnemyFleeBehavior.cs" />
-    <Compile Include="Assets\Scripts\YOUR CODE\flockingBehaviour.cs" />
     <Compile Include="Assets\Scripts\YOUR CODE\seekBehaviour.cs" />
     <Compile Include="Assets\Scripts\DO NOT CHANGE\Attack.cs" />
     <Compile Include="Assets\Scripts\DO NOT CHANGE\Map.cs" />
@@ -79,7 +78,6 @@
     <Compile Include="Assets\Scripts\DO NOT CHANGE\AgentsManager.cs" />
     <Compile Include="Assets\Scripts\DO NOT CHANGE\SteeringBehaviour.cs" />
     <Compile Include="Assets\Scripts\DO NOT CHANGE\AttackManager.cs" />
-    <Compile Include="Assets\Scripts\YOUR CODE\fleeBehaviour.cs" />
     <Compile Include="Assets\Scripts\DO NOT CHANGE\EnemyAgent.cs" />
     <Compile Include="Assets\Scripts\YOUR CODE\AgentCreator.cs" />
     <Compile Include="Assets\Scripts\YOUR CODE\cohesionBehaviour.cs" />

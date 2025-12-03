@@ -1,7 +1,9 @@
 /*
 List references here in Harvard format:
 
-Hamid, H.(2025, 09 11). Pathfinder base for A*. Retrieved from GAI_PATHFINDING  
+Hamid, H.(2025, 09, 11). Pathfinder base for A*. Retrieved from GAI_PATHFINDING  
+
+Hamid, H.(2025 09, 11). Node Class. Retrieved from GAI_PATHFINDING 
 
 Hamid, H.(2025, 09, 11) A* algorithm psuedocode. Retrieved from lecture 5 Search Techniques & Pathfinding 
 
