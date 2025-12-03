@@ -1,0 +1,393 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|e:\\gcu undergrad\\game ai programming\\course work\\gai-coursework\\assets\\scripts\\do not change\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\rpgagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\rpgagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\pathfindingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\pathfindingcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\pathfinderbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\pathfinderbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\seekbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\seekbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\seperationbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\seperationbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\do not change\\steeringagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\steeringagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\alignmentbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\alignmentbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\meleeagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\meleeagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\allyagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\allyagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\cohesionbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\cohesionbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\do not change\\gamedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\gamedata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\references.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\references.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\do not change\\agentsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\agentsmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\fleebehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\fleebehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\flockingbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\flockingbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\your code\\agentcreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\your code\\agentcreator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\do not change\\enemyseekbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\enemyseekbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\do not change\\maprenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\maprenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\do not change\\gridrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\gridrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\do not change\\enemyagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\enemyagent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\assets\\scripts\\do not change\\steeringbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6DD2562E-24FE-902C-E46B-CA900713A106}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\do not change\\steeringbehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AllyAgent.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\AllyAgent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\AllyAgent.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\AllyAgent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\AllyAgent.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwEYAAADDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T09:10:53.82Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MeleeAgent.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\MeleeAgent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\MeleeAgent.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\MeleeAgent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\MeleeAgent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T09:10:34.496Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "alignmentBehaviour.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\alignmentBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\alignmentBehaviour.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\alignmentBehaviour.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\alignmentBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-17T09:01:39.068Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SteeringAgent.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\SteeringAgent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\SteeringAgent.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\SteeringAgent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\SteeringAgent.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAiwCUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T23:07:08.099Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "seperationBehaviour.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\seperationBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\seperationBehaviour.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\seperationBehaviour.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\seperationBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-14T19:53:12.324Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "seekBehaviour.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\seekBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\seekBehaviour.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\seekBehaviour.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\seekBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-03T09:51:36.157Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PathfinderBase.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\PathfinderBase.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\PathfinderBase.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\PathfinderBase.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\PathfinderBase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE8AAABUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T23:20:22.097Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PathfindingController.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\PathfindingController.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\PathfindingController.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\PathfindingController.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\PathfindingController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T09:13:12.371Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RPGAgent.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\RPGAgent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\RPGAgent.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\RPGAgent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\RPGAgent.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAABmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-18T18:16:34.752Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Map.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\Map.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\Map.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\Map.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\Map.cs",
+              "ViewState": "AgIAABQBAAAAAAAAAAAuwF4BAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T22:52:22.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "cohesionBehaviour.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\cohesionBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\cohesionBehaviour.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\cohesionBehaviour.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\cohesionBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-14T20:51:28.04Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "AgentsManager.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\AgentsManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\AgentsManager.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\AgentsManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\AgentsManager.cs",
+              "ViewState": "AgIAAGoAAAAAAAAAAADwv3wAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T23:34:19.318Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "GameData.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\GameData.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\GameData.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\GameData.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\GameData.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAmwAwAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T22:52:28.047Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "References.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\References.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\References.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\References.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\References.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-11T22:09:24.714Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "AgentCreator.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\AgentCreator.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\AgentCreator.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\AgentCreator.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\AgentCreator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-30T23:41:58.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Node.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\Node.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\Node.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\Node.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\Node.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwCYAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T09:19:24.289Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "flockingBehaviour.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\flockingBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\flockingBehaviour.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\flockingBehaviour.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\flockingBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-20T18:44:02.649Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "fleeBehaviour.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\fleeBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\YOUR CODE\\fleeBehaviour.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\YOUR CODE\\fleeBehaviour.cs",
+              "RelativeToolTip": "Assets\\Scripts\\YOUR CODE\\fleeBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-10T18:23:11.332Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "EnemySeekBehaviour.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\EnemySeekBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\EnemySeekBehaviour.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\EnemySeekBehaviour.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\EnemySeekBehaviour.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-03T09:52:35.309Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "MapRenderer.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\MapRenderer.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\MapRenderer.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\MapRenderer.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\MapRenderer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T10:17:32.804Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "GridRenderer.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\GridRenderer.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\GridRenderer.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\GridRenderer.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\GridRenderer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T09:51:53.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "EnemyAgent.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\EnemyAgent.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\EnemyAgent.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\EnemyAgent.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\EnemyAgent.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwBIAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-02T19:11:57.797Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "SteeringBehaviour.cs",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\SteeringBehaviour.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\DO NOT CHANGE\\SteeringBehaviour.cs",
+              "ToolTip": "E:\\GCU Undergrad\\Game AI Programming\\Course work\\GAI-Coursework\\Assets\\Scripts\\DO NOT CHANGE\\SteeringBehaviour.cs",
+              "RelativeToolTip": "Assets\\Scripts\\DO NOT CHANGE\\SteeringBehaviour.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAnwCwAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-03T09:39:07.25Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
