@@ -1,0 +1,7 @@
+﻿  MainGame.cpp
+E:\GCU Undergrad\Games Programming 2 (C++)\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(123,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\GCU Undergrad\Games Programming 2 (C++)\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(129,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\GCU Undergrad\Games Programming 2 (C++)\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(161,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\GCU Undergrad\Games Programming 2 (C++)\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(167,22): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\GCU Undergrad\Games Programming 2 (C++)\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(207,35): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Lab1.vcxproj -> E:\GCU Undergrad\Games Programming 2 (C++)\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Debug\Lab1.exe
