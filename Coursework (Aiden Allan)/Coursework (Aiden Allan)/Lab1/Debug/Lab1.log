@@ -1,0 +1,20 @@
+﻿  Display.cpp
+  main.cpp
+  MainGame.cpp
+E:\GCU Undergrad\Personal-repo\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(216,171): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\GCU Undergrad\Personal-repo\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(216,145): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\GCU Undergrad\Personal-repo\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(221,170): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\GCU Undergrad\Personal-repo\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(221,144): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\GCU Undergrad\Personal-repo\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(274,230): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+E:\GCU Undergrad\Personal-repo\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\MainGame.cpp(274,204): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  Mesh.cpp
+  obj_loader.cpp
+E:\GCU Undergrad\Personal-repo\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Lab1\obj_loader.cpp(377,16): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Shader.cpp
+  TextHandler.cpp
+  TextHandler.h
+  Texture.cpp
+  Generating Code...
+  stb_image.c
+Debug\TextHandler.obj : warning LNK4042: object specified more than once; extras ignored
+  Lab1.vcxproj -> E:\GCU Undergrad\Personal-repo\Coursework (Aiden Allan)\Coursework (Aiden Allan)\Debug\Lab1.exe
