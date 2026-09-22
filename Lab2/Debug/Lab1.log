@@ -1,0 +1,13 @@
+﻿C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180\Microsoft.CppBuild.targets(551,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Lab1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Display.cpp
+  main.cpp
+  MainGame.cpp
+  Mesh.cpp
+  obj_loader.cpp
+C:\Users\hamid\Downloads\Graphics Programming\Week 3 (Geometry Shaders)\Lab Solution Week 1 - Starter week 2\Lab1\obj_loader.cpp(378,16): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  Shader.cpp
+  SkyBox.cpp
+  Texture.cpp
+  Generating Code...
+  stb_image.c
+  Lab1.vcxproj -> C:\Users\hamid\Downloads\Graphics Programming\Week 3 (Geometry Shaders)\Lab Solution Week 1 - Starter week 2\Debug\Lab2.exe
