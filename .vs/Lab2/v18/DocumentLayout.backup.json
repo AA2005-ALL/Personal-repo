@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "E:\\GCU Undergrad\\Personal-repo\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.geom||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:res\\shaderGeoText.geom||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\MainGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:res\\shaderGeoText.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:res\\shaderGeoText.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,17 +26,56 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "shaderGeoText.frag",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.frag",
+              "RelativeDocumentMoniker": "res\\shaderGeoText.frag",
+              "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.frag",
+              "RelativeToolTip": "res\\shaderGeoText.frag",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-09-22T16:40:56.256Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "shaderGeoText.geom",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.geom",
+              "RelativeDocumentMoniker": "res\\shaderGeoText.geom",
+              "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.geom",
+              "RelativeToolTip": "res\\shaderGeoText.geom",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACcAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-09-22T16:40:53.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "shaderGeoText.vert",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.vert",
+              "RelativeDocumentMoniker": "res\\shaderGeoText.vert",
+              "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.vert",
+              "RelativeToolTip": "res\\shaderGeoText.vert",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-09-22T16:40:46.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "MainGame.cpp",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp",
               "RelativeDocumentMoniker": "Lab2\\MainGame.cpp",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp",
               "RelativeToolTip": "Lab2\\MainGame.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAAAIUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-09-22T16:25:17.763Z",
               "EditorCaption": ""

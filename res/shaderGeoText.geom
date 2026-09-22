@@ -19,7 +19,7 @@ uniform float time;
 
 vec4 explode(vec4 position, vec3 normal)
 {
-//Amout of explosion
+    //Amount of explosion
     float magnitude = 8.0;
 	//Direction of explosion, going along normal
     vec3 direction = normal * ((sin(time) + 1.0) / 2.0) * magnitude; 
@@ -31,10 +31,13 @@ vec3 GetNormal()
 {
    //Getting the normal vector of each vertex
    vec3 a = vec3(gl_in[0].gl_Position) - vec3(gl_in[1].gl_Position);
-   vec3 b = vec3(gl_in[2].gl_Position) - vec3(gl_in[1].gl_Position);
+   vec3 b = vec3(gl_in[1].gl_Position) - vec3(gl_in[1].gl_Position);
+   vec3 c = vec3(gl_in[2].gl_Position) - vec3(gl_in[1].gl_Position);
+
+   vec3 overallNormals = a + b + c;
    
    //returns the cross product between the two vectors calculated
-   return normalize(cross(a, b));
+   return normalize(overallNormals);
 }
 
 void main()
