@@ -104,6 +104,12 @@
     <None Include="..\res\shaderGeoText.vert" />
     <None Include="..\res\shaderSkybox.frag" />
     <None Include="..\res\shaderSkybox.vert" />
+    <None Include="eMapping.frag">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </None>
+    <None Include="eMapping.vert">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\res\monkey3.obj">

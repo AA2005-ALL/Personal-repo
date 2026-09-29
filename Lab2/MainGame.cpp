@@ -58,15 +58,34 @@ void MainGame::linkGeo()
 	geoShader.setMat4("transform", modelMatrix);
 }
 
+void MainGame::linkEnvMapping()
+{
+	GLuint t1L = glGetUniformLocation(environmentMapping.ID(), "");
+	GLuint t2L = glGetUniformLocation(environmentMapping.ID(), "");
+
+	glActiveTexture(GL_TEXTURE0); 
+	glBindTexture(GL_TEXTURE_2D, ADS.ID());
+	glUniform1i(t1L, 0);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, environmentMapping.ID());
+	glUniform1i(t2L, 1);
+
+	environmentMapping.setVec3("cameraPos", myCamera.getPos());
+	environmentMapping.setMat4("model", transform.GetModel());
+	environmentMapping.setMat4("view", myCamera.getView());
+	environmentMapping.setMat4("projection", myCamera.getProjection());
+}
 
 void MainGame::initSystems()
 {
 	_gameDisplay.initDisplay(); 
-	mesh1.loadModel("..\\res\\monkey3.obj");
+	mesh1.loadModel("..\\res\\Crate1.obj");
 	
 	texture.init("..\\res\\bricks.jpg");
 	ADS.init("..\\res\\ADS.vert", "..\\res\\ADS.frag");
 	geoShader.initGeo("..\\res\\shaderGeoText.vert", "..\\res\\shaderGeoText.geom", "..\\res\\shaderGeoText.frag");
+	environmentMapping.init("..\\res\\eMapping.vert", "..\\res\\eMapping.frag");
 
 	myCamera.initCamera(glm::vec3(0, 0, -30), 70.0f, (float)_gameDisplay.getWidth()/_gameDisplay.getHeight(), 0.01f, 1000.0f);
 	counter = 0.0f;
@@ -114,22 +133,26 @@ void MainGame::drawGame()
 {
 	_gameDisplay.clearDisplay(0.0f, 0.0f, 0.0f, 1.0f);
 
+	skybox.draw(&myCamera);
+
 	transform.SetPos(glm::vec3(0.0, 0.0, 0.0));
 	transform.SetRot(glm::vec3(0.0, counter * 2, 0.0));
 	transform.SetScale(glm::vec3(5.0, 5.0, 5.0));
 
 	//ADS.Bind();
-	geoShader.Bind();
+	//geoShader.Bind();
+	//environmentMapping.Update(transform, myCamera);
 	//linkADS();
-	linkGeo();
+	
+	//linkGeo();
 	ADS.Update(transform, myCamera);
 
 	texture.Bind(0);
+	environmentMapping.Bind();
+	linkEnvMapping();
 	mesh1.draw();
 	
-	counter = counter + 0.01f;
-
-	skybox.draw(&myCamera);
+	//counter = counter + 0.01f;
 				
 	glEnableClientState(GL_COLOR_ARRAY); 
 	glEnd();
