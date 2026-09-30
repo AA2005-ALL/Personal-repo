@@ -3,6 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -42,8 +43,11 @@ public class PlayerController : NetworkBehaviour
 
         if (!IsOwner)
         {
+            playerVisual.GetComponent<SpriteRenderer>().color = Color.pink;
             return;
         }
+
+        playerVisual.GetComponent<SpriteRenderer>().color = Color.red;
 
         UnityEngine.Debug.Log($"Before SetActive: {localPlayerMarker.activeSelf}");
 
