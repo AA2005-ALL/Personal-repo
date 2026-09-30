@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Security.Cryptography;
@@ -23,6 +24,8 @@ public class PlayerNetworkData : NetworkBehaviour
 
     public NetworkVariable<int> Score = new NetworkVariable<int>(0);
 
+    private int playerCount; 
+
     public override void OnNetworkSpawn()
     {
         UnityEngine.Debug.Log( $"Spawned {OwnerClientId} | " + $"Name: {PlayerName.Value} | " + $"Health: {Health.Value} | " + $"Score: {Score.Value}");
@@ -34,6 +37,8 @@ public class PlayerNetworkData : NetworkBehaviour
         Score.OnValueChanged += OnIntValueChanged;
         FacingAngle.OnValueChanged += OnFacingAngleChanged;
 
+
+        //AddEntry(PlayerName, Score);
 
         UpdatePlayerDisplay();
 
@@ -110,6 +115,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
         playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}";
     }
+
 
     [Rpc(SendTo.Server)]
     private void SetPlayerNameRpc(FixedString64Bytes newName)

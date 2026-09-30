@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] Camera playerCam;
     private Vector2 aimInput;
 
-    [SerializeField] private float moveSpeed = 5f;
+    private float moveSpeed = 8f;
     [SerializeField] private GameObject localPlayerMarker;
     [SerializeField] TMP_InputField playerNameInput;
     [SerializeField] Button hostButton;
@@ -26,6 +26,7 @@ public class PlayerController : NetworkBehaviour
 
     private PlayerInputs controls;
     private Vector2 moveInput;
+    private float shiftInput;
     private Rigidbody2D rb;
 
     private void Awake()
@@ -124,6 +125,8 @@ public class PlayerController : NetworkBehaviour
 
         aimInput = controls.Player.Aim.ReadValue<Vector2>();
 
+        shiftInput = controls.Player.Sprint.ReadValue<float>();
+
         float distanceFromCamera = Mathf.Abs(playerCam.transform.position.z - transform.position.z);
         Vector3 mouseWorld = playerCam.ScreenToWorldPoint(new Vector3(aimInput.x, aimInput.y, distanceFromCamera));
 
@@ -137,6 +140,12 @@ public class PlayerController : NetworkBehaviour
         if (moveInput.sqrMagnitude > 1f)
         {
             moveInput.Normalize();
+        }
+
+        if (shiftInput > 0)
+        {
+            moveSpeed = 20;
+            //UnityEngine.Debug.Log("Sprinting " + moveSpeed);
         }
 
         //if (moveInput.sqrMagnitude > 0.01f) 
