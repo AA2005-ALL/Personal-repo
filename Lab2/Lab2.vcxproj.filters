@@ -109,6 +109,12 @@
     <None Include="eMapping.frag">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\res\FBOShader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\FBOShader.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\res\monkey3.obj">

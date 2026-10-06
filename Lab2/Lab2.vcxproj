@@ -97,6 +97,8 @@
   <ItemGroup>
     <None Include="..\res\ADS.frag" />
     <None Include="..\res\ADS.vert" />
+    <None Include="..\res\FBOShader.frag" />
+    <None Include="..\res\FBOShader.vert" />
     <None Include="..\res\shader.frag" />
     <None Include="..\res\shader.vert" />
     <None Include="..\res\shaderGeoText.frag" />

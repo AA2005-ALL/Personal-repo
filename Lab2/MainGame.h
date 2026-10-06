@@ -36,7 +36,14 @@ private:
 	Shader ADS;
 	Shader geoShader;
 	Shader environmentMapping;
+	Shader FBOShader;
 	Transform transform;
+	GLuint FBO; // Frame Buffer 
+	GLuint RBO; // Render Buffer 
+	GLuint CBO; // Colour Buffer 
+	GLuint quadVAO;
+	GLuint quadVBO;
+
 
 	Skybox skybox;
 
