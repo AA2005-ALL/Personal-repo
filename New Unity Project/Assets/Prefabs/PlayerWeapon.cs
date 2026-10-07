@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerWeapon : NetworkBehaviour
 {
     [SerializeField] private NetworkObject projectilePrefab;
+    private PlayerNetworkData networkData;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireInterval = 0.25f;
     private PlayerInputs controls;
@@ -11,6 +12,7 @@ public class PlayerWeapon : NetworkBehaviour
     private void Awake()
     {
         controls = new PlayerInputs();
+        networkData = GetComponent<PlayerNetworkData>();
     }
 
     public override void OnNetworkSpawn()
@@ -34,6 +36,9 @@ public class PlayerWeapon : NetworkBehaviour
         if (!IsOwner)
             return;
 
+        if (!networkData.IsAlive.Value)
+            return;
+
         if (controls.Player.Fire.WasPressedThisFrame())
         {
             RequestFireRpc(firePoint.position, firePoint.rotation);
@@ -43,6 +48,9 @@ public class PlayerWeapon : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void RequestFireRpc(Vector3 spawnPosition, Quaternion spawnRotation)
     {
+        if (!networkData.IsAlive.Value)
+            return;
+
         if (Time.time < nextFireTime)
             return;
 

@@ -22,18 +22,25 @@ public class PlayerNetworkData : NetworkBehaviour
 
     public NetworkVariable<int> Health = new NetworkVariable<int>(100);
 
+    public NetworkVariable<bool> IsAlive = new NetworkVariable<bool>(true);
+
     public NetworkVariable<int> Score = new NetworkVariable<int>(0);
+
+    [SerializeField] private float respawnDelay = 3f;
+
+    public NetworkVariable<float> RespawnTime = new NetworkVariable<float>(0f);
 
     private int playerCount; 
 
     public override void OnNetworkSpawn()
     {
-        UnityEngine.Debug.Log( $"Spawned {OwnerClientId} | " + $"Name: {PlayerName.Value} | " + $"Health: {Health.Value} | " + $"Score: {Score.Value}");
+        UnityEngine.Debug.Log($"Spawned {OwnerClientId} | " + $"Name: {PlayerName.Value} | " + $"Health: {Health.Value} | " + $"Score: {Score.Value}");
 
         playerInfoText = GetComponentInChildren<TMP_Text>();
 
         PlayerName.OnValueChanged += OnNameChanged;
         Health.OnValueChanged += OnIntValueChanged;
+        IsAlive.OnValueChanged += OnAliveChanged;
         Score.OnValueChanged += OnIntValueChanged;
         FacingAngle.OnValueChanged += OnFacingAngleChanged;
 
@@ -50,13 +57,14 @@ public class PlayerNetworkData : NetworkBehaviour
             return;
         }
 
-        NetworkGameManager gameManager =
-            FindFirstObjectByType<NetworkGameManager>();
+        NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
 
         string requestedName = gameManager.GetPlayerName();
 
         if (string.IsNullOrWhiteSpace(requestedName))
+        {
             requestedName = $"Player {OwnerClientId}";
+        }
 
         SetPlayerNameRpc(new FixedString64Bytes(requestedName));
     }
@@ -65,6 +73,7 @@ public class PlayerNetworkData : NetworkBehaviour
     {
         PlayerName.OnValueChanged -= OnNameChanged;
         Health.OnValueChanged -= OnIntValueChanged;
+        IsAlive.OnValueChanged -= OnAliveChanged;
         Score.OnValueChanged -= OnIntValueChanged;
         FacingAngle.OnValueChanged -= OnFacingAngleChanged;
     }
@@ -84,7 +93,8 @@ public class PlayerNetworkData : NetworkBehaviour
 
     private void OnFacingAngleChanged(float oldAngle, float newAngle)
     {
-        // The owner already rotates immediately in PlayerController. 
+        //The owner already rotates immediately in PlayerController.
+        
         if (IsOwner)
         {
             return;
@@ -106,16 +116,31 @@ public class PlayerNetworkData : NetworkBehaviour
 
     private void UpdatePlayerDisplay()
     {
-        UnityEngine.Debug.Log("UpdatePlayerDisplay called");
-
         if (playerInfoText == null)
         {
             return;
         }
 
-        playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}";
+        string status = "";
+
+        if (!IsAlive.Value)
+        {
+            status = "\nDEAD";
+        }
+
+        playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}" + status;
     }
 
+    private void OnAliveChanged(bool previousValue, bool newValue)
+    {
+        UpdatePlayerDisplay();
+        UpdateAliveDisplay();
+
+        if (!newValue)
+        {
+            UnityEngine.Debug.Log($"{PlayerName.Value} is now dead on this client.");
+        }
+    }
 
     [Rpc(SendTo.Server)]
     private void SetPlayerNameRpc(FixedString64Bytes newName)
@@ -142,12 +167,28 @@ public class PlayerNetworkData : NetworkBehaviour
         FacingAngle.Value = angle;
     }
 
-    public void TakeDamage(int damage)
+    public bool TakeDamage(int damage)
     {
         if (!IsServer)
-            return;
+        {
+            return false;
+        }
+
+        if (!IsAlive.Value)
+        {
+            return false;
+        }
 
         Health.Value = Mathf.Max(Health.Value - damage, 0);
+
+        if (Health.Value == 0)
+        {
+            IsAlive.Value = false;
+            RespawnTime.Value = Time.time + respawnDelay;
+            UnityEngine.Debug.Log($"{PlayerName.Value} has died.");
+            return true;
+        }
+        return false;
     }
 
     public void AddScore(int amount)
@@ -158,16 +199,86 @@ public class PlayerNetworkData : NetworkBehaviour
         Score.Value += amount;
     }
 
+    private void UpdateAliveDisplay()
+    {
+        if (playerVisual != null)
+        {
+            playerVisual.gameObject.SetActive(IsAlive.Value);
+        }
+    }
+
+    [Rpc(SendTo.Owner)]
+    private void TeleportPlayerRpc(Vector3 position)
+    {
+        transform.position = position;
+    }
+
+    private void Respawn()
+    {
+        SpawnManager spawnManager = FindFirstObjectByType<SpawnManager>();
+
+        for (int i = 0; i < playerCount; i++)
+        {
+          
+        }
+
+        if (spawnManager == null)
+        {
+            return;
+        }
+
+        Transform spawnPoint = spawnManager.GetRandomSpawnPoint();
+
+        if (spawnPoint == null)
+        {
+            return;
+        }
+
+        TeleportPlayerRpc(spawnPoint.position);
+
+        Health.Value = 100;
+
+        IsAlive.Value = true;
+    }
+
+    private void UpdateRespawnDisplay()
+    {
+        if (playerInfoText == null)
+        {
+            return;
+        }
+
+        if (IsAlive.Value)
+        {
+            return;
+        }
+
+        float remainingTime = RespawnTime.Value - Time.time;
+        int secondsRemaining = Mathf.CeilToInt(remainingTime);
+        secondsRemaining = Mathf.Max(secondsRemaining, 0);
+        playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + $"DEAD\n" + $"Respawning in {secondsRemaining}...";
+    }
+
     private void Update()
     {
-        // TEMPORARY LAB TEST CODE 
+        if (!IsAlive.Value)
+        {
+            UpdateRespawnDisplay();
+        }
+
         if (!IsServer)
+        {
             return;
+        }
 
-        if (Keyboard.current.hKey.wasPressedThisFrame)
-            TakeDamage(10);
+        if (!IsAlive.Value && Time.time >= RespawnTime.Value)
+        {
+            Respawn();
+        }
 
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-            AddScore(1);
+        if (!IsAlive.Value && Time.time >= RespawnTime.Value)
+        {
+            Respawn();
+        }
     }
 }

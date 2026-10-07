@@ -18,21 +18,32 @@ public class NetwrokProjectile : NetworkBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!IsServer)
+        {
             return;
+        }
+
         PlayerNetworkData target = other.GetComponent<PlayerNetworkData>();
 
         if (target == null)
+        {
             return;
+        }
 
         if (target.OwnerClientId == shooterClientId)
-            return;
-
-        target.TakeDamage(10);
-        PlayerNetworkData shooter = FindShooter();
-
-        if (shooter != null)
         {
-            shooter.AddScore(1);
+            return;
+        }
+
+        bool killedPlayer = target.TakeDamage(10);
+
+        if(killedPlayer)
+        {
+            PlayerNetworkData shooter = FindShooter();
+
+            if (shooter != null)
+            {
+                shooter.AddScore(1);
+            }
         }
 
         NetworkObject.Despawn();

@@ -121,6 +121,12 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
+        if (!networkData.IsAlive.Value)
+        {
+            moveInput = Vector2.zero;
+            return;
+        }
+
         moveInput = controls.Player.Move.ReadValue<Vector2>();
 
         aimInput = controls.Player.Aim.ReadValue<Vector2>();
@@ -164,6 +170,9 @@ public class PlayerController : NetworkBehaviour
         {
             return;
         }
+
+        if (!networkData.IsAlive.Value)
+            return;
 
         Vector2 nextPosition = rb.position + moveInput * moveSpeed * Time.fixedDeltaTime;
 
