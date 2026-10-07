@@ -20,15 +20,23 @@ public class PlayerNetworkData : NetworkBehaviour
 
     [SerializeField] Transform playerVisual;
 
+    [SerializeField] private GameObject invincibilityBubble;
+
     public NetworkVariable<int> Health = new NetworkVariable<int>(100);
 
     public NetworkVariable<bool> IsAlive = new NetworkVariable<bool>(true);
 
     public NetworkVariable<int> Score = new NetworkVariable<int>(0);
 
+    public NetworkVariable<bool> justRespawned = new NetworkVariable<bool>(false);
+
     [SerializeField] private float respawnDelay = 3f;
 
+    [SerializeField] private float spawnInvincibilityDelay = 3f;
+
     public NetworkVariable<float> RespawnTime = new NetworkVariable<float>(0f);
+
+    public NetworkVariable<float> InvincibilityTimer = new NetworkVariable<float>(0f);
 
     private int playerCount; 
 
@@ -81,13 +89,11 @@ public class PlayerNetworkData : NetworkBehaviour
     private void OnNameChanged(FixedString64Bytes previousValue,
                                FixedString64Bytes newValue)
     {
-        UnityEngine.Debug.Log("OnNameChanged called");
         UpdatePlayerDisplay();
     }
 
     private void OnIntValueChanged(int previousValue, int newValue)
     {
-        UnityEngine.Debug.Log("OnIntValueChanged called");
         UpdatePlayerDisplay();
     }
 
@@ -145,7 +151,6 @@ public class PlayerNetworkData : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void SetPlayerNameRpc(FixedString64Bytes newName)
     {
-        UnityEngine.Debug.Log("SetPlayerNameRpc called");
         string value = newName.ToString().Trim();
 
         if (string.IsNullOrEmpty(value))
@@ -174,7 +179,7 @@ public class PlayerNetworkData : NetworkBehaviour
             return false;
         }
 
-        if (!IsAlive.Value)
+        if (!IsAlive.Value || justRespawned.Value == true)
         {
             return false;
         }
@@ -217,11 +222,6 @@ public class PlayerNetworkData : NetworkBehaviour
     {
         SpawnManager spawnManager = FindFirstObjectByType<SpawnManager>();
 
-        for (int i = 0; i < playerCount; i++)
-        {
-          
-        }
-
         if (spawnManager == null)
         {
             return;
@@ -239,6 +239,26 @@ public class PlayerNetworkData : NetworkBehaviour
         Health.Value = 100;
 
         IsAlive.Value = true;
+
+        justRespawned.Value = true;
+
+        InvincibilityTimer.Value = Time.time + spawnInvincibilityDelay;
+
+        invincibilityBubble.SetActive(true);
+    }
+
+    private void UpdateInvincibilityTimer()
+    {
+        float timeTillNotInvincible = InvincibilityTimer.Value - Time.time;
+
+        UnityEngine.Debug.Log("time remaining for invincibility: " + timeTillNotInvincible);
+
+        if(timeTillNotInvincible <= 0)
+        {
+            justRespawned.Value = false;
+            invincibilityBubble.SetActive(false);
+            InvincibilityTimer.Value = 0;
+        }
     }
 
     private void UpdateRespawnDisplay()
@@ -276,9 +296,9 @@ public class PlayerNetworkData : NetworkBehaviour
             Respawn();
         }
 
-        if (!IsAlive.Value && Time.time >= RespawnTime.Value)
+        if (justRespawned.Value == true)
         {
-            Respawn();
+            UpdateInvincibilityTimer();
         }
     }
 }

@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] Camera playerCam;
     private Vector2 aimInput;
 
-    private float moveSpeed = 8f;
+    private float moveSpeed = 16f;
     [SerializeField] private GameObject localPlayerMarker;
     [SerializeField] TMP_InputField playerNameInput;
     [SerializeField] Button hostButton;
@@ -40,8 +40,6 @@ public class PlayerController : NetworkBehaviour
 
     public override void OnNetworkSpawn() 
     {
-        UnityEngine.Debug.Log($"Local={NetworkManager.Singleton.LocalClientId}, " + $"Owner={OwnerClientId}, IsOwner={IsOwner}");
-
         if (!IsOwner)
         {
             playerVisual.GetComponent<SpriteRenderer>().color = Color.pink;
@@ -50,17 +48,9 @@ public class PlayerController : NetworkBehaviour
 
         playerVisual.GetComponent<SpriteRenderer>().color = Color.red;
 
-        UnityEngine.Debug.Log($"Before SetActive: {localPlayerMarker.activeSelf}");
-
         localPlayerMarker.SetActive(true);
 
-        UnityEngine.Debug.Log(localPlayerMarker);
-
-        UnityEngine.Debug.Log($"After SetActive: {localPlayerMarker.activeSelf}");
-
-        UnityEngine.Debug.Log($"[{OwnerClientId}] Marker active: {localPlayerMarker.activeSelf}");
-
-        playerNameInput = GameObject.FindFirstObjectByType<TMP_InputField>();
+        //playerNameInput = GameObject.Find("Player name").GetComponent<TMP_InputField>();
 
         if (OwnerClientId == 0)
         {
@@ -76,7 +66,6 @@ public class PlayerController : NetworkBehaviour
 
         if (hostButtonObj != null)
         {
-            UnityEngine.Debug.Log(hostButtonObj.name);
             hostButton = hostButtonObj.GetComponent<Button>();
             hostButtonObj.SetActive(false);
         }
@@ -88,7 +77,6 @@ public class PlayerController : NetworkBehaviour
 
         if (joinButtonObj != null)
         {
-            UnityEngine.Debug.Log(joinButtonObj.name);
             joinButton = joinButtonObj.GetComponent<Button>();
             joinButtonObj.SetActive(false);
         }
@@ -150,7 +138,7 @@ public class PlayerController : NetworkBehaviour
 
         if (shiftInput > 0)
         {
-            moveSpeed = 20;
+            moveSpeed = 32;
             //UnityEngine.Debug.Log("Sprinting " + moveSpeed);
         }
 
