@@ -361,12 +361,14 @@
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\fstream",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\__msvc_filebuf.hpp",
             "d:\\gcu undergrad\\personal-repo\\lab2\\mesh.h",
-            "d:\\gcu undergrad\\personal-repo\\lab2\\obj_loader.h",
+            "d:\\gcu undergrad\\personal-repo\\lab2\\texture.h",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\vector",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\__msvc_bit_utils.hpp",
-            "d:\\gcu undergrad\\personal-repo\\lab2\\texture.h",
+            "d:\\gcu undergrad\\personal-repo\\lab2\\obj_loader.h",
+            "d:\\gcu undergrad\\personal-repo\\lab2\\audio.h",
             "d:\\gcu undergrad\\personal-repo\\lab2\\skybox.h",
-            "d:\\gcu undergrad\\personal-repo\\lab2\\stb_image.h"
+            "d:\\gcu undergrad\\personal-repo\\lab2\\stb_image.h",
+            "d:\\gcu undergrad\\personal-repo\\lab2\\gameobject.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []

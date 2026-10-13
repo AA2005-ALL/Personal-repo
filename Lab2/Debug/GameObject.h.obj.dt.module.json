@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Debug\\GameObject.obj",
+            "outputs": [
+                "Debug\\GameObject.h.obj.dt.module.json",
+                "Debug\\GameObject.h.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

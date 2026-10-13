@@ -3,32 +3,67 @@
   "WorkspaceRootPath": "D:\\GCU Undergrad\\Personal-repo\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\postProcessing.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\postProcessing.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:res\\shaderGeoText.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\MainGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\Mesh.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\include\\vector||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\Mesh.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\eMapping.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\GameObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\GameObject.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\GameObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\GameObject.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\Shader.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\Texture.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\Texture.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\Texture.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\eMapping.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:res\\shaderGeoText.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\eMapping.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|D:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.geom||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -46,54 +81,77 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Mesh.cpp",
-              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.cpp",
-              "RelativeDocumentMoniker": "Lab2\\Mesh.cpp",
-              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.cpp",
-              "RelativeToolTip": "Lab2\\Mesh.cpp",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAAAFUAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 11,
+              "Title": "Shader.cpp",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Shader.cpp",
+              "RelativeDocumentMoniker": "Lab2\\Shader.cpp",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Shader.cpp",
+              "RelativeToolTip": "Lab2\\Shader.cpp",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAC4AAABPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-10-06T08:58:33.968Z",
+              "WhenOpened": "2026-10-13T08:54:42.217Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Mesh.h",
-              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.h",
-              "RelativeDocumentMoniker": "Lab2\\Mesh.h",
-              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.h",
-              "RelativeToolTip": "Lab2\\Mesh.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFcAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2026-10-06T08:57:18.939Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "eMapping.frag",
-              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.frag",
-              "RelativeDocumentMoniker": "Lab2\\eMapping.frag",
-              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.frag",
-              "RelativeToolTip": "Lab2\\eMapping.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "postProcessing.vert",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.vert",
+              "RelativeDocumentMoniker": "Lab2\\postProcessing.vert",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.vert",
+              "RelativeToolTip": "Lab2\\postProcessing.vert",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-09-29T08:23:01.115Z",
+              "WhenOpened": "2026-10-13T09:08:20.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "postProcessing.frag",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.frag",
+              "RelativeDocumentMoniker": "Lab2\\postProcessing.frag",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.frag",
+              "RelativeToolTip": "Lab2\\postProcessing.frag",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-13T09:08:05.415Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "main.cpp",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\main.cpp",
+              "RelativeDocumentMoniker": "Lab2\\main.cpp",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\main.cpp",
+              "RelativeToolTip": "Lab2\\main.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-13T09:01:22.223Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GameObject.h",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\GameObject.h",
+              "RelativeDocumentMoniker": "Lab2\\GameObject.h",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\GameObject.h",
+              "RelativeToolTip": "Lab2\\GameObject.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-13T08:52:16.012Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "eMapping.vert",
               "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.vert",
               "RelativeDocumentMoniker": "Lab2\\eMapping.vert",
@@ -101,24 +159,24 @@
               "RelativeToolTip": "Lab2\\eMapping.vert",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-09-29T08:22:47.547Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-29T08:22:47.547Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "shaderGeoText.frag",
               "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.frag",
               "RelativeDocumentMoniker": "res\\shaderGeoText.frag",
               "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.frag",
               "RelativeToolTip": "res\\shaderGeoText.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-09-22T16:40:56.256Z"
+              "WhenOpened": "2026-09-22T16:40:56.256Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 16,
               "Title": "shaderGeoText.geom",
               "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.geom",
               "RelativeDocumentMoniker": "res\\shaderGeoText.geom",
@@ -130,7 +188,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 17,
               "Title": "shaderGeoText.vert",
               "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.vert",
               "RelativeDocumentMoniker": "res\\shaderGeoText.vert",
@@ -142,28 +200,117 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
+              "Title": "Mesh.h",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.h",
+              "RelativeDocumentMoniker": "Lab2\\Mesh.h",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.h",
+              "RelativeToolTip": "Lab2\\Mesh.h",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAAAF8AAAACAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-06T08:57:18.939Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "vector",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\include\\vector",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\include\\vector",
+              "ViewState": "AgIAAIkHAAAAAAAAAAAAAJsHAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-10-13T08:59:19.514Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Mesh.cpp",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.cpp",
+              "RelativeDocumentMoniker": "Lab2\\Mesh.cpp",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.cpp",
+              "RelativeToolTip": "Lab2\\Mesh.cpp",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAADYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-06T08:58:33.968Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "MainGame.cpp",
               "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp",
               "RelativeDocumentMoniker": "Lab2\\MainGame.cpp",
               "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp",
               "RelativeToolTip": "Lab2\\MainGame.cpp",
-              "ViewState": "AgIAAMYAAAAAAAAAAAAIwMkAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-09-22T16:25:17.763Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 13,
+              "Title": "Texture.h",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Texture.h",
+              "RelativeDocumentMoniker": "Lab2\\Texture.h",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Texture.h",
+              "RelativeToolTip": "Lab2\\Texture.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-13T08:53:33.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Texture.cpp",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Texture.cpp",
+              "RelativeDocumentMoniker": "Lab2\\Texture.cpp",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\Texture.cpp",
+              "RelativeToolTip": "Lab2\\Texture.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-13T08:53:46.511Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "GameObject.cpp",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\GameObject.cpp",
+              "RelativeDocumentMoniker": "Lab2\\GameObject.cpp",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\GameObject.cpp",
+              "RelativeToolTip": "Lab2\\GameObject.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2026-10-13T08:58:58.057Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "MainGame.h",
               "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h",
               "RelativeDocumentMoniker": "Lab2\\MainGame.h",
               "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h",
               "RelativeToolTip": "Lab2\\MainGame.h",
-              "ViewState": "AgIAABAAAAAAAAAAAAAAACwAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-09-29T08:38:43.696Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "eMapping.frag",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.frag",
+              "RelativeDocumentMoniker": "Lab2\\eMapping.frag",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.frag",
+              "RelativeToolTip": "Lab2\\eMapping.frag",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-09-29T08:23:01.115Z",
               "EditorCaption": ""
             }
           ]

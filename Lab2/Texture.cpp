@@ -3,11 +3,13 @@
 #include <cassert>
 #include <iostream>
 
+
 Texture::Texture()
 {
+	//textureHandler = 0;
 }
 
-void Texture::init(const std::string& fileName)
+void Texture::load(const std::string& fileName)
 {
 	int width, height, numComponents; //width, height, and no of components of image
 	unsigned char* imageData = stbi_load((fileName).c_str(), &width, &height, &numComponents, 4); //load the image and store the data

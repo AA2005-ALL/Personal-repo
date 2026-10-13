@@ -6,16 +6,17 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include "transform.h"
+#include "Audio.h"
 #include "SkyBox.h"
+#include "GameObject.h"
 
-enum class GameState{PLAY, EXIT};
+enum class GameState { PLAY, EXIT };
 
 class MainGame
 {
 public:
 	MainGame();
 	~MainGame();
-	void linkADS();
 
 	void run();
 
@@ -25,30 +26,74 @@ private:
 	void processInput();
 	void gameLoop();
 	void drawGame();
+	void linkFogShader();
+	void linkToon();
+	void linkRimLighting();
 	void linkGeo();
-	void linkEnvMapping();
+	void linkEmapping();
+
+	void drawSkyBox();
+	void drawAsteriods();
+	void drawShip();
+	void drawMissiles();
+
+	void fireMissiles();
+
+	void initModels(GameObject*& asteroid);
+	bool collision(glm::vec3 m1Pos, float m1Rad, glm::vec3 m2Pos, float m2Rad);
+
+	void moveCamera();
+	void updateDelta();
+
+	void createScreenQuad();
+
+	void generateFBO(float w, float h);
+	void bindFBO();
+	void unbindFBO();
+	void renderFBO();
+
+	//void playAudio(unsigned int Source, glm::vec3 pos);
 
 	Display _gameDisplay;
 	GameState _gameState;
-	Mesh mesh1;
+	Mesh rockMesh;
+	Mesh shipMesh;
+	Mesh missileMesh;
 	Camera myCamera;
-	Texture texture;
-	Shader ADS;
+	Shader fogShader;
+	Shader toonShader;
+	Shader rimShader;
 	Shader geoShader;
-	Shader environmentMapping;
+	Shader shaderSkybox;
+	Shader eMapping;
 	Shader FBOShader;
-	Transform transform;
-	GLuint FBO; // Frame Buffer 
-	GLuint RBO; // Render Buffer 
-	GLuint CBO; // Colour Buffer 
-	GLuint quadVAO;
-	GLuint quadVBO;
 
+	Transform transform;
+	GameObject* asteroid = new GameObject[20];
+	GameObject* missiles = new GameObject[20];
+	GameObject ship;
+	Texture texture;
+
+	GLuint FBO;
+	GLuint RBO;
+	GLuint CBO;
+
+	unsigned int quadVAO, quadVBO;
+
+	glm::vec3 currentCamPos;
 
 	Skybox skybox;
 
+	vector<std::string> faces;
+
+	//Audio audioDevice;
+	bool look = true;
 	float counter;
+	unsigned int whistle;
+	unsigned int backGroundMusic;
 
-
+	Uint64 NOW = SDL_GetPerformanceCounter();
+	Uint64 LAST = 0;
+	float deltaTime = 0;
 };
 

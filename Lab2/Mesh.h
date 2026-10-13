@@ -1,8 +1,14 @@
 #pragma once
+
+#include "Texture.h"
+#include <vector>
+#include <iostream>
 #include <glm\glm.hpp>
 #include <GL\glew.h>
 #include <string>
 #include "obj_loader.h"
+
+using namespace std;
 
 struct Vertex
 {
@@ -64,6 +70,7 @@ public:
 	void init(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	void loadModel(const std::string& filename);
 	void initModel(const IndexedModel& model);
+
 	void updateSphereData(glm::vec3 pos, float radius);
 	glm::vec3 getSpherePos() { return meshSphere.GetPos(); }
 	float getSphereRadius() { return meshSphere.GetRadius(); }
@@ -77,12 +84,13 @@ private:
 		POSITION_VERTEXBUFFER,
 		TEXCOORD_VB,
 		NORMAL_VB,
-		INDEX_VB,
 		NUM_BUFFERS
 	};
 
 	Sphere meshSphere;
 	GLuint vertexArrayObject;
 	GLuint vertexArrayBuffers[NUM_BUFFERS]; // create our array of buffers
+	GLuint EBO;
+
 	unsigned int drawCount; //how much of the vertexArrayObject do we want to draw
 };

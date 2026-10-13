@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Debug\\vector.obj",
+            "outputs": [
+                "Debug\\vector.obj.dt.module.json",
+                "Debug\\vector.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}
