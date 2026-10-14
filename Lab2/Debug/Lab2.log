@@ -4,8 +4,8 @@ E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(119,32): warning C4244: 'argume
 E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(189,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(190,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
 E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(191,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(385,44): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(385,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(393,65): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(393,62): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(392,44): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(392,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(400,65): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(400,62): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
   Lab2.vcxproj -> E:\GCU Undergrad\Personal-repo\Debug\Lab2.exe

@@ -115,7 +115,9 @@
     <None Include="eMapping.vert">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </None>
-    <None Include="postProcessing.frag" />
+    <None Include="postProcessing.frag">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </None>
     <None Include="postProcessing.vert" />
   </ItemGroup>
   <ItemGroup>

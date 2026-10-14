@@ -31,6 +31,7 @@ private:
 	void linkRimLighting();
 	void linkGeo();
 	void linkEmapping();
+	void linkShake();
 
 	void drawSkyBox();
 	void drawAsteriods();
