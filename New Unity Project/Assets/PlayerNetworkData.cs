@@ -74,6 +74,8 @@ public class PlayerNetworkData : NetworkBehaviour
             requestedName = $"Player {OwnerClientId}";
         }
 
+        RegisterSessionRpc(new FixedString64Bytes(gameManager.GetSessionId()));
+
         SetPlayerNameRpc(new FixedString64Bytes(requestedName));
     }
 
@@ -164,6 +166,8 @@ public class PlayerNetworkData : NetworkBehaviour
         }
 
         PlayerName.Value = new FixedString64Bytes(value);
+
+        UpdateServerPlayerRecord();
     }
 
     [Rpc(SendTo.Server)]
@@ -189,10 +193,11 @@ public class PlayerNetworkData : NetworkBehaviour
         if (Health.Value == 0)
         {
             IsAlive.Value = false;
-            RespawnTime.Value = Time.time + respawnDelay;
+            RespawnTime.Value = (float)NetworkManager.ServerTime.Time + respawnDelay;
             UnityEngine.Debug.Log($"{PlayerName.Value} has died.");
             return true;
         }
+
         return false;
     }
 
@@ -202,6 +207,12 @@ public class PlayerNetworkData : NetworkBehaviour
             return;
 
         Score.Value += amount;
+    }
+
+    public void RestoreScore(int score)
+    {
+        if (!IsServer) return;
+        Score.Value = score;
     }
 
     private void UpdateAliveDisplay()
@@ -273,10 +284,34 @@ public class PlayerNetworkData : NetworkBehaviour
             return;
         }
 
-        float remainingTime = RespawnTime.Value - Time.time;
+        float remainingTime = RespawnTime.Value - (float)NetworkManager.ServerTime.Time;
         int secondsRemaining = Mathf.CeilToInt(remainingTime);
         secondsRemaining = Mathf.Max(secondsRemaining, 0);
         playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + $"DEAD\n" + $"Respawning in {secondsRemaining}...";
+    }
+
+    private void UpdateServerPlayerRecord()
+    {
+        if (!IsServer) 
+            return;
+
+        NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
+
+        if (gameManager == null) 
+            return;
+
+        gameManager.UpdatePlayerRecord(OwnerClientId, PlayerName.Value.ToString(), Score.Value);
+    }
+
+    [Rpc(SendTo.Server)]
+    private void RegisterSessionRpc(FixedString64Bytes sessionId)
+    {
+        NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
+
+        if (gameManager == null)
+            return;
+
+        gameManager.RegisterPlayerSession(OwnerClientId, sessionId.ToString());
     }
 
     private void Update()
@@ -291,7 +326,7 @@ public class PlayerNetworkData : NetworkBehaviour
             return;
         }
 
-        if (!IsAlive.Value && Time.time >= RespawnTime.Value)
+        if (!IsAlive.Value && NetworkManager.ServerTime.Time >= RespawnTime.Value)
         {
             Respawn();
         }

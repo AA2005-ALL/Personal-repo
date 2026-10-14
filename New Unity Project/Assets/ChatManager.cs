@@ -11,6 +11,7 @@ public class ChatManager : NetworkBehaviour
 {
     public static ChatManager Singleton;
     [SerializeField] ChatMessage chatMessagePrefab;
+    [SerializeField] PlayerIconSelect playerIconScript;
     [SerializeField] CanvasGroup chatContent;
     [SerializeField] TMP_InputField playerNameInput;
     [SerializeField] TMP_InputField chatInput;
@@ -26,7 +27,9 @@ public class ChatManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        iconIndex = playerIconScript.playerIconNo;
+
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             playername = playerNameInput.text;
             SendChatMessage(iconIndex, chatInput.text, playername);
