@@ -31,6 +31,7 @@ void MainGame::initSystems()
 	rimShader.init("..\\res\\shaderRim.vert", "..\\res\\shaderRim.frag");
 	eMapping.init("..\\res\\shaderReflection.vert", "..\\res\\shaderReflection.frag");
 	FBOShader.init("..\\res\\FBOShader.vert", "..\\res\\FBOShader.frag");
+	screenShake.init("..\\res\\postProcessing.vert", "..\\res\\postProcessing.frag");
 
 	initModels(asteroid);
 
@@ -205,6 +206,7 @@ void MainGame::drawAsteriods()
 {
 	texture.Bind(0);
 	eMapping.Bind();
+	screenShake.Bind();
 	linkEmapping();
 
 	for (int i = 0; i < 20; ++i)
@@ -213,6 +215,7 @@ void MainGame::drawAsteriods()
 		asteroid[i].draw(&rockMesh);
 		asteroid[i].update(&rockMesh);
 		eMapping.Update(asteroid[i].getTM(), myCamera);
+		screenShake.Update(asteroid[i].getTM(), myCamera);
 	}
 }
 

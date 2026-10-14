@@ -67,6 +67,7 @@ private:
 	Shader shaderSkybox;
 	Shader eMapping;
 	Shader FBOShader;
+	Shader screenShake;
 
 	Transform transform;
 	GameObject* asteroid = new GameObject[20];
