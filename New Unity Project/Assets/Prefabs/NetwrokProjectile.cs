@@ -22,6 +22,27 @@ public class NetwrokProjectile : NetworkBehaviour
             return;
         }
 
+        NetworkEnemy enemy = other.GetComponent<NetworkEnemy>();
+
+        if (enemy != null)
+        {
+            bool killedEnemy = enemy.TakeDamage(10);
+
+            if (killedEnemy)
+            {
+                PlayerNetworkData shooter = FindShooter();
+
+                if (shooter != null)
+                {
+                    shooter.AddScore(1);
+                }
+            }
+
+            NetworkObject.Despawn();
+
+            return;
+        }
+
         PlayerNetworkData target = other.GetComponent<PlayerNetworkData>();
 
         if (target == null)

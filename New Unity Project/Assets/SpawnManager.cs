@@ -29,7 +29,7 @@ public class SpawnManager : MonoBehaviour
                 {
                     UnityEngine.Debug.LogWarning("Can't spawn here");
                     GetRandomSpawnPoint();
-                    return null;
+                    //return null;
                 }
             }
         }

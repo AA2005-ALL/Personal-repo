@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Diagnostics;
-using System.Security.Cryptography;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -25,6 +22,10 @@ public class PlayerNetworkData : NetworkBehaviour
     public NetworkVariable<int> Health = new NetworkVariable<int>(100);
 
     public NetworkVariable<bool> IsAlive = new NetworkVariable<bool>(true);
+
+    public NetworkVariable<bool> IsReady = new NetworkVariable<bool>(false);
+
+    public NetworkVariable<bool> IsPlaying = new NetworkVariable<bool>(false);
 
     public NetworkVariable<int> Score = new NetworkVariable<int>(0);
 
@@ -49,6 +50,8 @@ public class PlayerNetworkData : NetworkBehaviour
         PlayerName.OnValueChanged += OnNameChanged;
         Health.OnValueChanged += OnIntValueChanged;
         IsAlive.OnValueChanged += OnAliveChanged;
+        IsReady.OnValueChanged += OnReadyChanged;
+        IsPlaying.OnValueChanged += OnPlayingChanged;
         Score.OnValueChanged += OnIntValueChanged;
         FacingAngle.OnValueChanged += OnFacingAngleChanged;
 
@@ -84,12 +87,19 @@ public class PlayerNetworkData : NetworkBehaviour
         PlayerName.OnValueChanged -= OnNameChanged;
         Health.OnValueChanged -= OnIntValueChanged;
         IsAlive.OnValueChanged -= OnAliveChanged;
+        IsReady.OnValueChanged -= OnReadyChanged;
+        IsPlaying.OnValueChanged -= OnPlayingChanged;
         Score.OnValueChanged -= OnIntValueChanged;
         FacingAngle.OnValueChanged -= OnFacingAngleChanged;
     }
 
     private void OnNameChanged(FixedString64Bytes previousValue,
                                FixedString64Bytes newValue)
+    {
+        UpdatePlayerDisplay();
+    }
+
+    private void OnPlayingChanged(bool previousValue, bool newValue)
     {
         UpdatePlayerDisplay();
     }
@@ -109,6 +119,11 @@ public class PlayerNetworkData : NetworkBehaviour
         }
 
         ApplyFacingAngle(newAngle);
+    }
+
+    private void OnReadyChanged(bool oldValue, bool newValue)
+    {
+        UpdatePlayerDisplay();
     }
 
     private void ApplyFacingAngle(float angle)
@@ -136,7 +151,9 @@ public class PlayerNetworkData : NetworkBehaviour
             status = "\nDEAD";
         }
 
-        playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}" + status;
+        string readyStatus = IsPlaying.Value ? "PLAYING" : (IsReady.Value ? "READY" : "NOT READY");
+
+        playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + readyStatus + " " + status;
     }
 
     private void OnAliveChanged(bool previousValue, bool newValue)
@@ -272,6 +289,17 @@ public class PlayerNetworkData : NetworkBehaviour
         }
     }
 
+    public void SetPlaying()
+    {
+        if (!IsServer)
+        {
+            Debug.LogWarning("IsPlaying is never true");
+            return;
+        }
+
+        IsPlaying.Value = true;
+    }
+
     private void UpdateRespawnDisplay()
     {
         if (playerInfoText == null)
@@ -292,13 +320,17 @@ public class PlayerNetworkData : NetworkBehaviour
 
     private void UpdateServerPlayerRecord()
     {
-        if (!IsServer) 
+        if (!IsServer)
+        {
             return;
+        }
 
         NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
 
-        if (gameManager == null) 
+        if (gameManager == null)
+        {
             return;
+        }
 
         gameManager.UpdatePlayerRecord(OwnerClientId, PlayerName.Value.ToString(), Score.Value);
     }
@@ -309,9 +341,30 @@ public class PlayerNetworkData : NetworkBehaviour
         NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
 
         if (gameManager == null)
+        {
+            Debug.LogError("Missing game manager");
             return;
+        }
 
         gameManager.RegisterPlayerSession(OwnerClientId, sessionId.ToString());
+    }
+
+    [Rpc(SendTo.Server)]
+    private void ToggleReadyRpc()
+    {
+        NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
+
+        if (gameManager == null || gameManager.RoundStarted)
+        {
+            return;
+        }
+
+        IsReady.Value = !IsReady.Value;
+
+        if (gameManager != null)
+        {
+            gameManager.CheckAllPlayersReady();
+        }
     }
 
     private void Update()
@@ -319,6 +372,11 @@ public class PlayerNetworkData : NetworkBehaviour
         if (!IsAlive.Value)
         {
             UpdateRespawnDisplay();
+        }
+
+        if (IsOwner && Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            ToggleReadyRpc();
         }
 
         if (!IsServer)

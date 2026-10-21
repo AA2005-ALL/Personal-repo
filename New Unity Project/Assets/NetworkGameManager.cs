@@ -5,15 +5,19 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using System.Collections.Generic;
+using System.Collections;
 using System;
 
 public class NetworkGameManager : MonoBehaviour
 {
     [SerializeField] private TMP_InputField playerNameInput;
+    [SerializeField] private GameObject enemyPrefab;
     private Dictionary<ulong, PlayerData> connectedPlayers = new Dictionary<ulong, PlayerData>();
     private Dictionary<ulong, PlayerData> disconnectedPlayers = new Dictionary<ulong, PlayerData>();
     private Dictionary<string, PlayerData> savedSessions = new Dictionary<string, PlayerData>();
+    [SerializeField] private float enemyRespawnDelay = 3f;
+    private bool roundStarted = false;
+    public bool RoundStarted => roundStarted;
 
     //public List<LeaderBoard> leaderboardEntries = new List<LeaderBoard>();
 
@@ -60,10 +64,90 @@ public class NetworkGameManager : MonoBehaviour
         newPlayer.Kills = 0;
         newPlayer.Deaths = 0;
         connectedPlayers.TryAdd(clientId, newPlayer);
+
+        if (roundStarted)
+        {
+            if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out NetworkClient client))
+            {
+                if (client.PlayerObject != null)
+                {
+                    PlayerNetworkData networkData = client.PlayerObject.GetComponent<PlayerNetworkData>();
+
+                    if (networkData != null)
+                    {
+                        networkData.SetPlaying();
+                    }
+
+                    else
+                    {
+                        Debug.LogError("Can't find network data from beginning");
+                    }
+                }
+            }
+        }
+
         PlayerData player = connectedPlayers[clientId];
         Debug.Log($"Player {player.PlayerName} registered. " + $"Total players: {connectedPlayers.Count}");
+        CheckAllPlayersReady();
     }
 
+    private void SpawnEnemy()
+    {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+
+        SpawnManager spawnManager = FindFirstObjectByType<SpawnManager>();
+
+        if (spawnManager == null)
+        {
+            Debug.LogError("Can't find spawn manager");
+            return;
+        }
+
+        Transform spawnPoint = spawnManager.GetRandomSpawnPoint();
+
+        if (spawnPoint == null)
+        {
+            Debug.LogError("Can't find a spawn point");
+            return;
+        }
+
+        GameObject enemy = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+
+        if (enemy != null)
+        {
+            enemy.GetComponent<NetworkObject>().Spawn();
+        }
+
+        else
+        {
+            Debug.LogError("No enemies?");
+        }
+    }
+
+    public void ScheduleEnemyRespawn()
+    {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+
+        StartCoroutine(RespawnEnemyAfterDelay());
+    }
+
+    private IEnumerator RespawnEnemyAfterDelay()
+    {
+        yield return new WaitForSeconds(enemyRespawnDelay);
+
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            yield break;
+        }
+
+        SpawnEnemy();
+    }
 
 
     private void OnPlayerDisconnected(ulong clientId)
@@ -159,15 +243,79 @@ public class NetworkGameManager : MonoBehaviour
             Debug.Log($"New player session registered: {sessionId}");
         }
 
-        if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client))
-        {
-            PlayerNetworkData networkData = client.PlayerObject?.GetComponent<PlayerNetworkData>();
+        //if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client))
+        //{
+        //    PlayerNetworkData networkData = client.PlayerObject?.GetComponent<PlayerNetworkData>();
 
-            if (networkData != null)
+        //    if (networkData != null)
+        //    {
+        //        networkData.RestoreScore(savedPlayer.Score);
+        //    }
+
+        //    else
+        //    {
+        //        Debug.LogError("Can't find network data");
+        //    }
+        //}
+    }
+
+    public void CheckAllPlayersReady()
+    {
+        if (!NetworkManager.Singleton.IsServer || roundStarted)
+        {
+            return;
+        }
+
+        if (NetworkManager.Singleton.ConnectedClients.Count < 2)
+        {
+            return;
+        }
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject == null)
             {
-                networkData.RestoreScore(savedPlayer.Score);
+                Debug.LogError("NO CLIENT!!!");
+                return;
+            }
+
+            PlayerNetworkData player = client.PlayerObject.GetComponent<PlayerNetworkData>();
+
+            //if (player == null || !player.IsReady.Value)
+            //{
+            //    return;
+            //}
+
+            if (player != null)
+            {
+                player.SetPlaying();
             }
         }
+
+        roundStarted = true;
+
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.PlayerObject == null)
+            {
+                continue;
+            }
+
+            PlayerNetworkData player = client.PlayerObject.GetComponent<PlayerNetworkData>();
+
+            if (player != null)
+            {
+                player.SetPlaying();
+            }
+
+            else
+            {
+                Debug.LogError("No player lol xoxo");
+            }
+        }
+
+        Debug.Log("All players ready! Round starting...");
+        SpawnEnemy();
     }
 
     //// Adds a new entry to the leaderboard

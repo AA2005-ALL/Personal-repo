@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "E:\\GCU Undergrad\\Personal-repo\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\MainGame.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\postProcessing.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -81,7 +81,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
@@ -98,13 +98,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainGame.cpp",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp",
               "RelativeDocumentMoniker": "Lab2\\MainGame.cpp",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp",
               "RelativeToolTip": "Lab2\\MainGame.cpp",
-              "ViewState": "AgIAAL0AAAAAAAAAAAAAANAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-09-22T16:25:17.763Z",
               "IsPinned": true,
@@ -112,13 +112,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "MainGame.h",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h",
               "RelativeDocumentMoniker": "Lab2\\MainGame.h",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h",
               "RelativeToolTip": "Lab2\\MainGame.h",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAACEAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-09-29T08:38:43.696Z",
               "IsPinned": true,
@@ -135,12 +135,11 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2026-10-13T09:08:05.415Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "postProcessing.vert",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.vert",
               "RelativeDocumentMoniker": "Lab2\\postProcessing.vert",
@@ -149,12 +148,11 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2026-10-13T09:08:20.267Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "eMapping.vert",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.vert",
               "RelativeDocumentMoniker": "Lab2\\eMapping.vert",
@@ -162,8 +160,7 @@
               "RelativeToolTip": "Lab2\\eMapping.vert",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-09-29T08:22:47.547Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-29T08:22:47.547Z"
             },
             {
               "$type": "Document",
@@ -175,8 +172,7 @@
               "RelativeToolTip": "res\\shaderGeoText.frag",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-09-22T16:40:56.256Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-22T16:40:56.256Z"
             },
             {
               "$type": "Document",
@@ -188,8 +184,7 @@
               "RelativeToolTip": "res\\shaderGeoText.geom",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-09-22T16:40:53.138Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-22T16:40:53.138Z"
             },
             {
               "$type": "Document",
@@ -201,8 +196,7 @@
               "RelativeToolTip": "res\\shaderGeoText.vert",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-09-22T16:40:46.825Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-22T16:40:46.825Z"
             },
             {
               "$type": "Document",
