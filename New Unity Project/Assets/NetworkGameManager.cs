@@ -10,8 +10,8 @@ using System;
 
 public class NetworkGameManager : MonoBehaviour
 {
-    [SerializeField] private TMP_InputField playerNameInput;
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] TMP_InputField playerNameInput;
+    [SerializeField] GameObject enemyPrefab;
     private Dictionary<ulong, PlayerData> connectedPlayers = new Dictionary<ulong, PlayerData>();
     private Dictionary<ulong, PlayerData> disconnectedPlayers = new Dictionary<ulong, PlayerData>();
     private Dictionary<string, PlayerData> savedSessions = new Dictionary<string, PlayerData>();
@@ -281,11 +281,6 @@ public class NetworkGameManager : MonoBehaviour
 
             PlayerNetworkData player = client.PlayerObject.GetComponent<PlayerNetworkData>();
 
-            //if (player == null || !player.IsReady.Value)
-            //{
-            //    return;
-            //}
-
             if (player != null)
             {
                 player.SetPlaying();
@@ -310,7 +305,7 @@ public class NetworkGameManager : MonoBehaviour
 
             else
             {
-                Debug.LogError("No player lol xoxo");
+                Debug.LogError("No player");
             }
         }
 

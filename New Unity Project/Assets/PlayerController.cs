@@ -20,7 +20,6 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] TMP_InputField playerNameInput;
     [SerializeField] Button hostButton;
     [SerializeField] Button joinButton;
-
     private Vector3 Player1Spawn = new Vector3(246, 57, 0);
     private Vector3 Player2Spawn = new Vector3(790.1f, 508, 0);
 
@@ -45,6 +44,18 @@ public class PlayerController : NetworkBehaviour
             playerVisual.GetComponent<SpriteRenderer>().color = Color.pink;
             return;
         }
+
+        GameObject playerIcon1ButtonObj = GameObject.FindWithTag("Player Icon 1");
+        GameObject playerIcon2ButtonObj = GameObject.FindWithTag("Player Icon 2");
+        GameObject playerIcon3ButtonObj = GameObject.FindWithTag("Player Icon 3");
+
+        playerIcon1ButtonObj.SetActive(false);
+        playerIcon2ButtonObj.SetActive(false);
+        playerIcon3ButtonObj.SetActive(false);
+
+        //PlayerIcon1Button.gameObject.SetActive(false);
+        //PlayerIcon2Button.gameObject.SetActive(false);
+        //PlayerIcon3Button.gameObject.SetActive(false);
 
         playerVisual.GetComponent<SpriteRenderer>().color = Color.red;
 

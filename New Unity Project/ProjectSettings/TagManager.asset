@@ -7,6 +7,9 @@ TagManager:
   - Indicator
   - Host
   - Join
+  - Player Icon 1
+  - Player Icon 2
+  - Player Icon 3
   layers:
   - Default
   - TransparentFX

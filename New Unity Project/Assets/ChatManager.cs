@@ -12,8 +12,10 @@ public class ChatManager : NetworkBehaviour
     [SerializeField] ChatMessage chatMessagePrefab;
     [SerializeField] PlayerIconSelect playerIconScript;
     [SerializeField] CanvasGroup chatContent;
+    [SerializeField] ScrollRect chatRenderer;
     [SerializeField] TMP_InputField playerNameInput;
     [SerializeField] TMP_InputField chatInput;
+    [SerializeField] TextMeshProUGUI showHideButtonText;
     [SerializeField] Sprite[] playerIcons;
     public string playername;
     public int iconIndex = 0;
@@ -62,22 +64,18 @@ public class ChatManager : NetworkBehaviour
 
     public void HideOrShowChat()
     {
-        if(chatContent.gameObject.activeInHierarchy == true)
+        if(chatRenderer.gameObject.activeInHierarchy == true && chatInput.gameObject.activeInHierarchy == true)
         {
-            Debug.Log("Hide chat");
-
-            chatContent.gameObject.SetActive(false);
-
-            Debug.Log("Is chat active? " + chatContent.gameObject.activeSelf);
+            showHideButtonText.text = "Show";
+            chatRenderer.gameObject.SetActive(false);
+            chatInput.gameObject.SetActive(false); 
         }
 
         else
         {
-            Debug.Log("Show chat");
-
-            chatContent.gameObject.SetActive(true);
-
-            Debug.Log("Is chat active? " + chatContent.gameObject.activeSelf);
+            showHideButtonText.text = "Hide";
+            chatRenderer.gameObject.SetActive(true);
+            chatInput.gameObject.SetActive(true);
         }
     }
 
