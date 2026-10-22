@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using TMPro;
 using Unity.Netcode;
@@ -59,6 +58,27 @@ public class ChatManager : NetworkBehaviour
 
         UnityEngine.Debug.Log("I'm this: " + chatMessage.name + " This is my sprite " + playerSprite + " This is where I am " + chatMessage.gameObject.transform.position);
         chatMessage.SetChatText(message, playerSprite);
+    }
+
+    public void HideOrShowChat()
+    {
+        if(chatContent.gameObject.activeInHierarchy == true)
+        {
+            Debug.Log("Hide chat");
+
+            chatContent.gameObject.SetActive(false);
+
+            Debug.Log("Is chat active? " + chatContent.gameObject.activeSelf);
+        }
+
+        else
+        {
+            Debug.Log("Show chat");
+
+            chatContent.gameObject.SetActive(true);
+
+            Debug.Log("Is chat active? " + chatContent.gameObject.activeSelf);
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]
