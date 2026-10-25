@@ -32,7 +32,6 @@ public class PlayerController : NetworkBehaviour
     {
         controls = new PlayerInputs();
         rb = GetComponent<Rigidbody2D>();
-        //localPlayerMarker = this.transform.GetChild(1).gameObject;
         networkData = GetComponent<PlayerNetworkData>();
         playerCam = FindFirstObjectByType<Camera>();
     }

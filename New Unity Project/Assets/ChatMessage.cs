@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System.Diagnostics;
 using System.Reflection;
 
 public class ChatMessage : MonoBehaviour

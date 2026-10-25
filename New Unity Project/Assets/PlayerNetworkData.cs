@@ -39,7 +39,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
     public NetworkVariable<float> InvincibilityTimer = new NetworkVariable<float>(0f);
 
-    private int playerCount; 
+    private int playerCount;
 
     public override void OnNetworkSpawn()
     {
@@ -153,7 +153,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
         string readyStatus = IsPlaying.Value ? "PLAYING" : (IsReady.Value ? "READY" : "NOT READY");
 
-        playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + readyStatus + " " + status;
+        playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + readyStatus + status;
     }
 
     private void OnAliveChanged(bool previousValue, bool newValue)
