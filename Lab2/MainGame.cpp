@@ -63,12 +63,32 @@ void MainGame::initSystems()
 	glBindBufferBase(GL_UNIFORM_BUFFER, 0, cameraUBO);
 
 
+	lightCount = 64;
+
 	const int MAX_LIGHTS = 4096;
 
 	glCreateBuffers(1, &lightSSBO);
 	glNamedBufferStorage(lightSSBO, MAX_LIGHTS * sizeof(Light), nullptr, GL_DYNAMIC_STORAGE_BIT);
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, lightSSBO);
 	lights.resize(MAX_LIGHTS);
+
+	std::vector<Light> readback(lightCount);
+	glGetNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), readback.data());
+	for (int i = 0; i < lightCount; i++)
+		if (memcmp(&readback[i], &lights[i], sizeof(Light)) != 0)
+			std::cout << "light " << i << " differs" << std::endl;
+
+	const char* names[] = { "lights[0].position", "lights[0].radius", "lights[0].colour", "lights[0].intensity" };
+	GLuint prog = lightShader.getID();
+	for (int i = 0; i < 4; i++)
+	{
+		GLuint idx = glGetProgramResourceIndex(prog, GL_BUFFER_VARIABLE, names[i]);
+		GLint offset = -1;
+		GLenum prop = GL_OFFSET;
+		glGetProgramResourceiv(prog, GL_BUFFER_VARIABLE, idx, 1, &prop, 1, nullptr, &offset);
+		std::cout << names[i] << " gpu offset " << offset << std::endl;
+	}
+
 
 
 
@@ -474,10 +494,10 @@ void MainGame::drawGame()
 	lightShader.setMat4("model", transform.GetModel());
 	lightShader.setInt("lightCount", lightCount);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, lightSSBO);
+	glBindTexture(GL_TEXTURE_2D, lightShader.getID());
 	lightShader.setInt("diffuse", 0);
-	missileMesh.draw();
 	lightShader.Update(transform, myCamera);
+	missileMesh.draw();
 
 	unbindFBO();
 

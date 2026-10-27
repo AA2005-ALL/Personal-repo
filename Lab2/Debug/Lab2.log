@@ -1,11 +1,11 @@
 ﻿C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180\Microsoft.CppBuild.targets(551,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Lab1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   MainGame.cpp
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(154,32): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(224,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(225,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(226,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(427,44): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(427,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(435,65): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
-E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(435,62): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(174,32): warning C4244: 'argument': conversion from 'Sint32' to 'float', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(244,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(245,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(246,12): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(447,44): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(447,41): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(455,65): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
+E:\GCU Undergrad\Personal-repo\Lab2\MainGame.cpp(455,62): warning C4244: 'argument': conversion from 'float' to 'GLsizei', possible loss of data
   Lab2.vcxproj -> E:\GCU Undergrad\Personal-repo\Debug\Lab2.exe

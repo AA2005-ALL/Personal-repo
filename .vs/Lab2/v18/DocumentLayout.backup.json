@@ -11,16 +11,20 @@
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\MainGame.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\Display.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\Display.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\Shader.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\res\\lighting.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:res\\lighting.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\res\\lighting.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:res\\lighting.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\res\\lighting.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:res\\lighting.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\Display.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|solutionrelative:Lab2\\Display.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D246FDDF-B30E-4F14-80F8-095FA4E04ECF}|Lab2\\Lab2.vcxproj|E:\\GCU Undergrad\\Personal-repo\\Lab2\\Display.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -101,7 +105,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Shader.cpp",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Shader.cpp",
               "RelativeDocumentMoniker": "Lab2\\Shader.cpp",
@@ -120,7 +124,7 @@
               "RelativeDocumentMoniker": "Lab2\\MainGame.cpp",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.cpp",
               "RelativeToolTip": "Lab2\\MainGame.cpp",
-              "ViewState": "AgIAAFoAAAAAAAAAAAAAAGoAAAAXAAAAAAAAAA==",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAAEEAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-09-22T16:25:17.763Z",
               "IsPinned": true,
@@ -134,7 +138,7 @@
               "RelativeDocumentMoniker": "Lab2\\MainGame.h",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\MainGame.h",
               "RelativeToolTip": "Lab2\\MainGame.h",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAAAFMAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAAAFMAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-09-29T08:38:43.696Z",
               "IsPinned": true,
@@ -142,7 +146,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "Display.cpp",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Display.cpp",
               "RelativeDocumentMoniker": "Lab2\\Display.cpp",
@@ -151,12 +155,11 @@
               "ViewState": "AgIAACoAAAAAAAAAAAAAAEYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2026-10-27T11:32:00.348Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Display.h",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Display.h",
               "RelativeDocumentMoniker": "Lab2\\Display.h",
@@ -165,18 +168,17 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAACAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2026-10-27T11:33:40.557Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "lighting.vert",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\res\\lighting.vert",
               "RelativeDocumentMoniker": "res\\lighting.vert",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\res\\lighting.vert",
               "RelativeToolTip": "res\\lighting.vert",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAAALAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2026-10-27T19:49:38.662Z",
               "IsPinned": true,
@@ -184,13 +186,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "lighting.frag",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\res\\lighting.frag",
               "RelativeDocumentMoniker": "res\\lighting.frag",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\res\\lighting.frag",
               "RelativeToolTip": "res\\lighting.frag",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAABQAAAAAAAAAAAAmwEIAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2026-10-27T19:50:15.948Z",
               "IsPinned": true,
@@ -198,7 +200,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
+              "Title": "Shader.h",
+              "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Shader.h",
+              "RelativeDocumentMoniker": "Lab2\\Shader.h",
+              "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Shader.h",
+              "RelativeToolTip": "Lab2\\Shader.h",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2026-10-27T20:32:17.193Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Mesh.cpp",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.cpp",
               "RelativeDocumentMoniker": "Lab2\\Mesh.cpp",
@@ -210,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "postProcessing.vert",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.vert",
               "RelativeDocumentMoniker": "Lab2\\postProcessing.vert",
@@ -222,7 +237,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "eMapping.vert",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.vert",
               "RelativeDocumentMoniker": "Lab2\\eMapping.vert",
@@ -234,7 +249,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Texture.cpp",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Texture.cpp",
               "RelativeDocumentMoniker": "Lab2\\Texture.cpp",
@@ -242,12 +257,11 @@
               "RelativeToolTip": "Lab2\\Texture.cpp",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2026-10-13T08:53:46.511Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-13T08:53:46.511Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Mesh.h",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Mesh.h",
               "RelativeDocumentMoniker": "Lab2\\Mesh.h",
@@ -259,7 +273,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "shaderGeoText.frag",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.frag",
               "RelativeDocumentMoniker": "res\\shaderGeoText.frag",
@@ -271,7 +285,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "shaderGeoText.geom",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.geom",
               "RelativeDocumentMoniker": "res\\shaderGeoText.geom",
@@ -283,7 +297,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "postProcessing.frag",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\postProcessing.frag",
               "RelativeDocumentMoniker": "Lab2\\postProcessing.frag",
@@ -295,7 +309,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "shaderGeoText.vert",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\res\\shaderGeoText.vert",
               "RelativeDocumentMoniker": "res\\shaderGeoText.vert",
@@ -307,7 +321,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 19,
               "Title": "GameObject.h",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\GameObject.h",
               "RelativeDocumentMoniker": "Lab2\\GameObject.h",
@@ -319,7 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "main.cpp",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\main.cpp",
               "RelativeDocumentMoniker": "Lab2\\main.cpp",
@@ -331,7 +345,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "vector",
               "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\include\\vector",
               "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.51.36231\\include\\vector",
@@ -341,7 +355,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 21,
               "Title": "Texture.h",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\Texture.h",
               "RelativeDocumentMoniker": "Lab2\\Texture.h",
@@ -353,7 +367,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 20,
               "Title": "GameObject.cpp",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\GameObject.cpp",
               "RelativeDocumentMoniker": "Lab2\\GameObject.cpp",
@@ -365,7 +379,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 22,
               "Title": "eMapping.frag",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\Lab2\\eMapping.frag",
               "RelativeDocumentMoniker": "Lab2\\eMapping.frag",
