@@ -9,6 +9,7 @@ layout (location = 2) in vec3 VertexNormal;
 // Per-frame data. Filled once per frame from C++ with glNamedBufferSubData.
 // std140: mat4 = 64 bytes, vec3 is padded to 16, so the block is 144 bytes.
 // The C++ struct must match this exactly (see Week07_tasks.md, task 2).
+
 layout (std140, binding = 0) uniform CameraBlock
 {
 	mat4 view;         // offset 0

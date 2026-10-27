@@ -82,7 +82,17 @@ private:
 
 	GLuint cameraUBO;
 	GLuint lightSSBO;
-	//std::vector<Light> lights;
+
+	struct Light
+	{
+		glm::vec3 position;    // offset 0
+		float radius;          // offset 12
+		glm::vec3 colour;      // offset 16
+		float intensity;       // offset 28
+	};
+	static_assert(sizeof(Light) == 32, "Light does not match std430");
+
+	std::vector<Light> lights;
 	int lightCount;
 	Shader lightShader;
 

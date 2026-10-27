@@ -9,6 +9,7 @@
 // Keep the float straight after each vec3. Move the floats to the end and
 // std430 pads each vec3 to 16 bytes, the struct becomes 48 bytes, and your
 // C++ struct no longer matches. Read the buffer back to prove it (task 4).
+
 struct Light
 {
 	vec3 position;
@@ -19,6 +20,7 @@ struct Light
 
 // Bound with glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, lightSSBO).
 // Unsized array: the buffer can hold as many lights as you allocated.
+
 layout (std430, binding = 1) readonly buffer LightBlock
 {
 	Light lights[];
@@ -59,10 +61,12 @@ void main()
 
 	// Every fragment loops over every light. That is the cost you measure
 	// in task 5: pixels x lights, every frame.
+
 	for (int i = 0; i < lightCount; i++)
 	{
 		vec3 toLight = lights[i].position - worldPos;
 		float dist = length(toLight);
+
 		if (dist > lights[i].radius)
 			continue;
 

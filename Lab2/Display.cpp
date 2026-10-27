@@ -67,6 +67,8 @@ void Display::initDisplay()
 		returnError("SDL_GL context failed to create");
 	}
 
+	SDL_GL_SetSwapInterval(0);
+
 	GLenum error = glewInit();
 
 	std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;

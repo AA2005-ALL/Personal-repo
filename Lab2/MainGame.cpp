@@ -23,14 +23,14 @@ struct CameraData
 static_assert(sizeof(CameraData) == 144, "CameraData does not match std140");
 
 
-struct Light
-{
-	glm::vec3 position;    // offset 0
-	float radius;          // offset 12
-	glm::vec3 colour;      // offset 16
-	float intensity;       // offset 28
-};
-static_assert(sizeof(Light) == 32, "Light does not match std430");
+//struct Light
+//{
+//	glm::vec3 position;    // offset 0
+//	float radius;          // offset 12
+//	glm::vec3 colour;      // offset 16
+//	float intensity;       // offset 28
+//};
+//static_assert(sizeof(Light) == 32, "Light does not match std430");
 
 
 void MainGame::run()
@@ -52,6 +52,7 @@ void MainGame::initSystems()
 	eMapping.init("..\\res\\shaderReflection.vert", "..\\res\\shaderReflection.frag");
 	FBOShader.init("..\\res\\FBOShader.vert", "..\\res\\FBOShader.frag");
 	screenShake.init("..\\Lab2\\postProcessing.vert", "..\\Lab2\\postProcessing.frag");
+	lightShader.init("..\\res\\lighting.vert", "..\\res\\lighting.frag");
 
 	initModels(asteroid);
 
@@ -61,14 +62,13 @@ void MainGame::initSystems()
 	glNamedBufferStorage(cameraUBO, sizeof(CameraData), nullptr, GL_DYNAMIC_STORAGE_BIT);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 0, cameraUBO);
 
+
 	const int MAX_LIGHTS = 4096;
 
-	//This is what you were doing earlier Adawg
-
-	//glCreateBuffers(1, &lightSSBO);
-	//glNamedBufferStorage(lightSSBO, MAX_LIGHTS * sizeof(Light), nullptr, GL_DYNAMIC_STORAGE_BIT);
-	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, lightSSBO);
-	//lights.resize(MAX_LIGHTS);
+	glCreateBuffers(1, &lightSSBO);
+	glNamedBufferStorage(lightSSBO, MAX_LIGHTS * sizeof(Light), nullptr, GL_DYNAMIC_STORAGE_BIT);
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, lightSSBO);
+	lights.resize(MAX_LIGHTS);
 
 
 
@@ -96,24 +96,24 @@ void MainGame::initSystems()
 void MainGame::createScreenQuad()
 {
 	float quadVertices[] = {
-		// vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-		// positions   // texCoords
-		//-1.0f,  1.0f,  0.0f, 1.0f,
-		//-1.0f, -1.0f,  0.0f, 0.0f,
-		// 1.0f, -1.0f,  1.0f, 0.0f,
+		 //vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
+		 //positions   // texCoords
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		-1.0f, -1.0f,  0.0f, 0.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
 
-		//-1.0f,  1.0f,  0.0f, 1.0f,
-		// 1.0f, -1.0f,  1.0f, 0.0f,
-		// 1.0f,  1.0f,  1.0f, 1.0f
+		-1.0f,  1.0f,  0.0f, 1.0f,
+		 1.0f, -1.0f,  1.0f, 0.0f,
+		 1.0f,  1.0f,  1.0f, 1.0f
 
-		// vertex attributes for a quad that fills the top-left quarter of the screen
-		-1.0f,  1.0f,  0.0f, 1.0f,  // Top-left
-		-1.0f,  0.0f,  0.0f, 0.0f,  // Bottom-left
-		 0.0f,  0.0f,  1.0f, 0.0f,  // Bottom-right
+		//// vertex attributes for a quad that fills the top-left quarter of the screen
+		//-1.0f,  1.0f,  0.0f, 1.0f,  // Top-left
+		//-1.0f,  0.0f,  0.0f, 0.0f,  // Bottom-left
+		// 0.0f,  0.0f,  1.0f, 0.0f,  // Bottom-right
 
-		-1.0f,  1.0f,  0.0f, 1.0f,  // Top-left
-		 0.0f,  0.0f,  1.0f, 0.0f,  // Bottom-right
-		 0.0f,  1.0f,  1.0f, 1.0f   // Top-right
+		//-1.0f,  1.0f,  0.0f, 1.0f,  // Top-left
+		// 0.0f,  0.0f,  1.0f, 0.0f,  // Bottom-right
+		// 0.0f,  1.0f,  1.0f, 1.0f   // Top-right
 	};
 	// cube VAO
 	glGenVertexArrays(1, &quadVAO);
@@ -469,6 +469,15 @@ void MainGame::drawGame()
 
 	drawAsteriods();
 	drawSkyBox();
+
+	lightShader.Bind();
+	lightShader.setMat4("model", transform.GetModel());
+	lightShader.setInt("lightCount", lightCount);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, lightSSBO);
+	lightShader.setInt("diffuse", 0);
+	missileMesh.draw();
+	lightShader.Update(transform, myCamera);
 
 	unbindFBO();
 

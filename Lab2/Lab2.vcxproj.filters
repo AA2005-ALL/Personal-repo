@@ -130,6 +130,12 @@
     <None Include="postProcessing.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\res\lighting.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\lighting.vert">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\res\monkey3.obj">
