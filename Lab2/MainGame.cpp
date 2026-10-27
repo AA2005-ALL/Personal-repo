@@ -13,6 +13,26 @@ MainGame::~MainGame()
 {
 }
 
+struct CameraData
+{
+	glm::mat4 view;        // offset 0
+	glm::mat4 projection;  // offset 64
+	glm::vec3 position;    // offset 128
+	float pad;             // offset 140
+};
+static_assert(sizeof(CameraData) == 144, "CameraData does not match std140");
+
+
+struct Light
+{
+	glm::vec3 position;    // offset 0
+	float radius;          // offset 12
+	glm::vec3 colour;      // offset 16
+	float intensity;       // offset 28
+};
+static_assert(sizeof(Light) == 32, "Light does not match std430");
+
+
 void MainGame::run()
 {
 	initSystems();
@@ -36,6 +56,21 @@ void MainGame::initSystems()
 	initModels(asteroid);
 
 	geoShader.initGeo("..\\res\\shaderGeoText.vert", "..\\res\\shaderGeoText.geom", "..\\res\\shaderGeoText.frag");
+
+	glCreateBuffers(1, &cameraUBO);
+	glNamedBufferStorage(cameraUBO, sizeof(CameraData), nullptr, GL_DYNAMIC_STORAGE_BIT);
+	glBindBufferBase(GL_UNIFORM_BUFFER, 0, cameraUBO);
+
+	const int MAX_LIGHTS = 4096;
+
+	//This is what you were doing earlier Adawg
+
+	//glCreateBuffers(1, &lightSSBO);
+	//glNamedBufferStorage(lightSSBO, MAX_LIGHTS * sizeof(Light), nullptr, GL_DYNAMIC_STORAGE_BIT);
+	//glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, lightSSBO);
+	//lights.resize(MAX_LIGHTS);
+
+
 
 	myCamera.initCamera(glm::vec3(0, 0, -50), 70.0f, (float)_gameDisplay.getWidth() / _gameDisplay.getHeight(), 0.01f, 1000.0f);
 
@@ -421,7 +456,14 @@ void MainGame::renderFBO()
 
 void MainGame::drawGame()
 {
+	CameraData cd;
+	cd.view = myCamera.getView();
+	cd.projection = myCamera.getProjection();
+	cd.position = myCamera.getPos();
+	glNamedBufferSubData(cameraUBO, 0, sizeof(cd), &cd);
+
 	_gameDisplay.clearDisplay(0.8f, 0.8f, 0.8f, 1.0f); //sets our background colour	
+
 
 	bindFBO();
 
