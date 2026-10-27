@@ -80,6 +80,13 @@ private:
 	GLuint RBO;
 	GLuint CBO;
 
+	GLuint cameraUBO;
+	GLuint lightSSBO;
+	//std::vector<Light> lights;
+	int lightCount;
+	Shader lightShader;
+
+
 	unsigned int quadVAO, quadVBO;
 
 	glm::vec3 currentCamPos;

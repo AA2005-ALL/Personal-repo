@@ -12,23 +12,12 @@ using namespace std;
 
 struct Vertex
 {
-public:
-	Vertex(const glm::vec3& pos, const glm::vec2& texCoord)
-	{
-		this->pos = pos;
-		this->texCoord = texCoord;
-		this->normal = normal;
-	}
+	glm::vec3 position;   // offset 0
+	glm::vec2 texCoord;   // offset 12
+	glm::vec3 normal;     // offset 20
+};                        // 32 bytes per vertex
+static_assert(sizeof(Vertex) == 32, "Vertex layout changed");
 
-	glm::vec3* GetPos() { return &pos; }
-	glm::vec2* GetTexCoord() { return &texCoord; }
-	glm::vec3* GetNormal() { return &normal; }
-
-private:
-	glm::vec3 pos;
-	glm::vec2 texCoord;
-	glm::vec3 normal;
-};
 
 struct Sphere
 {
@@ -89,8 +78,10 @@ private:
 
 	Sphere meshSphere;
 	GLuint vertexArrayObject;
-	GLuint vertexArrayBuffers[NUM_BUFFERS]; // create our array of buffers
-	GLuint EBO;
+	GLuint vao; 
+	GLuint vbo;
+	GLuint ebo;
+	//GLuint EBO;
 
 	unsigned int drawCount; //how much of the vertexArrayObject do we want to draw
 };
