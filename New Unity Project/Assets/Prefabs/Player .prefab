@@ -56,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2740777220
+  GlobalObjectIdHash: 606096280
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -360,6 +360,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   projectilePrefab: {fileID: -5807096821948281543, guid: 12b79f80b591d3d41955b1149798a0eb, type: 3}
   muzzleFlashPrefab: {fileID: 9142710698069575332, guid: 065437d29c592d746985f6b154d099aa, type: 3}
+  predictedProjectilePrefab: {fileID: 4568150846817321196, guid: 582b6f4919fda00429d47d69b7d39223, type: 3}
   firePoint: {fileID: 770727045204811076}
   fireInterval: 0.25
   ammoDisplay: {fileID: 0}

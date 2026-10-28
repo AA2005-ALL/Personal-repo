@@ -7,6 +7,12 @@ public class NetwrokProjectile : NetworkBehaviour
     [SerializeField] private float lifetime = 2f;
     private float despawnTime;
     private ulong shooterClientId;
+    private Rigidbody2D rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -82,12 +88,20 @@ public class NetwrokProjectile : NetworkBehaviour
         if (!IsServer)
             return;
 
-        transform.position += transform.up * speed * Time.deltaTime;
-        
+
+
         if (Time.time >= despawnTime)
         {
             NetworkObject.Despawn();
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!IsServer) 
+            return;
+
+        rb.MovePosition(rb.position + (Vector2)transform.up * speed * Time.fixedDeltaTime);
     }
 
     private PlayerNetworkData FindShooter()

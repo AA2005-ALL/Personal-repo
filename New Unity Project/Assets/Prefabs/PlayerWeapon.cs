@@ -4,10 +4,12 @@ using UnityEngine;
 using TMPro;
 using System.Security.Cryptography;
 
+
 public class PlayerWeapon : NetworkBehaviour
 {
     [SerializeField] NetworkObject projectilePrefab;
     [SerializeField] NetworkObject muzzleFlashPrefab;
+    [SerializeField] GameObject predictedProjectilePrefab;
     private PlayerNetworkData networkData;
     [SerializeField] Transform firePoint;
     [SerializeField] float fireInterval = 0.25f;
@@ -59,37 +61,43 @@ public class PlayerWeapon : NetworkBehaviour
             return;
         }
 
-        if(controls.Player.SwitchWeapon.WasPressedThisFrame())
+        if (controls.Player.SwitchWeapon.WasPressedThisFrame())
         {
             Debug.Log("F pressed");
 
-            if(currentWeapon == 0)
+            if (currentWeapon == 0)
             {
                 currentWeapon = 1;
             }
 
-            if(currentWeapon == 1)
+            if (currentWeapon == 1)
             {
                 currentWeapon = 0;
             }
         }
 
-        if(currentWeapon == 0)
+        if (currentWeapon == 0)
         {
             fireInterval = 0.25f;
         }
 
-        if(currentWeapon == 1)
+        if (currentWeapon == 1)
         {
             fireInterval = 0.05f;
         }
 
-        if(controls.Player.Fire.WasPressedThisFrame())
+        if (controls.Player.Fire.WasPressedThisFrame())
         {
-            RequestFireRpc(firePoint.position, firePoint.rotation);
+            if (!IsServer)
+            {
+              Debug.Log("Predicted projectile exists");
+              Instantiate(predictedProjectilePrefab,firePoint.position,firePoint.rotation);
+            }
+
+            RequestFireRpc(firePoint.position,firePoint.rotation);
         }
 
-        if(controls.Player.Reload.WasPressedThisFrame())
+        if (controls.Player.Reload.WasPressedThisFrame())
         {
             ReloadRPC();
         }
