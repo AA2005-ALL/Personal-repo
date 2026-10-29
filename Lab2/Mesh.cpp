@@ -21,18 +21,12 @@ void Mesh::initModel(const IndexedModel& model)
 	drawCount = model.indices.size();
 
 	glCreateVertexArrays(1, &vao); //generate a vertex array and store it in the VAO
-	//glVertexArrayAttribFormat(vao); //bind the VAO (any operation that works on a VAO will work on our bound VAO - binding)
 
-	glCreateBuffers(1, &vbo); //generate our buffers based of our array of data/buffers - GLuint vertexArrayBuffers[NUM_BUFFERS];
+	glCreateBuffers(1, &vbo); 
 	glCreateBuffers(1, &ebo); 
 
-	//glBindBuffer(GL_ARRAY_BUFFER, vertexArrayBuffers[POSITION_VERTEXBUFFER]); //tell opengl what type of data the buffer is (GL_ARRAY_BUFFER), and pass the data
 	glNamedBufferStorage(vbo, vertices.size() * sizeof(Vertex), vertices.data(), 0); //move the data to the GPU - type of data, size of data, starting address (pointer) of data, where do we store the data on the GPU (determined by type)
 	glNamedBufferStorage(ebo, model.indices.size() * sizeof(unsigned int), model.indices.data(), 0);
-
-	//glNamedBufferData(vao, model.positions.size() * sizeof(model.positions[0]), &model.positions[0], GL_DYNAMIC_DRAW);
-
-	/*glNamedBufferStorage(vbo, model.positions.size() * sizeof(model.positions[0]), NULL ,GL_DYNAMIC_STORAGE_BIT);*/
 
 
 	glCreateVertexArrays(1, &vao);
@@ -50,29 +44,6 @@ void Mesh::initModel(const IndexedModel& model)
 	glEnableVertexArrayAttrib(vao, 2);
 	glVertexArrayAttribFormat(vao, 2, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex, normal));
 	glVertexArrayAttribBinding(vao, 2, 0);
-
-	//glVertexArrayElementBuffer(vbo, ebo);
-
-
-	//glEnableVertexAttribArray(POSITION_VERTEXBUFFER);
-	//glVertexAttribPointer(POSITION_VERTEXBUFFER, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, vertexArrayBuffers[TEXCOORD_VB]); //tell opengl what type of data the buffer is (GL_ARRAY_BUFFER), and pass the data
-	//glNamedBufferData(GL_ARRAY_BUFFER, model.texCoords.size() * sizeof(model.texCoords[0]), &model.texCoords[0], GL_DYNAMIC_DRAW); //move the data to the GPU - type of data, size of data, starting address (pointer) of data, where do we store the data on the GPU
-
-	/*glEnableVertexAttribArray(TEXCOORD_VB);
-	glVertexAttribPointer(TEXCOORD_VB, 2, GL_FLOAT, GL_FALSE, 0, 0);*/
-
-	/*glBindBuffer(GL_ARRAY_BUFFER, vertexArrayBuffers[NORMAL_VB]);*/
-	//glNamedBufferData(GL_ARRAY_BUFFER, sizeof(model.normals[0]) * model.normals.size(), &model.normals[0], GL_DYNAMIC_DRAW);
-	//glEnableVertexAttribArray(NORMAL_VB);
-	//glVertexAttribPointer(NORMAL_VB, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	//glGenBuffers(1, &EBO);
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); //tell opengl what type of data the buffer is (GL_ARRAY_BUFFER), and pass the data
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, model.indices.size() * sizeof(model.indices[0]), &model.indices[0], GL_STATIC_DRAW); //move the data to the GPU - type of data, size of data, starting address (pointer) of data, where do we store the data on the GPU
-
-	//glBindVertexArray(0); // unbind our VAO
 }
 
 void Mesh::loadModel(const std::string& filename)

@@ -319,7 +319,11 @@ void MainGame::drawSkyBox()
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textureID);
 
-	counter = counter + 0.02f;
+	Uint64 now = SDL_GetPerformanceCounter();
+	double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
+	frameStart = now;
+	counter += (float)(frameMs / 1000.0);
+
 
 	skybox.draw(&myCamera);
 
@@ -490,14 +494,46 @@ void MainGame::drawGame()
 	drawAsteriods();
 	drawSkyBox();
 
+	//counter = counter + 0.01f;
+
 	lightShader.Bind();
 	lightShader.setMat4("model", transform.GetModel());
 	lightShader.setInt("lightCount", lightCount);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, lightShader.getID());
 	lightShader.setInt("diffuse", 0);
-	lightShader.Update(transform, myCamera);
+
 	missileMesh.draw();
+
+
+	for (int i = 0; i < lightCount; i++)
+	{
+		float angle = i * 6.2831853f / lightCount + counter;
+		lights[i].position = glm::vec3(cosf(angle) * 2.0f, 0.4f, sinf(angle) * 2.0f);
+		lights[i].radius = 2.2f;
+		lights[i].colour = glm::vec3(0.5f + 0.5f * cosf(angle), 0.5f + 0.5f * sinf(angle), 0.5f);
+		lights[i].intensity = 24.0f / lightCount;
+	}
+	glNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), lights.data());
+
+
+	std::vector<Light> readback(lightCount);
+	glGetNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), readback.data());
+	for (int i = 0; i < lightCount; i++)
+		if (memcmp(&readback[i], &lights[i], sizeof(Light)) != 0)
+			std::cout << "light " << i << " differs" << std::endl;
+
+	const char* names[] = { "lights[0].position", "lights[0].radius", "lights[0].colour", "lights[0].intensity" };
+	GLuint prog = lightShader.getID();
+	for (int i = 0; i < 4; i++)
+	{
+		GLuint idx = glGetProgramResourceIndex(prog, GL_BUFFER_VARIABLE, names[i]);
+		GLint offset = -1;
+		GLenum prop = GL_OFFSET;
+		glGetProgramResourceiv(prog, GL_BUFFER_VARIABLE, idx, 1, &prop, 1, nullptr, &offset);
+		std::cout << names[i] << " gpu offset " << offset << std::endl;
+	}
+
 
 	unbindFBO();
 

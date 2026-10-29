@@ -114,5 +114,6 @@ private:
 	Uint64 NOW = SDL_GetPerformanceCounter();
 	Uint64 LAST = 0;
 	float deltaTime = 0;
+	float frameStart = 0;
 };
 
