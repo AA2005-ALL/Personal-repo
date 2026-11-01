@@ -56,7 +56,6 @@ void main()
 	vec3 N = normalize(worldNormal);
 	vec3 V = normalize(cam.cameraPos - worldPos);
 	vec3 albedo = texture(diffuse, texCoord).rgb;
-
 	vec3 result = AMBIENT * albedo;
 
 	// Every fragment loops over every light. That is the cost you measure
@@ -86,5 +85,7 @@ void main()
 		result += lightRGB * (albedo * ndl + SPECULAR_STRENGTH * spec);
 	}
 
-	FragColour = vec4(result, 1.0);
+	FragColour = vec4(result, 1.0); 
+	//FragColour = vec4(1,0,1,1);
+	//FragColour = vec4(abs(normalize(worldNormal)),1);
 }

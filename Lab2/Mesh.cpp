@@ -28,8 +28,6 @@ void Mesh::initModel(const IndexedModel& model)
 	glNamedBufferStorage(vbo, vertices.size() * sizeof(Vertex), vertices.data(), 0); //move the data to the GPU - type of data, size of data, starting address (pointer) of data, where do we store the data on the GPU (determined by type)
 	glNamedBufferStorage(ebo, model.indices.size() * sizeof(unsigned int), model.indices.data(), 0);
 
-
-	glCreateVertexArrays(1, &vao);
 	glVertexArrayVertexBuffer(vao, 0, vbo, 0, sizeof(Vertex)); // binding slot 0, stride 32
 	glVertexArrayElementBuffer(vao, ebo);
 

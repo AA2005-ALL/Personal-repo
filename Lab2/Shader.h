@@ -42,7 +42,7 @@ public:
 
 		if ((glGetUniformLocation(shaderID, name.c_str()) == -1))
 		{
-			std::cerr << "Unable to load shader: " << name.c_str() << std::endl;
+			std::cerr << "Uniform not found: " << name.c_str() << std::endl;
 			__debugbreak();
 		}
 	}

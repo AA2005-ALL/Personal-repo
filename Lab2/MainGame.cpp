@@ -46,6 +46,7 @@ void MainGame::initSystems()
 	//backGroundMusic = audioDevice.loadSound("..\\res\\background.wav");
 	texture.load("..\\res\\bricks.jpg");
 	rockMesh.loadModel("..\\res\\Rock1.obj");
+	ballMesh.loadModel("..\\res\\sphere.obj");
 	fogShader.init("..\\res\\fogShader.vert", "..\\res\\fogShader.frag"); //new shader
 	toonShader.init("..\\res\\shaderToon.vert", "..\\res\\shaderToon.frag"); //new shader
 	rimShader.init("..\\res\\shaderRim.vert", "..\\res\\shaderRim.frag");
@@ -328,8 +329,8 @@ void MainGame::drawSkyBox()
 	skybox.draw(&myCamera);
 
 	myCamera.setPos(currentCamPos);
-	glEnableClientState(GL_COLOR_ARRAY);
-	glEnd();
+	//glEnableClientState(GL_COLOR_ARRAY);
+	//glEnd();
 }
 
 
@@ -480,42 +481,15 @@ void MainGame::renderFBO()
 
 void MainGame::drawGame()
 {
-	CameraData cd;
-	cd.view = myCamera.getView();
-	cd.projection = myCamera.getProjection();
-	cd.position = myCamera.getPos();
-	glNamedBufferSubData(cameraUBO, 0, sizeof(cd), &cd);
-
-	_gameDisplay.clearDisplay(0.8f, 0.8f, 0.8f, 1.0f); //sets our background colour	
-
-
-	bindFBO();
-
-	drawAsteriods();
-	drawSkyBox();
-
-	//counter = counter + 0.01f;
-
-	lightShader.Bind();
-	lightShader.setMat4("model", transform.GetModel());
-	lightShader.setInt("lightCount", lightCount);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, lightShader.getID());
-	lightShader.setInt("diffuse", 0);
-
-	missileMesh.draw();
-
-
 	for (int i = 0; i < lightCount; i++)
 	{
 		float angle = i * 6.2831853f / lightCount + counter;
 		lights[i].position = glm::vec3(cosf(angle) * 2.0f, 0.4f, sinf(angle) * 2.0f);
-		lights[i].radius = 2.2f;
+		lights[i].radius = 200.0f;
 		lights[i].colour = glm::vec3(0.5f + 0.5f * cosf(angle), 0.5f + 0.5f * sinf(angle), 0.5f);
-		lights[i].intensity = 24.0f / lightCount;
+		lights[i].intensity = 1000.0f;
 	}
 	glNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), lights.data());
-
 
 	std::vector<Light> readback(lightCount);
 	glGetNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), readback.data());
@@ -534,6 +508,31 @@ void MainGame::drawGame()
 		std::cout << names[i] << " gpu offset " << offset << std::endl;
 	}
 
+	CameraData cd;
+	cd.view = myCamera.getView();
+	cd.projection = myCamera.getProjection();
+	cd.position = myCamera.getPos();
+	glNamedBufferSubData(cameraUBO, 0, sizeof(cd), &cd);
+
+
+	_gameDisplay.clearDisplay(0.8f, 0.8f, 0.8f, 1.0f); //sets our background colour	
+
+
+	bindFBO();
+
+	//drawAsteriods();
+	drawSkyBox();
+
+	counter = counter + 0.01f;
+
+	lightShader.Bind();
+	lightShader.setMat4("model", transform.GetModel());
+	lightShader.setInt("lightCount", lightCount);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture.getID());
+	//lightShader.setInt("diffuse", 0);
+
+	rockMesh.draw();
 
 	unbindFBO();
 

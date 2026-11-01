@@ -1,7 +1,7 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "d:\\gcu undergrad\\personal-repo\\lab2\\texture.h",
+        "Source": "e:\\gcu undergrad\\personal-repo\\lab2\\texture.h",
         "ProvidedModule": "",
         "Includes": [
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\string",
@@ -93,7 +93,7 @@
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\xatomic.h",
             "c:\\program files\\microsoft visual studio\\18\\community\\vc\\tools\\msvc\\14.51.36231\\include\\cctype",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\ucrt\\ctype.h",
-            "d:\\gcu undergrad\\personal-repo\\deps\\include\\gl\\glew.h",
+            "e:\\gcu undergrad\\personal-repo\\deps\\include\\gl\\glew.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\um\\gl\\glu.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\shared\\winapifamily.h",
             "c:\\program files (x86)\\windows kits\\10\\include\\10.0.26100.0\\shared\\winpackagefamily.h",

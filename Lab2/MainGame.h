@@ -60,11 +60,13 @@ private:
 	Mesh rockMesh;
 	Mesh shipMesh;
 	Mesh missileMesh;
+	Mesh ballMesh; 
 	Camera myCamera;
 	Shader fogShader;
 	Shader toonShader;
 	Shader rimShader;
 	Shader geoShader;
+	Shader lightShader;
 	Shader shaderSkybox;
 	Shader eMapping;
 	Shader FBOShader;
@@ -94,7 +96,6 @@ private:
 
 	std::vector<Light> lights;
 	int lightCount;
-	Shader lightShader;
 
 
 	unsigned int quadVAO, quadVBO;
@@ -113,7 +114,7 @@ private:
 
 	Uint64 NOW = SDL_GetPerformanceCounter();
 	Uint64 LAST = 0;
+	Uint64 frameStart = SDL_GetPerformanceCounter();
 	float deltaTime = 0;
-	float frameStart = 0;
 };
 
