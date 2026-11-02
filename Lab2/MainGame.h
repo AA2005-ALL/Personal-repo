@@ -77,6 +77,7 @@ private:
 	GameObject* missiles = new GameObject[20];
 	GameObject ship;
 	Texture texture;
+	Texture testTexture;
 
 	GLuint FBO;
 	GLuint RBO;

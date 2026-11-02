@@ -86,6 +86,4 @@ void main()
 	}
 
 	FragColour = vec4(result, 1.0); 
-	//FragColour = vec4(1,0,1,1);
-	//FragColour = vec4(abs(normalize(worldNormal)),1);
 }
