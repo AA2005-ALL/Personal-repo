@@ -17,7 +17,10 @@ public class NetwrokProjectile : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         if (!IsServer)
+        {
             return;
+        }
+
         despawnTime = Time.time + lifetime;
     }
 
@@ -79,16 +82,19 @@ public class NetwrokProjectile : NetworkBehaviour
     public void Initialise(ulong clientId)
     {
         if (!IsServer)
+        {
             return;
+        }
+
         shooterClientId = clientId;
     }
 
     private void Update()
     {
         if (!IsServer)
+        {
             return;
-
-
+        }
 
         if (Time.time >= despawnTime)
         {
@@ -98,8 +104,10 @@ public class NetwrokProjectile : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsServer) 
+        if (!IsServer)
+        {
             return;
+        }
 
         rb.MovePosition(rb.position + (Vector2)transform.up * speed * Time.fixedDeltaTime);
     }
@@ -107,10 +115,14 @@ public class NetwrokProjectile : NetworkBehaviour
     private PlayerNetworkData FindShooter()
     {
         if (!NetworkManager.ConnectedClients.TryGetValue(shooterClientId, out NetworkClient client))
+        {
             return null;
+        }
 
         if (client.PlayerObject == null)
-        return null;
+        {
+            return null;
+        }
 
         return client.PlayerObject.GetComponent<PlayerNetworkData>();
     }

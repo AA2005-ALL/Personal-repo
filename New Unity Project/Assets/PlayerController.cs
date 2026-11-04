@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] Camera playerCam;
     private Vector2 aimInput;
 
-    private float moveSpeed = 16f;
+    private float moveSpeed = 64f;
     [SerializeField] private GameObject localPlayerMarker;
     [SerializeField] TMP_InputField playerNameInput;
     [SerializeField] Button hostButton;

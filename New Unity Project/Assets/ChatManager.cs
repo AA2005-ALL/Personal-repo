@@ -49,7 +49,7 @@ public class ChatManager : NetworkBehaviour
 
 
         string s = fromWho + " > " + message;
-        SendChatMessageServerRPC(s, playerIcon);
+        SendChatMessageRPC(s, playerIcon);
     }
 
     public void AddMessage(string message, int playerIcon)
@@ -79,8 +79,8 @@ public class ChatManager : NetworkBehaviour
         }
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    void SendChatMessageServerRPC(string message, int playerIcon)
+    [Rpc(SendTo.Server)]
+    void SendChatMessageRPC(string message, int playerIcon)
     {
         print("ServerRPC");
         ReceiveChatMessageClientRPC(message, playerIcon);

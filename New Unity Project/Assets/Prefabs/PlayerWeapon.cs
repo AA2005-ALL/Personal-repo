@@ -90,8 +90,9 @@ public class PlayerWeapon : NetworkBehaviour
         {
             if (!IsServer)
             {
-              Debug.Log("Predicted projectile exists");
+              //Debug.Log("Predicted projectile exists");
               Instantiate(predictedProjectilePrefab,firePoint.position,firePoint.rotation);
+              ammoDisplay.text = ammoInClip.ToString() + "/" + totalAmmoRemaining.ToString();
             }
 
             RequestFireRpc(firePoint.position,firePoint.rotation);
@@ -138,6 +139,8 @@ public class PlayerWeapon : NetworkBehaviour
         ammoInClip--;
 
         ammoDisplay.text = ammoInClip.ToString() + "/" + totalAmmoRemaining.ToString();
+
+        Debug.Log(ammoDisplay.text);
 
         muzzleFlash.Despawn();
     }
