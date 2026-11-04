@@ -27,9 +27,8 @@ public class SpawnManager : MonoBehaviour
 
                 if (Vector3.Distance(activePlayers[i].gameObject.transform.position, spawnPoints[index].position) < 30.0f)
                 {
-                    UnityEngine.Debug.LogWarning("Can't spawn here");
-                    GetRandomSpawnPoint();
-                    //return null;
+                    UnityEngine.Debug.LogWarning("Can't spawn here " + spawnPoints[index].position);
+                    return GetRandomSpawnPoint();
                 }
             }
         }

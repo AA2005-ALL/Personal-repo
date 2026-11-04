@@ -2,11 +2,19 @@
 #include "Camera.h"
 #include <iostream>
 #include <string>
+#include <cmath> // ceilf, sqrtf
+
+static const int MAX_OBJECT_COUNT = 100000;
 
 MainGame::MainGame()
 {
 	_gameState = GameState::PLAY;
 	Display* _gameDisplay = new Display(); //new display
+	mode = 2; 
+	objectCount = 10000; 
+	frameIndex = 0; 
+	frameStart = 0;
+	framesTimed = 0;
 }
 
 MainGame::~MainGame()
@@ -23,20 +31,44 @@ struct CameraData
 static_assert(sizeof(CameraData) == 144, "CameraData does not match std140");
 
 
-//struct Light
-//{
-//	glm::vec3 position;    // offset 0
-//	float radius;          // offset 12
-//	glm::vec3 colour;      // offset 16
-//	float intensity;       // offset 28
-//};
-//static_assert(sizeof(Light) == 32, "Light does not match std430");
-
-
 void MainGame::run()
 {
 	initSystems();
 	gameLoop();
+}
+
+void MainGame::layoutGrid()
+{
+	positions.resize(MAX_OBJECT_COUNT);
+	transforms.resize(MAX_OBJECT_COUNT);
+	const int side = (int)ceilf(sqrtf((float)objectCount));
+	for (int i = 0; i < objectCount; i++)
+	{
+		int x = i % side - side / 2;
+		int z = i / side - side / 2;
+		positions[i] = glm::vec3(x * 2.0f, 0.0f, z * 2.0f);
+	}
+}
+
+void MainGame::updateTransforms()
+{
+	const glm::vec3 up(0.0f, 1.0f, 0.0f);
+	const glm::vec3 scale(0.6f);
+
+	for (int i = 0; i < objectCount; i++)
+	{
+		transforms[i] = glm::translate(positions[i]) * glm::rotate(counter + i * 0.01f, up) * glm::scale(scale);
+	}
+}
+
+void MainGame::drawPerObject()
+{
+	objectShader.Bind();
+	for (int i = 0; i < objectCount; i++)
+	{
+		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, &transforms[i][0][0]);
+		ballMesh.draw();
+	}
 }
 
 void MainGame::initSystems()
@@ -48,8 +80,8 @@ void MainGame::initSystems()
 	testTexture.load("..\\res\\Water.jpg");
 	rockMesh.loadModel("..\\res\\Rock1.obj");
 	ballMesh.loadModel("..\\res\\sphere.obj");
-	fogShader.init("..\\res\\fogShader.vert", "..\\res\\fogShader.frag"); //new shader
-	toonShader.init("..\\res\\shaderToon.vert", "..\\res\\shaderToon.frag"); //new shader
+	fogShader.init("..\\res\\fogShader.vert", "..\\res\\fogShader.frag"); 
+	toonShader.init("..\\res\\shaderToon.vert", "..\\res\\shaderToon.frag"); 
 	rimShader.init("..\\res\\shaderRim.vert", "..\\res\\shaderRim.frag");
 	eMapping.init("..\\res\\shaderReflection.vert", "..\\res\\shaderReflection.frag");
 	FBOShader.init("..\\res\\FBOShader.vert", "..\\res\\FBOShader.frag");
@@ -64,8 +96,11 @@ void MainGame::initSystems()
 	glNamedBufferStorage(cameraUBO, sizeof(CameraData), nullptr, GL_DYNAMIC_STORAGE_BIT);
 	glBindBufferBase(GL_UNIFORM_BUFFER, 0, cameraUBO);
 
+	glCreateBuffers(1, &modelSSBO);
+	glNamedBufferStorage(modelSSBO, MAX_OBJECT_COUNT * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+	//glNamedBufferStorage(modelSSBO, sizeof(DrawElementsIndirectCommand), &drawElements, GL_DYNAMIC_STORAGE_BIT);
 
-	lightCount = 1;
+	lightCount = 64;
 
 	const int MAX_LIGHTS = 4096;
 
@@ -99,7 +134,7 @@ void MainGame::initSystems()
 		std::cout << names[i] << " gpu offset " << offset << std::endl;
 	}
 
-
+	ballTransform.SetPos(glm::vec3(0.0f, 0.0f, 0.0f));
 
 
 	myCamera.initCamera(glm::vec3(0, 0, -50), 70.0f, (float)_gameDisplay.getWidth() / _gameDisplay.getHeight(), 0.01f, 1000.0f);
@@ -121,6 +156,15 @@ void MainGame::initSystems()
 	};
 
 	skybox.init(faces);
+
+	objectShader.init("..\\res\\object.vert", "..\\res\\object.frag");
+	instancedShader.init("..\\res\\instanced.vert", "..\\res\\object.frag"); // task 2, load it now
+    modelLocation = glGetUniformLocation(objectShader.getID(), "model");
+	myCamera.initCamera(glm::vec3(0.0f, 70.0f, -150.0f), 70.0f,(float)_gameDisplay.getWidth() / _gameDisplay.getHeight(), 0.1f, 2000.0f);
+	myCamera.setLook(glm::vec3(0.0f, 0.0f, 0.0f));
+	layoutGrid();
+
+	glCreateQueries(GL_TIME_ELAPSED, 2, gpuTimer);
 }
 
 void MainGame::createScreenQuad()
@@ -329,10 +373,10 @@ void MainGame::drawSkyBox()
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textureID);
 
-	Uint64 now = SDL_GetPerformanceCounter();
-	double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
-	frameStart = now;
-	counter += (float)(frameMs / 1000.0);
+	//Uint64 now = SDL_GetPerformanceCounter();
+	//double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
+	//frameStart = now;
+	//counter += (float)(frameMs / 1000.0);
 
 
 	skybox.draw(&myCamera);
@@ -488,19 +532,64 @@ void MainGame::renderFBO()
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void MainGame::drawGame()
+static double msSince(Uint64 then)
+{
+	return (SDL_GetPerformanceCounter() - then) * 1000.0 /
+		SDL_GetPerformanceFrequency();
+}
+
+void MainGame::recordFrameTime()
+{
+	Uint64 now = SDL_GetPerformanceCounter();
+	if (frameStart != 0)
+	{
+		double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
+		counter += (float)(frameMs / 1000.0);
+		frameMsTotal += frameMs;
+	}
+	frameStart = now;
+	framesTimed++;
+	if (framesTimed == 60)
+	{
+		std::cout << (mode == 1 ? "per-object " : "instanced ") << objectCount << 
+			"objects"
+			<< " update " << updateMsTotal / framesTimed << " ms"
+			<< " submit " << submitMsTotal / framesTimed << " ms"
+			<< " gpu " << gpuMsTotal / framesTimed << " ms"
+			<< " frame " << frameMsTotal / framesTimed << " ms" << std::endl;
+		updateMsTotal = submitMsTotal = gpuMsTotal = frameMsTotal = 0.0;
+		framesTimed = 0;
+	}
+}
+
+// every frame, instead of drawPerObject
+void MainGame::drawInstanced()
+{
+	glNamedBufferSubData(modelSSBO, 0, objectCount * sizeof(glm::mat4),transforms.data());
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, modelSSBO);
+	instancedShader.Bind();
+	ballMesh.drawInstanced(objectCount);
+}
+
+// Task 2: per-frame camera data into the UBO.
+void MainGame::updateCameraBuffer()
 {
 	CameraData cd;
 	cd.view = myCamera.getView();
 	cd.projection = myCamera.getProjection();
 	cd.position = myCamera.getPos();
+	cd.pad = 0.0f;
 	glNamedBufferSubData(cameraUBO, 0, sizeof(cd), &cd);
+}
 
+void MainGame::drawGame()
+{
+	Uint64 t0 = SDL_GetPerformanceCounter();
+	updateCameraBuffer(); // view, projection, position into the UBO at binding 0
+    updateTransforms(); // task 1
+	updateMsTotal += msSince(t0);
 
-	_gameDisplay.clearDisplay(0.8f, 0.8f, 0.8f, 1.0f); //sets our background colour	
-
-
-	bindFBO();
+	glBeginQuery(GL_TIME_ELAPSED, gpuTimer[frameIndex & 1]);
 
 	for (int i = 0; i < lightCount; i++)
 	{
@@ -509,35 +598,14 @@ void MainGame::drawGame()
 		lights[i].radius = 2.2f;
 		lights[i].colour = glm::vec3(0.5f + 0.5f * cosf(angle), 0.5f + 0.5f * sinf(angle), 0.5f);
 		lights[i].intensity = 24.0f / lightCount;
-		std::cout << lights[i].intensity;
 	}
 
 	glNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), lights.data());
 
-	std::vector<Light> readback(lightCount);
+	_gameDisplay.clearDisplay(0.8f, 0.8f, 0.8f, 1.0f); //sets our background colour	
 
-	glGetNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), readback.data());
 
-	for (int i = 0; i < lightCount; i++)
-	{
-		if (memcmp(&readback[i], &lights[i], sizeof(Light)) != 0)
-		{
-			std::cout << "light " << i << " differs" << std::endl;
-		}
-	}
-
-	const char* names[] = { "lights[0].position", "lights[0].radius", "lights[0].colour", "lights[0].intensity" };
-
-	GLuint prog = lightShader.getID();
-
-	for (int i = 0; i < 4; i++)
-	{
-		GLuint idx = glGetProgramResourceIndex(prog, GL_BUFFER_VARIABLE, names[i]);
-		GLint offset = -1;
-		GLenum prop = GL_OFFSET;
-		glGetProgramResourceiv(prog, GL_BUFFER_VARIABLE, idx, 1, &prop, 1, nullptr, &offset);
-		std::cout << names[i] << " gpu offset " << offset << std::endl;
-	}
+	bindFBO();
 
 	Uint64 now = SDL_GetPerformanceCounter();
 	double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
@@ -546,14 +614,41 @@ void MainGame::drawGame()
 	//drawAsteriods();
 	drawSkyBox();
 
+	Uint64 t1 = SDL_GetPerformanceCounter();
+
+	if (mode == 1)
+	{
+		drawPerObject();
+	}   // task 1
+
+	else
+	{
+		drawInstanced(); // task 2
+		submitMsTotal += msSince(t1);
+	}
+	
+
 	lightShader.Bind();
-	lightShader.setMat4("model", transform.GetModel());
+	lightShader.setMat4("model", ballTransform.GetModel());
 	lightShader.setInt("lightCount", lightCount);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture.getID());
-	lightShader.setInt("diffuse", 0);
+	//lightShader.setInt("diffuse", 0);
 
-	ballMesh.draw();
+	ballMesh.draw(); 
+
+	glEndQuery(GL_TIME_ELAPSED);
+
+	if (frameIndex > 0)
+	{
+		GLuint64 ns = 0;
+		glGetQueryObjectui64v(gpuTimer[(frameIndex + 1) & 1], GL_QUERY_RESULT, &ns);
+		gpuMsTotal += ns / 1.0e6;
+	}
+
+	_gameDisplay.swapBuffer();
+	frameIndex++;
+	recordFrameTime();
 
 	unbindFBO();
 

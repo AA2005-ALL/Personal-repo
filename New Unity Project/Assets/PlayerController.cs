@@ -17,16 +17,16 @@ public class PlayerController : NetworkBehaviour
 
     private float moveSpeed = 64f;
     [SerializeField] private GameObject localPlayerMarker;
-    [SerializeField] TMP_InputField playerNameInput;
+    //[SerializeField] TMP_InputField playerNameInput;
     [SerializeField] Button hostButton;
     [SerializeField] Button joinButton;
-    private Vector3 Player1Spawn = new Vector3(246, 57, 0);
-    private Vector3 Player2Spawn = new Vector3(790.1f, 508, 0);
 
     private PlayerInputs controls;
     private Vector2 moveInput;
     private float shiftInput;
     private Rigidbody2D rb;
+
+    [SerializeField] SpawnManager spawn;
 
     private void Awake()
     {
@@ -34,6 +34,7 @@ public class PlayerController : NetworkBehaviour
         rb = GetComponent<Rigidbody2D>();
         networkData = GetComponent<PlayerNetworkData>();
         playerCam = FindFirstObjectByType<Camera>();
+        spawn = FindFirstObjectByType<SpawnManager>();
     }
 
     public override void OnNetworkSpawn() 
@@ -44,6 +45,8 @@ public class PlayerController : NetworkBehaviour
             return;
         }
 
+        transform.position = spawn.GetRandomSpawnPoint().position;
+
         GameObject playerIcon1ButtonObj = GameObject.FindWithTag("Player Icon 1");
         GameObject playerIcon2ButtonObj = GameObject.FindWithTag("Player Icon 2");
         GameObject playerIcon3ButtonObj = GameObject.FindWithTag("Player Icon 3");
@@ -52,24 +55,12 @@ public class PlayerController : NetworkBehaviour
         playerIcon2ButtonObj.SetActive(false);
         playerIcon3ButtonObj.SetActive(false);
 
-        //PlayerIcon1Button.gameObject.SetActive(false);
-        //PlayerIcon2Button.gameObject.SetActive(false);
-        //PlayerIcon3Button.gameObject.SetActive(false);
-
         playerVisual.GetComponent<SpriteRenderer>().color = Color.red;
 
         localPlayerMarker.SetActive(true);
 
         //playerNameInput = GameObject.Find("Player name").GetComponent<TMP_InputField>();
 
-        if (OwnerClientId == 0)
-        {
-            transform.position = Player1Spawn;
-        }
-        else
-        {
-            transform.position = Player2Spawn;
-        }
 
         GameObject hostButtonObj = GameObject.FindWithTag("Host");
         GameObject joinButtonObj = GameObject.FindWithTag("Join");
@@ -96,7 +87,7 @@ public class PlayerController : NetworkBehaviour
             UnityEngine.Debug.LogError("Join Button is null for some reason");
         }
 
-        playerNameInput.gameObject.SetActive(false);
+        //playerNameInput.gameObject.SetActive(false);
 
         CameraFollow cameraFollow = GameObject.FindFirstObjectByType<Camera>().GetComponent<CameraFollow>(); 
         cameraFollow.SetTarget(transform);
@@ -148,10 +139,14 @@ public class PlayerController : NetworkBehaviour
 
         if (shiftInput > 0)
         {
-            moveSpeed = 32;
+            moveSpeed = 78;
             //UnityEngine.Debug.Log("Sprinting " + moveSpeed);
         }
 
+        else
+        {
+            moveSpeed = 64;
+        }
         //if (moveInput.sqrMagnitude > 0.01f) 
         //{ 
         //    float angle = Mathf.Atan2(moveInput.y, moveInput.x) * Mathf.Rad2Deg; 

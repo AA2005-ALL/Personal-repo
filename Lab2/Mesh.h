@@ -56,6 +56,7 @@ public:
 
 
 	void draw();
+	void drawInstanced(unsigned int instanceCount);
 	void init(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
 	void loadModel(const std::string& filename);
 	void initModel(const IndexedModel& model);

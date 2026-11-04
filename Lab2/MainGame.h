@@ -53,6 +53,13 @@ private:
 	void unbindFBO();
 	void renderFBO();
 
+	void recordFrameTime(); 
+	void layoutGrid();
+	void updateTransforms();
+	void drawPerObject();
+	void drawInstanced();
+	void updateCameraBuffer();
+
 	//void playAudio(unsigned int Source, glm::vec3 pos);
 
 	Display _gameDisplay;
@@ -71,20 +78,30 @@ private:
 	Shader eMapping;
 	Shader FBOShader;
 	Shader screenShake;
+	Shader objectShader; // object.vert + object.frag
+	Shader instancedShader; // instanced.vert + object.frag
 
 	Transform transform;
+	Transform ballTransform;
+
 	GameObject* asteroid = new GameObject[20];
 	GameObject* missiles = new GameObject[20];
 	GameObject ship;
+
 	Texture texture;
 	Texture testTexture;
 
 	GLuint FBO;
 	GLuint RBO;
 	GLuint CBO;
-
 	GLuint cameraUBO;
 	GLuint lightSSBO;
+	GLuint modelSSBO; // task 2
+	GLuint gpuTimer[2]; // timing
+
+	GLint modelLocation; // task 1
+
+	double updateMsTotal, submitMsTotal, gpuMsTotal, frameMsTotal;
 
 	struct Light
 	{
@@ -95,11 +112,25 @@ private:
 	};
 	static_assert(sizeof(Light) == 32, "Light does not match std430");
 
+	//struct DrawElementsIndirectCommand
+	//{
+	//	GLuint count; // indices in the mesh
+	//	GLuint instanceCount; // how many copies
+	//	GLuint firstIndex; // 0 for you
+	//	GLuint baseVertex; // 0 for you
+	//	GLuint baseInstance; // 0 for you
+	//};
+
+	//DrawElementsIndirectCommand drawElements;
+
 	std::vector<Light> lights;
+	std::vector<glm::vec3> positions; // one array per field, index = object
+	std::vector<glm::mat4> transforms; // rebuilt every frame
+
 	int lightCount;
-
-
-	unsigned int quadVAO, quadVBO;
+	int mode; // 1 = per object, 2 = instanced
+	int objectCount;
+	int framesTimed;
 
 	glm::vec3 currentCamPos;
 
@@ -109,13 +140,17 @@ private:
 
 	//Audio audioDevice;
 	bool look = true;
-	float counter;
+	
 	unsigned int whistle;
 	unsigned int backGroundMusic;
+	unsigned int quadVAO, quadVBO;
+	unsigned int frameIndex;
 
 	Uint64 NOW = SDL_GetPerformanceCounter();
 	Uint64 LAST = 0;
 	Uint64 frameStart = SDL_GetPerformanceCounter();
+
 	float deltaTime = 0;
+	float counter = 0.0f;
 };
 

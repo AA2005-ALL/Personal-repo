@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "Debug\\transform.obj",
+            "outputs": [
+                "Debug\\transform.h.obj.dt.module.json",
+                "Debug\\transform.h.obj.dt.d.json"
+            ],
+            "requires": []
+        }
+    ]
+}

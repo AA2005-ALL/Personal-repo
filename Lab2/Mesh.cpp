@@ -72,6 +72,14 @@ void Mesh::draw()
 	glBindVertexArray(0);
 }
 
+void Mesh::drawInstanced(unsigned int instanceCount)
+{
+	glBindVertexArray(vao);
+	glDrawElementsInstanced(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0, instanceCount);
+	//glDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
+
 void Mesh::updateSphereData(glm::vec3 pos, float radius)
 {
 	meshSphere.SetPos(pos);

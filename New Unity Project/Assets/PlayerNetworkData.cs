@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -17,7 +18,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
     [SerializeField] Transform playerVisual;
 
-    [SerializeField] private GameObject invincibilityBubble;
+    [SerializeField] GameObject invincibilityBubble;
 
     public NetworkVariable<int> Health = new NetworkVariable<int>(100);
 
@@ -31,9 +32,9 @@ public class PlayerNetworkData : NetworkBehaviour
 
     public NetworkVariable<bool> justRespawned = new NetworkVariable<bool>(false);
 
-    [SerializeField] private float respawnDelay = 3f;
+    [SerializeField] float respawnDelay = 3f;
 
-    [SerializeField] private float spawnInvincibilityDelay = 3f;
+    [SerializeField] float spawnInvincibilityDelay = 3f;
 
     public NetworkVariable<float> RespawnTime = new NetworkVariable<float>(0f);
 
@@ -46,6 +47,8 @@ public class PlayerNetworkData : NetworkBehaviour
         UnityEngine.Debug.Log($"Spawned {OwnerClientId} | " + $"Name: {PlayerName.Value} | " + $"Health: {Health.Value} | " + $"Score: {Score.Value}");
 
         playerInfoText = GetComponentInChildren<TMP_Text>();
+
+        invincibilityBubble = transform.GetChild(0).GetChild(3).gameObject;
 
         PlayerName.OnValueChanged += OnNameChanged;
         Health.OnValueChanged += OnIntValueChanged;
@@ -91,6 +94,20 @@ public class PlayerNetworkData : NetworkBehaviour
         IsPlaying.OnValueChanged -= OnPlayingChanged;
         Score.OnValueChanged -= OnIntValueChanged;
         FacingAngle.OnValueChanged -= OnFacingAngleChanged;
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void ShowInvincibiltyRPC()
+    {
+        Debug.Log("Showing bubble");
+        invincibilityBubble.SetActive(true);
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void HideInvincibiltyRPC()
+    {
+        Debug.Log("Hiding bubble");
+        invincibilityBubble.SetActive(false);
     }
 
     private void OnNameChanged(FixedString64Bytes previousValue,
@@ -271,20 +288,18 @@ public class PlayerNetworkData : NetworkBehaviour
         justRespawned.Value = true;
 
         InvincibilityTimer.Value = Time.time + spawnInvincibilityDelay;
-
-        invincibilityBubble.SetActive(true);
     }
 
     private void UpdateInvincibilityTimer()
     {
         float timeTillNotInvincible = InvincibilityTimer.Value - Time.time;
 
-        UnityEngine.Debug.Log("time remaining for invincibility: " + timeTillNotInvincible);
+        //UnityEngine.Debug.Log("time remaining for invincibility: " + timeTillNotInvincible);
 
         if(timeTillNotInvincible <= 0)
         {
             justRespawned.Value = false;
-            invincibilityBubble.SetActive(false);
+            HideInvincibiltyRPC();
             InvincibilityTimer.Value = 0;
         }
     }
@@ -387,6 +402,7 @@ public class PlayerNetworkData : NetworkBehaviour
         if (!IsAlive.Value && NetworkManager.ServerTime.Time >= RespawnTime.Value)
         {
             Respawn();
+            ShowInvincibiltyRPC();
         }
 
         if (justRespawned.Value == true)

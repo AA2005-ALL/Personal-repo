@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using System.Collections;
 using System;
+using System.Linq;
 
 public class NetworkGameManager : MonoBehaviour
 {
@@ -16,8 +17,11 @@ public class NetworkGameManager : MonoBehaviour
     private Dictionary<ulong, PlayerData> disconnectedPlayers = new Dictionary<ulong, PlayerData>();
     private Dictionary<string, PlayerData> savedSessions = new Dictionary<string, PlayerData>();
     [SerializeField] private float enemyRespawnDelay = 3f;
+    [SerializeField] ammoPickUp ammoPickUpPrefab;
+    [SerializeField] Transform[] ammoSpawns;
     private bool roundStarted = false;
     public bool RoundStarted => roundStarted;
+    private float ammoCooldown; 
 
     //public List<LeaderBoard> leaderboardEntries = new List<LeaderBoard>();
 
@@ -31,6 +35,7 @@ public class NetworkGameManager : MonoBehaviour
     private void Awake()
     {
         sessionId = Guid.NewGuid().ToString();
+        ammoCooldown = 3f;
     }
 
     public string GetSessionId()
@@ -214,6 +219,19 @@ public class NetworkGameManager : MonoBehaviour
         {
             NetworkManager.Singleton.Shutdown();
         }
+
+        ammoCooldown -= Time.deltaTime;
+
+        if(!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+
+        if (ammoCooldown < 0)
+        {
+            ammoCooldown = 3;
+            spawnAmmoPickUps();
+        }
     }
 
     public void RegisterPlayerSession(ulong clientId, string sessionId)
@@ -257,6 +275,31 @@ public class NetworkGameManager : MonoBehaviour
         //        Debug.LogError("Can't find network data");
         //    }
         //}
+    }
+
+    public void spawnAmmoPickUps()
+    {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+
+        ammoPickUp[] ammoPickups = FindObjectsByType<ammoPickUp>(FindObjectsSortMode.None);
+
+        if (ammoPickups.Count() >= 5)
+        {
+            return;
+        }
+
+        else
+        {
+            int randomAmmoSpawn = UnityEngine.Random.Range(0, ammoSpawns.Count());
+
+            ammoPickUp ammoP = Instantiate(ammoPickUpPrefab, ammoSpawns[randomAmmoSpawn].position, Quaternion.identity);
+
+            ammoP.GetComponent<NetworkObject>().Spawn();
+        }
+
     }
 
     public void CheckAllPlayersReady()

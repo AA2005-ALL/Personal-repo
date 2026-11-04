@@ -14,12 +14,12 @@ public class PlayerWeapon : NetworkBehaviour
     [SerializeField] Transform firePoint;
     [SerializeField] float fireInterval = 0.25f;
     [SerializeField] TMP_Text ammoDisplay;
-    private int maxAmmoInClip = 30;
-    public int ammoInClip;
-    public int totalAmmoRemaining;
+    public NetworkVariable<int> maxAmmoInClip = new NetworkVariable<int>(30);
+    public NetworkVariable<int> ammoInClip = new NetworkVariable<int>(30);
+    NetworkVariable<int> totalAmmoRemaining = new NetworkVariable<int>(120);
     public PlayerInputs controls;
     private float nextFireTime;
-    public int currentWeapon; 
+    public int currentWeapon;
 
     private void Awake()
     {
@@ -27,10 +27,11 @@ public class PlayerWeapon : NetworkBehaviour
         currentWeapon = 0;
         networkData = GetComponent<PlayerNetworkData>();
         ammoDisplay = transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
-        Debug.Log("This is ammo Display " + transform.GetChild(0).GetChild(1).name);
-        ammoInClip = 30;
-        totalAmmoRemaining = 120;
-        ammoDisplay.text = ammoInClip.ToString() + "/" + totalAmmoRemaining.ToString();
+    }
+
+    private void OnAmmoValueChanged(int previousValue, int newValue)
+    {
+        updateAmmoUI();
     }
 
     public override void OnNetworkSpawn()
@@ -38,14 +39,20 @@ public class PlayerWeapon : NetworkBehaviour
         if (IsOwner)
         {
             controls.Player.Enable();
+
+            ammoInClip.OnValueChanged += OnAmmoValueChanged;
+            totalAmmoRemaining.OnValueChanged += OnAmmoValueChanged;
+            maxAmmoInClip.OnValueChanged += OnAmmoValueChanged;
+
+            updateAmmoUI();
         }
     }
 
     public override void OnNetworkDespawn()
     {
         if (IsOwner)
-        { 
-          controls.Player.Disable();
+        {
+            controls.Player.Disable();
         }
     }
 
@@ -63,17 +70,22 @@ public class PlayerWeapon : NetworkBehaviour
 
         if (controls.Player.SwitchWeapon.WasPressedThisFrame())
         {
-            Debug.Log("F pressed");
+            Debug.Log(currentWeapon);
 
             if (currentWeapon == 0)
             {
                 currentWeapon = 1;
             }
 
-            if (currentWeapon == 1)
+            else
             {
                 currentWeapon = 0;
             }
+        }
+
+        if (ammoInClip.Value >= maxAmmoInClip.Value)
+        {
+            ammoInClip.Value = maxAmmoInClip.Value;
         }
 
         if (currentWeapon == 0)
@@ -90,22 +102,20 @@ public class PlayerWeapon : NetworkBehaviour
         {
             if (!IsServer)
             {
-              //Debug.Log("Predicted projectile exists");
-              Instantiate(predictedProjectilePrefab,firePoint.position,firePoint.rotation);
-              ammoDisplay.text = ammoInClip.ToString() + "/" + totalAmmoRemaining.ToString();
+                Instantiate(predictedProjectilePrefab, firePoint.position, firePoint.rotation);
             }
 
-            RequestFireRpc(firePoint.position,firePoint.rotation);
+            requestFireRpc(firePoint.position, firePoint.rotation);
         }
 
         if (controls.Player.Reload.WasPressedThisFrame())
         {
-            ReloadRPC();
+            reloadRPC();
         }
     }
 
     [Rpc(SendTo.Server)]
-    private void RequestFireRpc(Vector3 spawnPosition, Quaternion spawnRotation)
+    private void requestFireRpc(Vector3 spawnPosition, Quaternion spawnRotation)
     {
         if (!networkData.IsAlive.Value)
         {
@@ -117,7 +127,7 @@ public class PlayerWeapon : NetworkBehaviour
             return;
         }
 
-        if(ammoInClip <= 0)
+        if (ammoInClip.Value <= 0)
         {
             return;
         }
@@ -131,34 +141,43 @@ public class PlayerWeapon : NetworkBehaviour
         projectile.Spawn();
         muzzleFlash.Spawn();
 
-      
+
 
         NetwrokProjectile projectileData = projectile.GetComponent<NetwrokProjectile>();
         projectileData.Initialise(OwnerClientId);
 
-        ammoInClip--;
+        ammoInClip.Value--;
 
-        ammoDisplay.text = ammoInClip.ToString() + "/" + totalAmmoRemaining.ToString();
-
-        Debug.Log(ammoDisplay.text);
+        updateAmmoUI();
 
         muzzleFlash.Despawn();
     }
 
     [Rpc(SendTo.Server)]
-    private void ReloadRPC()
+    private void reloadRPC()
     {
-        if(ammoInClip == 30)
+        if (ammoInClip.Value == 30)
         {
             return;
         }
 
-        int ammoToAddToClip = maxAmmoInClip - ammoInClip;
-        
-        totalAmmoRemaining -= ammoToAddToClip;
+        if (totalAmmoRemaining.Value <= 0)
+        {
+            totalAmmoRemaining.Value = 0;
+            return;
+        }
 
-        ammoInClip = ammoInClip + ammoToAddToClip;
+        int ammoToAddToClip = maxAmmoInClip.Value - ammoInClip.Value;
 
-        ammoDisplay.text = ammoInClip.ToString() + "/" + totalAmmoRemaining.ToString();
+        totalAmmoRemaining.Value -= ammoToAddToClip;
+
+        ammoInClip.Value = ammoInClip.Value + ammoToAddToClip;
+
+        updateAmmoUI();
+    }
+
+    private void updateAmmoUI()
+    {
+        ammoDisplay.text = ammoInClip.Value.ToString() + "/" + totalAmmoRemaining.Value.ToString();
     }
 }
