@@ -3297,7 +3297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Multiplayer.Tools.NetworkSimulator.Runtime::Unity.Multiplayer.Tools.NetworkSimulator.Runtime.NetworkSimulator
   m_PresetAsset: {fileID: 0}
   m_PresetReference:
-    rid: 5797984401831231550
+    rid: 5797984448846233802
   m_Scenario:
     rid: -2
   m_IsScenarioSettingsFolded: 0
@@ -3307,7 +3307,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 5797984401831231550
+    - rid: 5797984448846233802
       type: {class: NetworkSimulatorPreset, ns: Unity.Multiplayer.Tools.NetworkSimulator.Runtime, asm: Unity.Multiplayer.Tools.NetworkSimulator.Runtime}
       data:
         <Name>k__BackingField: None
@@ -6291,6 +6291,7 @@ MonoBehaviour:
   playerNameInput: {fileID: 1797869783323176383}
   enemyPrefab: {fileID: 232947079976064318, guid: 1d3b2d05ca5dec84294750b2999c6b99, type: 3}
   enemyRespawnDelay: 3
+  playerAudioManagers: []
   ammoPickUpPrefab: {fileID: 4266546834407019730, guid: c9e80ad9cb1e8804ca80bb602b5551a0, type: 3}
   ammoSpawns:
   - {fileID: 453024151}

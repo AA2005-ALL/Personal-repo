@@ -39,13 +39,13 @@ public class PlayerWeapon : NetworkBehaviour
         if (IsOwner)
         {
             controls.Player.Enable();
-
-            ammoInClip.OnValueChanged += OnAmmoValueChanged;
-            totalAmmoRemaining.OnValueChanged += OnAmmoValueChanged;
-            maxAmmoInClip.OnValueChanged += OnAmmoValueChanged;
-
-            updateAmmoUI();
         }
+
+        ammoInClip.OnValueChanged += OnAmmoValueChanged;
+        totalAmmoRemaining.OnValueChanged += OnAmmoValueChanged;
+        maxAmmoInClip.OnValueChanged += OnAmmoValueChanged;
+
+        updateAmmoUI();
     }
 
     public override void OnNetworkDespawn()

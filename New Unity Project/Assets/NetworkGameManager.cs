@@ -17,6 +17,7 @@ public class NetworkGameManager : MonoBehaviour
     private Dictionary<ulong, PlayerData> disconnectedPlayers = new Dictionary<ulong, PlayerData>();
     private Dictionary<string, PlayerData> savedSessions = new Dictionary<string, PlayerData>();
     [SerializeField] private float enemyRespawnDelay = 3f;
+    [SerializeField] List<AudioSource> playerAudioManagers; 
     [SerializeField] ammoPickUp ammoPickUpPrefab;
     [SerializeField] Transform[] ammoSpawns;
     private bool roundStarted = false;
@@ -30,10 +31,15 @@ public class NetworkGameManager : MonoBehaviour
     public bool TryGetSavedSession(string sessionId, out PlayerData player)
     {
         return savedSessions.TryGetValue(sessionId, out player);
-    } 
+    }
 
     private void Awake()
     {
+        foreach (var device in Microphone.devices)
+        {
+            Debug.Log("Name: " + device);
+        }
+
         sessionId = Guid.NewGuid().ToString();
         ammoCooldown = 3f;
     }
