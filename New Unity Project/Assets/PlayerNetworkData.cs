@@ -170,6 +170,9 @@ public class PlayerNetworkData : NetworkBehaviour
 
         string readyStatus = IsPlaying.Value ? "PLAYING" : (IsReady.Value ? "READY" : "NOT READY");
 
+        UpdateServerPlayerRecord();
+        //UpdateLocalPlayerRecord();
+
         playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + readyStatus + status;
     }
 
@@ -202,6 +205,7 @@ public class PlayerNetworkData : NetworkBehaviour
         PlayerName.Value = new FixedString64Bytes(value);
 
         UpdateServerPlayerRecord();
+        //UpdateLocalPlayerRecord();
     }
 
     [Rpc(SendTo.Server)]

@@ -83,11 +83,6 @@ public class PlayerWeapon : NetworkBehaviour
             }
         }
 
-        if (ammoInClip.Value >= maxAmmoInClip.Value)
-        {
-            ammoInClip.Value = maxAmmoInClip.Value;
-        }
-
         if (currentWeapon == 0)
         {
             fireInterval = 0.25f;

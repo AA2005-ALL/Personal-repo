@@ -147,6 +147,7 @@ public class PlayerController : NetworkBehaviour
         {
             moveSpeed = 64;
         }
+
         //if (moveInput.sqrMagnitude > 0.01f) 
         //{ 
         //    float angle = Mathf.Atan2(moveInput.y, moveInput.x) * Mathf.Rad2Deg; 

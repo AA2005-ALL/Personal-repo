@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8888473862960451093}
   - component: {fileID: 5455553458165242818}
   - component: {fileID: 1006618156336149741}
-  - component: {fileID: 4266546834407019730}
   - component: {fileID: 5165208479881735579}
+  - component: {fileID: 4266546834407019730}
   m_Layer: 0
   m_Name: Bullet pick up
   m_TagString: Untagged
@@ -140,18 +140,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4266546834407019730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7595307175607782344}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bcbf8375a3416a47a0717c79b04b5f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ammoPickUp
 --- !u!114 &5165208479881735579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3858425999
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -179,3 +167,16 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &4266546834407019730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7595307175607782344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bcbf8375a3416a47a0717c79b04b5f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ammoPickUp
+  ShowTopMostFoldoutHeaderGroup: 1

@@ -4,6 +4,8 @@ using Unity.Netcode;
 
 public class ammoPickUp : NetworkBehaviour
 {
+    private int ammoToAdd = 5;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,12 +24,27 @@ public class ammoPickUp : NetworkBehaviour
         {
             PlayerWeapon playerAmmo = other.gameObject.GetComponent<PlayerWeapon>();
 
-            if (playerAmmo.ammoInClip.Value < playerAmmo.maxAmmoInClip.Value)
+            if (playerAmmo.ammoInClip.Value == 30)
+            {
+                return;
+            }
+
+            //Calculates the players ammo count post pick up
+            int ammoWaitingToAdd = playerAmmo.ammoInClip.Value + ammoToAdd;
+
+            //Never allows the player to get an ammo value higher than the maximum 
+            if (ammoWaitingToAdd > playerAmmo.maxAmmoInClip.Value)
+            {
+                playerAmmo.ammoInClip.Value = playerAmmo.maxAmmoInClip.Value;
+            }
+
+            //Simple ammo addition 
+            else
             {
                 playerAmmo.ammoInClip.Value += 5;
             }
 
-            if(!IsServer)
+            if (!IsServer)
             {
                 return; 
             }

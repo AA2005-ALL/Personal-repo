@@ -20,11 +20,14 @@ public class NetworkGameManager : MonoBehaviour
     [SerializeField] List<AudioSource> playerAudioManagers; 
     [SerializeField] ammoPickUp ammoPickUpPrefab;
     [SerializeField] Transform[] ammoSpawns;
+    [SerializeField] TextMeshProUGUI[] nameTexts;
+    [SerializeField] TextMeshProUGUI[] scoreTexts;
     private bool roundStarted = false;
     public bool RoundStarted => roundStarted;
     private float ammoCooldown; 
 
-    //public List<LeaderBoard> leaderboardEntries = new List<LeaderBoard>();
+    public List<int> leaderboardScores = new List<int>();
+    public List<string> leaderboardNames = new List<string>();
 
     private string sessionId;
 
@@ -76,6 +79,8 @@ public class NetworkGameManager : MonoBehaviour
         newPlayer.Deaths = 0;
         connectedPlayers.TryAdd(clientId, newPlayer);
 
+        AddEntry(newPlayer.PlayerName, newPlayer.Score);
+
         if (roundStarted)
         {
             if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out NetworkClient client))
@@ -87,6 +92,7 @@ public class NetworkGameManager : MonoBehaviour
                     if (networkData != null)
                     {
                         networkData.SetPlaying();
+         
                     }
 
                     else
@@ -190,6 +196,9 @@ public class NetworkGameManager : MonoBehaviour
 
         player.PlayerName = playerName;
         player.Score = score;
+
+        UpdateLeaderboard();
+
         Debug.Log($"Updated player {clientId}: " + $"{player.PlayerName}, Score: {player.Score}");
     }
 
@@ -362,29 +371,52 @@ public class NetworkGameManager : MonoBehaviour
         SpawnEnemy();
     }
 
-    //// Adds a new entry to the leaderboard
-    //public void AddEntry(NetworkVariable<FixedString64Bytes> name, int points)
-    //{
-    //    leaderboardEntries.Add(new LeaderBoard(name, points));
+    // Adds a new entry to the leaderboard
+    public void AddEntry(string name, int points)
+    {
+        leaderboardScores.Add(points);
+        leaderboardNames.Add(name);
 
-    //    //Sorts entries in the correct order by highest points tally
-    //    leaderboardEntries.Sort((x, y) => y.Points.CompareTo(x.Points));
-    //}
+        //Sorts entries in the correct order by highest points tally
+        leaderboardScores.Sort((x, y) => y.CompareTo(x));
+    }
+
+    public void DisplayLeaderboard()
+    { 
+        for(int i = 0; i < leaderboardScores.Count; i++)
+        {
+            Debug.Log("Displaying leaderboard");
+
+            //Checks that the leaderboardScores and leaderboardNames array length hasn't been surpassed 
+            if (i < nameTexts.Count() && i < scoreTexts.Count())
+            {
+                nameTexts[i].text = leaderboardNames[i];
+                scoreTexts[i].text = leaderboardScores[i].ToString();
+
+                Debug.Log(nameTexts[i].text);
+                Debug.Log(scoreTexts[i].text);
+            }
+        }
+    }
+
+    public void UpdateLeaderboard()
+    {
+        Debug.Log("Leaderboard updating");
+
+        //Removes all entries from the leaderboard
+        leaderboardScores.Clear();
+        leaderboardNames.Clear();
+
+        //Sorts the leaderboard in order of highest to lowest score
+        var newLeaderboardOrder = connectedPlayers.Values.OrderByDescending(player => player.Score);
+
+        foreach (var player in newLeaderboardOrder)
+        {
+            leaderboardNames.Add(player.PlayerName);
+            leaderboardScores.Add(player.Score);
+        }
+
+        //Displays the new order of players
+        DisplayLeaderboard();
+    }
 }
-
-//public class LeaderBoard
-//{
-//    //Variables
-//    public NetworkVariable<FixedString64Bytes> Name;
-//    public int Points;
-
-//    //Creates a Leaderboard function and passes through a string and float variable
-//    public LeaderBoard(NetworkVariable<FixedString64Bytes> name, int points)
-//    {
-//        //Sets the teamName to the name string variable that is passed through 
-//        Name = name;
-
-//        //Collects the points from the points float variable that is passed through 
-//        Points = points;
-//    }
-//}
