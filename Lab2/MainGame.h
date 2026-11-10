@@ -80,6 +80,7 @@ private:
 	Shader screenShake;
 	Shader objectShader; // object.vert + object.frag
 	Shader instancedShader; // instanced.vert + object.frag
+	Shader moveShader;
 
 	Transform transform;
 	Transform ballTransform;
@@ -98,8 +99,14 @@ private:
 	GLuint lightSSBO;
 	GLuint modelSSBO; // task 2
 	GLuint gpuTimer[2]; // timing
+	GLuint positionSSBO;                  // binding 3
+	GLuint velocitySSBO;                  // binding 4
+	GLuint computeTimer[2];               // GPU time of the dispatch
+    GLuint drawTimer[2];                  // GPU time of the draw (was gpuTimer)
+
 
 	GLint modelLocation; // task 1
+	GLint moveTimeLoc, moveDtLoc, moveCountLoc, moveHalfSideLoc, moveBoxHeightLoc;   // looked up once
 
 	double updateMsTotal, submitMsTotal, gpuMsTotal, frameMsTotal;
 
@@ -126,6 +133,9 @@ private:
 	std::vector<Light> lights;
 	std::vector<glm::vec3> positions; // one array per field, index = object
 	std::vector<glm::mat4> transforms; // rebuilt every frame
+	std::vector<glm::vec4> positions;     // vec4, not vec3: see task 1
+	std::vector<glm::vec4> velocities;
+
 
 	int lightCount;
 	int mode; // 1 = per object, 2 = instanced
@@ -152,5 +162,12 @@ private:
 
 	float deltaTime = 0;
 	float counter = 0.0f;
+	float deltaSeconds;                   // last frame's length, the dt for move.comp
+
+	enum class DrawMode
+	{
+		CPU_UPDATE = 1,    // the Week 8 baseline: the CPU builds the matrices, SubData uploads them
+		COMPUTE_MOVE = 2   // task 1: a compute shader moves the objects and builds their matrices. The GPU owns the state
+	};
 };
 

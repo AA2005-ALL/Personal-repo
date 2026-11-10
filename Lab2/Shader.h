@@ -15,6 +15,7 @@ public:
 	void Update(const Transform& transform, const Camera& camera);
 	void init(const std::string& vertFile, const std::string& fragFile);
 	void initGeo(const std::string& vertFile, const std::string& geoFile, const std::string& fragFile);
+	void initCompute(const std::string& compFile);
 
 	std::string Shader::LoadShader(const std::string& fileName);
 	void Shader::CheckShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& errorMessage);

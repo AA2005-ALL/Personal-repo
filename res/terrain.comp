@@ -1,0 +1,67 @@
+#version 450
+
+// Extension: one invocation per pixel of the height map. Nothing is read, nothing is
+// uploaded: each pixel works its height out from its own position and the time.
+
+layout (local_size_x = 16, local_size_y = 16) in;   // TERRAIN_LOCAL_SIZE in MainGame.cpp
+
+layout (r32f, binding = 0) uniform writeonly image2D heightMap;   // image unit 0
+
+uniform float time;
+
+const int OCTAVES = 4;
+const float BASE_FREQUENCY = 4.0;   // noise cells across the whole map
+
+// a number from 0 to 1 that is always the same for the same corner
+float hash(vec2 corner)
+{
+	vec3 h = fract(vec3(corner.xyx) * 0.1031);
+	h += dot(h, h.yzx + 33.33);
+	return fract((h.x + h.y) * h.z);
+}
+
+// random numbers at the corners of each cell, blended smoothly between them
+float valueNoise(vec2 p)
+{
+	vec2 cell = floor(p);
+	vec2 f = fract(p);
+	vec2 blend = f * f * (3.0 - 2.0 * f);
+
+	float a = hash(cell);
+	float b = hash(cell + vec2(1.0, 0.0));
+	float c = hash(cell + vec2(0.0, 1.0));
+	float d = hash(cell + vec2(1.0, 1.0));
+	return mix(mix(a, b, blend.x), mix(c, d, blend.x), blend.y);
+}
+
+// each octave has twice the frequency and half the weight of the one before.
+// Odd octaves drift the other way, so the layers slide over each other and the terrain ripples.
+float terrainHeight(vec2 uv)
+{
+	float sum = 0.0;
+	float weight = 1.0;
+	float total = 0.0;
+	float frequency = BASE_FREQUENCY;
+	for (int octave = 0; octave < OCTAVES; octave++)
+	{
+		float direction = 1.0;
+		if (octave % 2 == 1)
+			direction = -1.0;
+		vec2 drift = vec2(0.20, 0.13) * time * direction;
+		sum += weight * valueNoise(uv * frequency + drift);
+		total += weight;
+		weight *= 0.5;
+		frequency *= 2.0;
+	}
+	return sum / total;   // back to 0 to 1
+}
+
+void main()
+{
+	ivec2 p = ivec2(gl_GlobalInvocationID.xy);
+	if (any(greaterThanEqual(p, imageSize(heightMap))))   // the edge workgroups run past the map
+		return;
+
+	vec2 uv = vec2(p) / vec2(imageSize(heightMap));
+	imageStore(heightMap, p, vec4(terrainHeight(uv), 0.0, 0.0, 0.0));
+}

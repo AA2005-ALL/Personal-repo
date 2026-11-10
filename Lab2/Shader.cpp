@@ -2,7 +2,28 @@
 
 Shader::Shader()
 {
+	shaderID = 0;
+	for (unsigned int i = 0; i < NUM_SHADERS; i++)
+	{
+		shaders[i] = 0;
+	}
 }
+
+Shader::~Shader()
+{
+	for (unsigned int i = 0; i < NUM_SHADERS; i++)
+	{
+		if (shaders[i] == 0)
+		{
+			continue;
+		}
+
+		glDetachShader(shaderID, shaders[i]);
+		glDeleteShader(shaders[i]);
+	}
+	glDeleteProgram(shaderID);
+}
+
 
 void Shader::init(const std::string& vertFile, const std::string& fragFile)
 {
@@ -53,15 +74,15 @@ void Shader::initGeo(const std::string& vertFile, const std::string& geoFile, co
 	uniforms[TRANSFORM_U] = glGetUniformLocation(shaderID, "transform"); // associate with the location of uniform variable within a program
 }
 
-Shader::~Shader()
-{
-	for (unsigned int i = 0; i < NUM_SHADERS; i++)
-	{
-		glDetachShader(shaderID, shaders[i]); //detach shader from program
-		glDeleteShader(shaders[i]); //delete the sahders
-	}
-	glDeleteProgram(shaderID); // delete the program
-}
+//Shader::~Shader()
+//{
+//	for (unsigned int i = 0; i < NUM_SHADERS; i++)
+//	{
+//		glDetachShader(shaderID, shaders[i]); //detach shader from program
+//		glDeleteShader(shaders[i]); //delete the sahders
+//	}
+//	glDeleteProgram(shaderID); // delete the program
+//}
 
 void Shader::Bind()
 {
@@ -94,6 +115,20 @@ GLuint Shader::CreateShader(const std::string& text, unsigned int type)
 
 	return shader;
 }
+
+void Shader::initCompute(const std::string& compFile)
+{
+	shaderID = glCreateProgram();
+	shaders[0] = CreateShader(LoadShader(compFile), GL_COMPUTE_SHADER);
+	glAttachShader(shaderID, shaders[0]);
+
+	glLinkProgram(shaderID);
+	CheckShaderError(shaderID, GL_LINK_STATUS, true, "Error: Compute program linking failed");
+
+	glValidateProgram(shaderID);
+	CheckShaderError(shaderID, GL_VALIDATE_STATUS, true, "Error: Compute program not valid");
+}
+
 
 std::string Shader::LoadShader(const std::string& fileName)
 {

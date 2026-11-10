@@ -1,0 +1,88 @@
+#version 450
+
+// Task 1: move each object, bounce it off the box, then write its matrix.
+// Positions at 3 and velocities at 4 are read and written. Matrices at 2.
+
+layout (local_size_x = 64) in;   // LOCAL_SIZE in MainGame.cpp
+
+// vec4 not vec3: std430 pads a vec3 array to 16 bytes a row
+layout (std430, binding = 3) buffer Positions
+{
+	vec4 position[];
+};
+
+layout (std430, binding = 4) buffer Velocities
+{
+	vec4 velocity[];
+};
+
+layout (std430, binding = 2) writeonly buffer Models
+{
+	mat4 model[];
+};
+
+uniform float time;
+uniform float dt;             // seconds since last frame
+uniform uint objectCount;
+uniform float halfSide;       // x and z stay within +-halfSide
+uniform float boxHeight;      // y stays within 0..boxHeight
+
+const float OBJECT_SCALE = 0.6;
+
+// put p back on the wall and send v the other way
+void bounce(inout float p, inout float v, float lo, float hi)
+{
+	if (p > hi)
+	{
+		p = hi;
+		v = -abs(v);
+	}
+	if (p < lo)
+	{
+		p = lo;
+		v = abs(v);
+	}
+}
+
+void main()
+{
+	uint i = gl_GlobalInvocationID.x;
+	if (i >= objectCount)   // the last workgroup runs past the end
+		return;
+
+	vec3 p = position[i].xyz;
+	vec3 v = velocity[i].xyz;
+
+	p += v * dt;
+	bounce(p.x, v.x, -halfSide, halfSide);
+	bounce(p.y, v.y, 0.0, boxHeight);
+	bounce(p.z, v.z, -halfSide, halfSide);
+
+	position[i] = vec4(p, 0.0);
+	velocity[i] = vec4(v, 0.0);
+
+	// same matrix as updateTransforms on the CPU: turn about y, scale, then translate
+	float angle = time + float(i) * 0.01;
+	float c = cos(angle);
+	float s = sin(angle);
+
+	mat4 rotate = mat4(
+		vec4(  c, 0.0,   -s, 0.0),
+		vec4(0.0, 1.0,  0.0, 0.0),
+		vec4(  s, 0.0,    c, 0.0),
+		vec4(0.0, 0.0,  0.0, 1.0));
+
+	mat4 scale = mat4(
+		vec4(OBJECT_SCALE, 0.0, 0.0, 0.0),
+		vec4(0.0, OBJECT_SCALE, 0.0, 0.0),
+		vec4(0.0, 0.0, OBJECT_SCALE, 0.0),
+		vec4(0.0, 0.0, 0.0, 1.0));
+
+	mat4 translate = mat4(
+		vec4(1.0, 0.0, 0.0, 0.0),
+		vec4(0.0, 1.0, 0.0, 0.0),
+		vec4(0.0, 0.0, 1.0, 0.0),
+		vec4(p, 1.0));
+
+	model[i] = translate * rotate * scale;
+}
