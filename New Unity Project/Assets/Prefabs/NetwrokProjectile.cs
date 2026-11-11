@@ -5,9 +5,13 @@ public class NetwrokProjectile : NetworkBehaviour
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float lifetime = 2f;
+    [SerializeField] private SpriteRenderer projectileVisual;
+    private NetworkVariable<ulong> syncedShooterClientId = new NetworkVariable<ulong>();
+    private NetworkVariable<int> syncedShotId = new NetworkVariable<int>();
     private float despawnTime;
     private ulong shooterClientId;
     private Rigidbody2D rb;
+    private PredictedProjectile matchedPredictedProjectile;
 
     private void Awake()
     {
@@ -16,12 +20,28 @@ public class NetwrokProjectile : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (!IsServer)
+        if (IsServer)
         {
-            return;
+            despawnTime = Time.time + lifetime;
         }
 
-        despawnTime = Time.time + lifetime;
+        if (!IsServer && syncedShooterClientId.Value == NetworkManager.LocalClientId)
+        {
+            projectileVisual.enabled = false;
+        }
+
+        if (matchedPredictedProjectile != null)
+        {
+            matchedPredictedProjectile.ConfirmServerDespawn();
+        }
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        if (matchedPredictedProjectile != null)
+        {
+            matchedPredictedProjectile.ConfirmServerDespawn();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -79,14 +99,16 @@ public class NetwrokProjectile : NetworkBehaviour
         NetworkObject.Despawn();
     }
 
-    public void Initialise(ulong clientId)
+    public void Initialise(ulong clientId, int shotId)
     {
-        if (!IsServer)
+        if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer)
         {
             return;
         }
 
         shooterClientId = clientId;
+        syncedShooterClientId.Value = clientId;
+        syncedShotId.Value = shotId;
     }
 
     private void Update()
@@ -125,5 +147,40 @@ public class NetwrokProjectile : NetworkBehaviour
         }
 
         return client.PlayerObject.GetComponent<PlayerNetworkData>();
+    }
+
+    private void MatchPredictedProjectile()
+    {
+        if (IsServer)
+        {
+            return;
+        }
+
+        if (syncedShooterClientId.Value != NetworkManager.LocalClientId)
+        {
+            return;
+        }
+
+        NetworkObject localPlayer = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject();
+
+        if (localPlayer == null)
+        {
+            return;
+        }
+
+        PlayerWeapon weapon = localPlayer.GetComponent<PlayerWeapon>();
+
+        if (weapon == null)
+        {
+            return;
+        }
+
+        PredictedProjectile predicted = weapon.FindPredictedShot(syncedShotId.Value);
+
+        if (predicted != null)
+        {
+            matchedPredictedProjectile = predicted;
+            predicted.SetAuthoritativeTarget(transform);
+        }
     }
 }

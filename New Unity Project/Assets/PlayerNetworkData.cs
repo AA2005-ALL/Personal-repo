@@ -83,6 +83,8 @@ public class PlayerNetworkData : NetworkBehaviour
         RegisterSessionRpc(new FixedString64Bytes(gameManager.GetSessionId()));
 
         SetPlayerNameRpc(new FixedString64Bytes(requestedName));
+
+        //gameManager.AddEntryRPC(requestedName, Score.Value);
     }
 
     public override void OnNetworkDespawn()
@@ -170,10 +172,17 @@ public class PlayerNetworkData : NetworkBehaviour
 
         string readyStatus = IsPlaying.Value ? "PLAYING" : (IsReady.Value ? "READY" : "NOT READY");
 
-        UpdateServerPlayerRecord();
-        //UpdateLocalPlayerRecord();
-
         playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + readyStatus + status;
+
+        NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
+
+        if (gameManager == null)
+        {
+            Debug.LogError("No game manager yet!");
+        }
+
+
+        gameManager.AddEntryRPC(PlayerName.Value.ToString(), Score.Value);
     }
 
     private void OnAliveChanged(bool previousValue, bool newValue)
@@ -204,7 +213,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
         PlayerName.Value = new FixedString64Bytes(value);
 
-        UpdateServerPlayerRecord();
+        //UpdateServerPlayerRecord();
         //UpdateLocalPlayerRecord();
     }
 
@@ -344,14 +353,14 @@ public class PlayerNetworkData : NetworkBehaviour
             return;
         }
 
-        NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
+        //NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
 
-        if (gameManager == null)
-        {
-            return;
-        }
+        //if (gameManager == null)
+        //{
+        //    return;
+        //}
 
-        gameManager.UpdatePlayerRecord(OwnerClientId, PlayerName.Value.ToString(), Score.Value);
+        //gameManager.UpdatePlayerRecord(OwnerClientId, PlayerName.Value.ToString(), Score.Value);
     }
 
     [Rpc(SendTo.Server)]

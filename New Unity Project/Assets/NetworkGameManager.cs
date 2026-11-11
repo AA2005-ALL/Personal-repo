@@ -9,14 +9,14 @@ using System.Collections;
 using System;
 using System.Linq;
 
-public class NetworkGameManager : MonoBehaviour
+public class NetworkGameManager : NetworkBehaviour
 {
     [SerializeField] TMP_InputField playerNameInput;
     [SerializeField] GameObject enemyPrefab;
     private Dictionary<ulong, PlayerData> connectedPlayers = new Dictionary<ulong, PlayerData>();
     private Dictionary<ulong, PlayerData> disconnectedPlayers = new Dictionary<ulong, PlayerData>();
     private Dictionary<string, PlayerData> savedSessions = new Dictionary<string, PlayerData>();
-    [SerializeField] private float enemyRespawnDelay = 3f;
+    [SerializeField] float enemyRespawnDelay = 3f;
     [SerializeField] List<AudioSource> playerAudioManagers; 
     [SerializeField] ammoPickUp ammoPickUpPrefab;
     [SerializeField] Transform[] ammoSpawns;
@@ -36,7 +36,18 @@ public class NetworkGameManager : MonoBehaviour
         return savedSessions.TryGetValue(sessionId, out player);
     }
 
-    private void Awake()
+    //private void Awake()
+    //{
+    //    foreach (var device in Microphone.devices)
+    //    {
+    //        Debug.Log("Name: " + device);
+    //    }
+
+    //    sessionId = Guid.NewGuid().ToString();
+    //    ammoCooldown = 3f;
+    //}
+
+    public override void OnNetworkSpawn()
     {
         foreach (var device in Microphone.devices)
         {
@@ -79,7 +90,7 @@ public class NetworkGameManager : MonoBehaviour
         newPlayer.Deaths = 0;
         connectedPlayers.TryAdd(clientId, newPlayer);
 
-        AddEntry(newPlayer.PlayerName, newPlayer.Score);
+        //AddEntryRPC(newPlayer.PlayerName, newPlayer.Score);
 
         if (roundStarted)
         {
@@ -197,7 +208,7 @@ public class NetworkGameManager : MonoBehaviour
         player.PlayerName = playerName;
         player.Score = score;
 
-        UpdateLeaderboard();
+        UpdateLeaderboardRPC();
 
         Debug.Log($"Updated player {clientId}: " + $"{player.PlayerName}, Score: {player.Score}");
     }
@@ -372,16 +383,18 @@ public class NetworkGameManager : MonoBehaviour
     }
 
     // Adds a new entry to the leaderboard
-    public void AddEntry(string name, int points)
+    [Rpc(SendTo.ClientsAndHost)]
+    public void AddEntryRPC(string name, int points)
     {
         leaderboardScores.Add(points);
         leaderboardNames.Add(name);
 
-        //Sorts entries in the correct order by highest points tally
-        leaderboardScores.Sort((x, y) => y.CompareTo(x));
+        ////Sorts entries in the correct order by highest points tally
+        //leaderboardScores.Sort((x, y) => y.CompareTo(x));
     }
 
-    public void DisplayLeaderboard()
+    [Rpc(SendTo.ClientsAndHost)]
+    public void DisplayLeaderboardRPC()
     { 
         for(int i = 0; i < leaderboardScores.Count; i++)
         {
@@ -399,7 +412,8 @@ public class NetworkGameManager : MonoBehaviour
         }
     }
 
-    public void UpdateLeaderboard()
+    [Rpc(SendTo.ClientsAndHost)]
+    public void UpdateLeaderboardRPC()
     {
         Debug.Log("Leaderboard updating");
 
@@ -417,6 +431,6 @@ public class NetworkGameManager : MonoBehaviour
         }
 
         //Displays the new order of players
-        DisplayLeaderboard();
+        DisplayLeaderboardRPC();
     }
 }

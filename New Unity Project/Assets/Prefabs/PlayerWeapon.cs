@@ -1,4 +1,5 @@
 using System.Net;
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
@@ -20,6 +21,8 @@ public class PlayerWeapon : NetworkBehaviour
     public PlayerInputs controls;
     private float nextFireTime;
     public int currentWeapon;
+    private int nextShotId;
+    private Dictionary<int, PredictedProjectile> predictedShots = new Dictionary<int, PredictedProjectile>();
 
     private void Awake()
     {
@@ -32,6 +35,12 @@ public class PlayerWeapon : NetworkBehaviour
     private void OnAmmoValueChanged(int previousValue, int newValue)
     {
         updateAmmoUI();
+    }
+
+    public PredictedProjectile FindPredictedShot(int shotId)
+    {
+        predictedShots.TryGetValue(shotId, out PredictedProjectile shot);
+        return shot;
     }
 
     public override void OnNetworkSpawn()
@@ -95,12 +104,15 @@ public class PlayerWeapon : NetworkBehaviour
 
         if (controls.Player.Fire.WasPressedThisFrame())
         {
+            int shotId = nextShotId++;
+
             if (!IsServer)
             {
-                Instantiate(predictedProjectilePrefab, firePoint.position, firePoint.rotation);
+                GameObject predicted = Instantiate(predictedProjectilePrefab,firePoint.position, firePoint.rotation);
+                predictedShots[shotId] = predicted.GetComponent<PredictedProjectile>();
             }
 
-            requestFireRpc(firePoint.position, firePoint.rotation);
+            requestFireRpc(firePoint.position, firePoint.rotation, shotId);
         }
 
         if (controls.Player.Reload.WasPressedThisFrame())
@@ -110,7 +122,7 @@ public class PlayerWeapon : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    private void requestFireRpc(Vector3 spawnPosition, Quaternion spawnRotation)
+    private void requestFireRpc(Vector3 spawnPosition, Quaternion spawnRotation, int ShotID)
     {
         if (!networkData.IsAlive.Value)
         {
@@ -127,19 +139,19 @@ public class PlayerWeapon : NetworkBehaviour
             return;
         }
 
+        int shotId = nextShotId;
+
         nextFireTime = Time.time + fireInterval;
 
         NetworkObject projectile = Instantiate(projectilePrefab, spawnPosition, spawnRotation);
 
         NetworkObject muzzleFlash = Instantiate(muzzleFlashPrefab, spawnPosition, spawnRotation);
 
+        NetwrokProjectile projectileData = projectile.GetComponent<NetwrokProjectile>();
+        projectileData.Initialise(OwnerClientId, shotId);
+
         projectile.Spawn();
         muzzleFlash.Spawn();
-
-
-
-        NetwrokProjectile projectileData = projectile.GetComponent<NetwrokProjectile>();
-        projectileData.Initialise(OwnerClientId);
 
         ammoInClip.Value--;
 
