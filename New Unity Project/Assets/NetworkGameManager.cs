@@ -27,8 +27,8 @@ public class NetworkGameManager : NetworkBehaviour
     public bool RoundStarted => roundStarted;
     private float ammoCooldown; 
 
-    public List<int> leaderboardScores = new List<int>();
-    public List<FixedString64Bytes> leaderboardNames = new List<FixedString64Bytes>();
+    public NetworkList<int> leaderboardScores = new NetworkList<int>();
+    public NetworkList<FixedString64Bytes> leaderboardNames = new NetworkList<FixedString64Bytes>();
 
     private string sessionId;
 
@@ -36,17 +36,6 @@ public class NetworkGameManager : NetworkBehaviour
     {
         return savedSessions.TryGetValue(sessionId, out player);
     }
-
-    //private void Awake()
-    //{
-    //    foreach (var device in Microphone.devices)
-    //    {
-    //        Debug.Log("Name: " + device);
-    //    }
-
-    //    sessionId = Guid.NewGuid().ToString();
-    //    ammoCooldown = 3f;
-    //}
 
     public override void OnNetworkSpawn()
     {
@@ -72,8 +61,10 @@ public class NetworkGameManager : NetworkBehaviour
         
     private void OnDisable()
     {
-        if (NetworkManager.Singleton == null) 
+        if (NetworkManager.Singleton == null)
+        {
             return;
+        }
 
         NetworkManager.Singleton.OnClientConnectedCallback -= OnPlayerConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback -= OnPlayerDisconnected;
@@ -82,7 +73,9 @@ public class NetworkGameManager : NetworkBehaviour
     private void OnPlayerConnected(ulong clientId)
     {
         if (!NetworkManager.Singleton.IsServer)
+        {
             return;
+        }
 
         PlayerData newPlayer = new PlayerData();
         newPlayer.PlayerName = $"Player {clientId}";
@@ -92,8 +85,6 @@ public class NetworkGameManager : NetworkBehaviour
         connectedPlayers.TryAdd(clientId, newPlayer);
 
         //AddEntryRPC(newPlayer.PlayerName, newPlayer.Score);
-        UpdatePlayerRecord(clientId, newPlayer.PlayerName, newPlayer.Score);
-        UpdateLeaderboardRPC();
 
         if (roundStarted)
         {
@@ -106,7 +97,6 @@ public class NetworkGameManager : NetworkBehaviour
                     if (networkData != null)
                     {
                         networkData.SetPlaying();
-         
                     }
 
                     else
@@ -124,6 +114,7 @@ public class NetworkGameManager : NetworkBehaviour
 
     private void SpawnEnemy()
     {
+        Debug.Log("Spawn enemy called");
         if (!NetworkManager.Singleton.IsServer)
         {
             return;
@@ -183,10 +174,15 @@ public class NetworkGameManager : NetworkBehaviour
 
     private void OnPlayerDisconnected(ulong clientId)
     {
-        if (!NetworkManager.Singleton.IsServer) return;
-
-        if (connectedPlayers.TryGetValue(clientId, out PlayerData player))
+        if (!NetworkManager.Singleton.IsServer)
         {
+            return;
+        }
+
+        if(connectedPlayers.TryGetValue(clientId, out PlayerData player))
+        {
+            disconnectedPlayers[clientId] = player;
+
             if (!string.IsNullOrEmpty(player.SessionId))
             {
                 savedSessions[player.SessionId] = player;
@@ -194,13 +190,16 @@ public class NetworkGameManager : NetworkBehaviour
             }
 
             connectedPlayers.Remove(clientId);
-            Debug.Log($"Player {player.PlayerName} disconnected. " + $"Connected players: {connectedPlayers.Count}");
+            Debug.Log($"Saved disconnected player: {player.PlayerName}, " + $"Score: {player.Score}. Connected: " + $"{connectedPlayers.Count}, Disconnected: " + $"{disconnectedPlayers.Count}");
         }
     }
 
     public void UpdatePlayerRecord(ulong clientId, string playerName, int score)
     {
-        if (!NetworkManager.Singleton.IsServer) return;
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
 
         if (!connectedPlayers.TryGetValue(clientId, out PlayerData player))
         {
@@ -211,11 +210,31 @@ public class NetworkGameManager : NetworkBehaviour
         player.PlayerName = playerName;
         player.Score = score;
 
-        //UpdateLeaderboard();
-
         Debug.Log($"Updated player {clientId}: " + $"{player.PlayerName}, Score: {player.Score}");
     }
 
+    //[Rpc(SendTo.ClientsAndHost)]
+    //public void UpdatePlayerRecordRPC(ulong clientId, string playerName, int score)
+    //{
+    //    var activePlayers = FindObjectsByType<PlayerNetworkData>(FindObjectsSortMode.None);
+
+    //    foreach(var player in activePlayers)
+    //    {
+    //        player.PlayerName.Value = playerName;
+    //        player.Score.Value = score;
+    //    }
+
+    //    //if (!connectedPlayers.TryGetValue(clientId, out PlayerData player))
+    //    //{
+    //    //    player = new PlayerData();
+    //    //    connectedPlayers.Add(clientId, player);
+    //    //}
+
+    //    //player.PlayerName = playerName;
+    //    //player.Score = score;
+
+    //    //Debug.Log($"Updated player {clientId}: " + $"{player.PlayerName}, Score: {player.Score}" + " Clients should see this");
+    //}
 
     public void StartHost()
     {
@@ -249,6 +268,11 @@ public class NetworkGameManager : NetworkBehaviour
             NetworkManager.Singleton.Shutdown();
         }
 
+        if(Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame && NetworkManager.Singleton != null && NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsHost)
+        {
+            
+        }
+
         ammoCooldown -= Time.deltaTime;
 
         if(!NetworkManager.Singleton.IsServer)
@@ -256,7 +280,7 @@ public class NetworkGameManager : NetworkBehaviour
             return;
         }
 
-        if (ammoCooldown < 0)
+        if (ammoCooldown < 0 && roundStarted)
         {
             ammoCooldown = 3;
             spawnAmmoPickUps();
@@ -265,8 +289,10 @@ public class NetworkGameManager : NetworkBehaviour
 
     public void RegisterPlayerSession(ulong clientId, string sessionId)
     {
-        if (!NetworkManager.Singleton.IsServer) 
+        if (!NetworkManager.Singleton.IsServer)
+        {
             return;
+        }
 
         if (!connectedPlayers.TryGetValue(clientId, out PlayerData player))
         {
@@ -283,27 +309,27 @@ public class NetworkGameManager : NetworkBehaviour
             player.Kills = savedPlayer.Kills;
             player.Deaths = savedPlayer.Deaths;
             Debug.Log($"Found returning player: {player.PlayerName}, " + $"Saved Score: {player.Score}");
+
+            if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client))
+            {
+                PlayerNetworkData networkData = client.PlayerObject?.GetComponent<PlayerNetworkData>();
+
+                if (networkData != null)
+                {
+                    networkData.RestoreScore(savedPlayer.Score);
+                }
+
+                else
+                {
+                    Debug.LogError("Can't find network data");
+                }
+            }
         }
 
         else
         {
             Debug.Log($"New player session registered: {sessionId}");
         }
-
-        //if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out var client))
-        //{
-        //    PlayerNetworkData networkData = client.PlayerObject?.GetComponent<PlayerNetworkData>();
-
-        //    if (networkData != null)
-        //    {
-        //        networkData.RestoreScore(savedPlayer.Score);
-        //    }
-
-        //    else
-        //    {
-        //        Debug.LogError("Can't find network data");
-        //    }
-        //}
     }
 
     public void spawnAmmoPickUps()
@@ -343,59 +369,75 @@ public class NetworkGameManager : NetworkBehaviour
             return;
         }
 
-        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        List<PlayerNetworkData> readyPlayers = new List<PlayerNetworkData>();
+
+        PlayerNetworkData[] players = FindObjectsByType<PlayerNetworkData>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < players.Length; i++)
         {
-            if (client.PlayerObject == null)
+            if (players[i].IsReady.Value == true)
             {
-                Debug.LogError("NO CLIENT!!!");
-                return;
-            }
-
-            PlayerNetworkData player = client.PlayerObject.GetComponent<PlayerNetworkData>();
-
-            if (player != null)
-            {
-                player.SetPlaying();
-            }
-        }
-
-        roundStarted = true;
-
-        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
-        {
-            if (client.PlayerObject == null)
-            {
-                continue;
-            }
-
-            PlayerNetworkData player = client.PlayerObject.GetComponent<PlayerNetworkData>();
-
-            if (player != null)
-            {
-                player.SetPlaying();
+                readyPlayers.Add(players[i]);
             }
 
             else
             {
-                Debug.LogError("No player");
+                continue; 
             }
         }
 
-        Debug.Log("All players ready! Round starting...");
-        SpawnEnemy();
+        if(readyPlayers.Count == players.Length)
+        {
+            Debug.Log("Round started set to true");
+            roundStarted = true;
+            for(int i = 0; i < readyPlayers.Count; i ++)
+            {
+                readyPlayers[i].SetPlaying();
+            }
+        }
+
+        else
+        {
+            roundStarted = false;
+        }
+
+        if(roundStarted)
+        {
+            Debug.Log("All players ready! Round starting...");
+            SpawnEnemy();
+        }
+        //foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        //{
+        //    if (client.PlayerObject == null)
+        //    {
+        //        continue;
+        //    }
+
+        //    PlayerNetworkData player = client.PlayerObject.GetComponent<PlayerNetworkData>();
+
+        //    if (player != null && player.IsReady.Value == true)
+        //    {
+        //        player.SetPlaying();
+        //    }
+
+        //    if (player.IsReady.Value == false)
+        //    {
+        //        roundStarted = false;
+        //    }
+        //}
     }
 
-    [Rpc(SendTo.ClientsAndHost)]
-    public void UpdateLeaderboardRPC()
+    public void UpdateLeaderboard()
     {
-        var newLeaderboardOrder = connectedPlayers.Values.OrderByDescending(player => player.Score).ToList();
+        var activePlayers = FindObjectsByType<PlayerNetworkData>(FindObjectsSortMode.None);
+        var activePlayersInOrder = activePlayers.OrderByDescending(player => player.Score.Value).ToList();
 
         for(int i = 0; i < scoreTexts.Count(); i++)
         {
-                if (i < newLeaderboardOrder.Count())
+                if (i < activePlayersInOrder.Count())
                 {
-                  nameTexts[i].text = newLeaderboardOrder[i].PlayerName;
-                  scoreTexts[i].text = newLeaderboardOrder[i].Score.ToString();
+                  nameTexts[i].text = activePlayersInOrder[i].PlayerName.Value.ToString();
+                  scoreTexts[i].text = activePlayersInOrder[i].Score.Value.ToString();
                 }
 
                 else
