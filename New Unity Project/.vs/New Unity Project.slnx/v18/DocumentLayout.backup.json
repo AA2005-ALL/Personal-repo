@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\gcu undergrad\\personal-repo\\new unity project\\assets\\networkgamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\networkgamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\gcu undergrad\\personal-repo\\new unity project\\assets\\playernetworkdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\playernetworkdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\gcu undergrad\\personal-repo\\new unity project\\assets\\playerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\playerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\gcu undergrad\\personal-repo\\new unity project\\assets\\networkenemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\networkenemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|d:\\gcu undergrad\\personal-repo\\new unity project\\assets\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PlayerData.cs",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\PlayerData.cs",
+              "RelativeDocumentMoniker": "Assets\\PlayerData.cs",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\PlayerData.cs",
+              "RelativeToolTip": "Assets\\PlayerData.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-11T12:13:27.645Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "NetworkBehaviour.cs",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs",
+              "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs",
+              "RelativeToolTip": "Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs",
+              "ViewState": "AgIAADQBAAAAAAAAAAAiwFcBAABqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-11T11:50:45.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlayerNetworkData.cs",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\PlayerNetworkData.cs",
+              "RelativeDocumentMoniker": "Assets\\PlayerNetworkData.cs",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\PlayerNetworkData.cs",
+              "RelativeToolTip": "Assets\\PlayerNetworkData.cs",
+              "ViewState": "AgIAAJkAAAAAAAAAAAASwLYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-11T11:43:38.768Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "NetworkGameManager.cs",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\NetworkGameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\NetworkGameManager.cs",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\NetworkGameManager.cs",
+              "RelativeToolTip": "Assets\\NetworkGameManager.cs",
+              "ViewState": "AgIAAIIBAAAAAAAAAAA2wLMBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-11T11:39:19.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NetworkEnemy.cs",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\NetworkEnemy.cs",
+              "RelativeDocumentMoniker": "Assets\\NetworkEnemy.cs",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\NetworkEnemy.cs",
+              "RelativeToolTip": "Assets\\NetworkEnemy.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-11T11:39:12.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\PlayerController.cs",
+              "ToolTip": "D:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\PlayerController.cs",
+              "ViewState": "AgIAAHYAAAAAG/7TDUQjwAcAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-11T11:38:55.622Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+
+using System.Collections;
 using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
@@ -84,8 +83,18 @@ public class PlayerNetworkData : NetworkBehaviour
 
         SetPlayerNameRpc(new FixedString64Bytes(requestedName));
 
-        //gameManager.AddEntryRPC(requestedName, Score.Value);
+        //StartCoroutine(waitToAddToLeaderboard());
     }
+
+    //IEnumerator waitToAddToLeaderboard()
+    //{
+    //    yield return new WaitForSeconds(0.5f);
+    //    //NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
+
+    //    //gameManager.UpdatePlayerRecord(OwnerClientId, PlayerName.Value.ToString(), Score.Value);
+    //    //Debug.Log(PlayerName.Value.ToString() + " This is player name in wait to add leaderboard");
+    //    //gameManager.UpdateLeaderboardRPC();
+    //}
 
     public override void OnNetworkDespawn()
     {
@@ -131,7 +140,7 @@ public class PlayerNetworkData : NetworkBehaviour
     private void OnFacingAngleChanged(float oldAngle, float newAngle)
     {
         //The owner already rotates immediately in PlayerController.
-        
+
         if (IsOwner)
         {
             return;
@@ -173,16 +182,6 @@ public class PlayerNetworkData : NetworkBehaviour
         string readyStatus = IsPlaying.Value ? "PLAYING" : (IsReady.Value ? "READY" : "NOT READY");
 
         playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + readyStatus + status;
-
-        NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
-
-        if (gameManager == null)
-        {
-            Debug.LogError("No game manager yet!");
-        }
-
-
-        gameManager.AddEntryRPC(PlayerName.Value.ToString(), Score.Value);
     }
 
     private void OnAliveChanged(bool previousValue, bool newValue)
@@ -212,9 +211,6 @@ public class PlayerNetworkData : NetworkBehaviour
         }
 
         PlayerName.Value = new FixedString64Bytes(value);
-
-        //UpdateServerPlayerRecord();
-        //UpdateLocalPlayerRecord();
     }
 
     [Rpc(SendTo.Server)]
@@ -254,6 +250,12 @@ public class PlayerNetworkData : NetworkBehaviour
             return;
 
         Score.Value += amount;
+
+        NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
+
+        //UpdateServerPlayerRecord();
+        Debug.Log(PlayerName.Value.ToString() + " This is player name in add score");
+        //gameManager.UpdateLeaderboardRPC();
     }
 
     public void RestoreScore(int score)
@@ -309,7 +311,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
         //UnityEngine.Debug.Log("time remaining for invincibility: " + timeTillNotInvincible);
 
-        if(timeTillNotInvincible <= 0)
+        if (timeTillNotInvincible <= 0)
         {
             justRespawned.Value = false;
             HideInvincibiltyRPC();
@@ -346,22 +348,29 @@ public class PlayerNetworkData : NetworkBehaviour
         playerInfoText.text = $"{PlayerName.Value}\n" + $"HP: {Health.Value}\n" + $"Score: {Score.Value}\n" + $"DEAD\n" + $"Respawning in {secondsRemaining}...";
     }
 
-    private void UpdateServerPlayerRecord()
-    {
-        if (!IsServer)
-        {
-            return;
-        }
+    //[Rpc(SendTo.Server)]
+    //private void UpdateServerPlayerRecord()
+    //{
+    //    if (IsOwner)
+    //    {
+    //        return;
+    //    }
 
-        //NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
+    //    NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
 
-        //if (gameManager == null)
-        //{
-        //    return;
-        //}
+    //    if (gameManager == null)
+    //    {
+    //        return;
+    //    }
 
-        //gameManager.UpdatePlayerRecord(OwnerClientId, PlayerName.Value.ToString(), Score.Value);
-    }
+    //    gameManager.UpdatePlayerRecord(OwnerClientId, PlayerName.Value.ToString(), Score.Value);
+    //}
+
+
+    //private void UpdateLocalPlayerRecordRPC()
+    //{
+
+    //}
 
     [Rpc(SendTo.Server)]
     private void RegisterSessionRpc(FixedString64Bytes sessionId)

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System;
 using System.Linq;
+using NUnit.Framework.Interfaces;
 
 public class NetworkGameManager : NetworkBehaviour
 {
@@ -27,7 +28,7 @@ public class NetworkGameManager : NetworkBehaviour
     private float ammoCooldown; 
 
     public List<int> leaderboardScores = new List<int>();
-    public List<string> leaderboardNames = new List<string>();
+    public List<FixedString64Bytes> leaderboardNames = new List<FixedString64Bytes>();
 
     private string sessionId;
 
@@ -91,6 +92,8 @@ public class NetworkGameManager : NetworkBehaviour
         connectedPlayers.TryAdd(clientId, newPlayer);
 
         //AddEntryRPC(newPlayer.PlayerName, newPlayer.Score);
+        UpdatePlayerRecord(clientId, newPlayer.PlayerName, newPlayer.Score);
+        UpdateLeaderboardRPC();
 
         if (roundStarted)
         {
@@ -208,7 +211,7 @@ public class NetworkGameManager : NetworkBehaviour
         player.PlayerName = playerName;
         player.Score = score;
 
-        UpdateLeaderboardRPC();
+        //UpdateLeaderboard();
 
         Debug.Log($"Updated player {clientId}: " + $"{player.PlayerName}, Score: {player.Score}");
     }
@@ -382,55 +385,24 @@ public class NetworkGameManager : NetworkBehaviour
         SpawnEnemy();
     }
 
-    // Adds a new entry to the leaderboard
-    [Rpc(SendTo.ClientsAndHost)]
-    public void AddEntryRPC(string name, int points)
-    {
-        leaderboardScores.Add(points);
-        leaderboardNames.Add(name);
-
-        ////Sorts entries in the correct order by highest points tally
-        //leaderboardScores.Sort((x, y) => y.CompareTo(x));
-    }
-
-    [Rpc(SendTo.ClientsAndHost)]
-    public void DisplayLeaderboardRPC()
-    { 
-        for(int i = 0; i < leaderboardScores.Count; i++)
-        {
-            Debug.Log("Displaying leaderboard");
-
-            //Checks that the leaderboardScores and leaderboardNames array length hasn't been surpassed 
-            if (i < nameTexts.Count() && i < scoreTexts.Count())
-            {
-                nameTexts[i].text = leaderboardNames[i];
-                scoreTexts[i].text = leaderboardScores[i].ToString();
-
-                Debug.Log(nameTexts[i].text);
-                Debug.Log(scoreTexts[i].text);
-            }
-        }
-    }
-
     [Rpc(SendTo.ClientsAndHost)]
     public void UpdateLeaderboardRPC()
     {
-        Debug.Log("Leaderboard updating");
+        var newLeaderboardOrder = connectedPlayers.Values.OrderByDescending(player => player.Score).ToList();
 
-        //Removes all entries from the leaderboard
-        leaderboardScores.Clear();
-        leaderboardNames.Clear();
-
-        //Sorts the leaderboard in order of highest to lowest score
-        var newLeaderboardOrder = connectedPlayers.Values.OrderByDescending(player => player.Score);
-
-        foreach (var player in newLeaderboardOrder)
+        for(int i = 0; i < scoreTexts.Count(); i++)
         {
-            leaderboardNames.Add(player.PlayerName);
-            leaderboardScores.Add(player.Score);
-        }
+                if (i < newLeaderboardOrder.Count())
+                {
+                  nameTexts[i].text = newLeaderboardOrder[i].PlayerName;
+                  scoreTexts[i].text = newLeaderboardOrder[i].Score.ToString();
+                }
 
-        //Displays the new order of players
-        DisplayLeaderboardRPC();
+                else
+                {
+                   nameTexts[i].text = "";
+                   scoreTexts[i].text = "";
+                }
+        }
     }
 }
