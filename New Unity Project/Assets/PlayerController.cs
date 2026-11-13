@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Unity.Netcode; 
 using UnityEngine;
 using UnityEngine.UI;
@@ -147,12 +146,6 @@ public class PlayerController : NetworkBehaviour
         {
             moveSpeed = 64;
         }
-
-        //if (moveInput.sqrMagnitude > 0.01f) 
-        //{ 
-        //    float angle = Mathf.Atan2(moveInput.y, moveInput.x) * Mathf.Rad2Deg; 
-        //    transform.rotation = Quaternion.Euler(0f, 0f, angle); 
-        //}
 
         Vector3 movement = new Vector3(moveInput.x, moveInput.y, 0f);
         transform.position += movement * moveSpeed * Time.deltaTime;

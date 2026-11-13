@@ -84,8 +84,6 @@ public class NetworkGameManager : NetworkBehaviour
         newPlayer.Deaths = 0;
         connectedPlayers.TryAdd(clientId, newPlayer);
 
-        //AddEntryRPC(newPlayer.PlayerName, newPlayer.Score);
-
         if (roundStarted)
         {
             if (NetworkManager.Singleton.ConnectedClients.TryGetValue(clientId, out NetworkClient client))
@@ -213,28 +211,6 @@ public class NetworkGameManager : NetworkBehaviour
         Debug.Log($"Updated player {clientId}: " + $"{player.PlayerName}, Score: {player.Score}");
     }
 
-    //[Rpc(SendTo.ClientsAndHost)]
-    //public void UpdatePlayerRecordRPC(ulong clientId, string playerName, int score)
-    //{
-    //    var activePlayers = FindObjectsByType<PlayerNetworkData>(FindObjectsSortMode.None);
-
-    //    foreach(var player in activePlayers)
-    //    {
-    //        player.PlayerName.Value = playerName;
-    //        player.Score.Value = score;
-    //    }
-
-    //    //if (!connectedPlayers.TryGetValue(clientId, out PlayerData player))
-    //    //{
-    //    //    player = new PlayerData();
-    //    //    connectedPlayers.Add(clientId, player);
-    //    //}
-
-    //    //player.PlayerName = playerName;
-    //    //player.Score = score;
-
-    //    //Debug.Log($"Updated player {clientId}: " + $"{player.PlayerName}, Score: {player.Score}" + " Clients should see this");
-    //}
 
     public void StartHost()
     {
@@ -268,10 +244,10 @@ public class NetworkGameManager : NetworkBehaviour
             NetworkManager.Singleton.Shutdown();
         }
 
-        if(Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame && NetworkManager.Singleton != null && NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsHost)
-        {
+        //if(Keyboard.current != null && Keyboard.current.rKey.wasPressedThisFrame && NetworkManager.Singleton != null && NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsHost)
+        //{
             
-        }
+        //}
 
         ammoCooldown -= Time.deltaTime;
 
@@ -406,25 +382,6 @@ public class NetworkGameManager : NetworkBehaviour
             Debug.Log("All players ready! Round starting...");
             SpawnEnemy();
         }
-        //foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
-        //{
-        //    if (client.PlayerObject == null)
-        //    {
-        //        continue;
-        //    }
-
-        //    PlayerNetworkData player = client.PlayerObject.GetComponent<PlayerNetworkData>();
-
-        //    if (player != null && player.IsReady.Value == true)
-        //    {
-        //        player.SetPlaying();
-        //    }
-
-        //    if (player.IsReady.Value == false)
-        //    {
-        //        roundStarted = false;
-        //    }
-        //}
     }
 
     public void UpdateLeaderboard()

@@ -2,7 +2,7 @@ using Unity.Netcode;
 using UnityEngine;
 public class NetworkEnemy : NetworkBehaviour
 {
-    [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private float moveSpeed = 58f;
     private Rigidbody2D rb;
     public NetworkVariable<int> Health = new NetworkVariable<int>(30);
 
@@ -13,13 +13,28 @@ public class NetworkEnemy : NetworkBehaviour
 
     private void FixedUpdate()
     {
-        if (!IsServer) return;
+        if (!IsServer)
+        {
+            return;
+        }
+
         PlayerNetworkData target = FindNearestPlayer();
-        if (target == null) return;
-        Vector2 direction =
-        ((Vector2)target.transform.position - rb.position).normalized;
-        rb.MovePosition(rb.position +
-        direction * moveSpeed * Time.fixedDeltaTime);
+
+        if (target == null)
+        {
+            return;
+        }
+
+        Vector2 direction = ((Vector2)target.transform.position - rb.position).normalized;
+
+        float shootingDistance = 10f;
+
+        if(Vector3.Distance(transform.position, target.transform.position) <= shootingDistance)
+        {
+
+        }
+
+        rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
     }
 
     private PlayerNetworkData FindNearestPlayer()

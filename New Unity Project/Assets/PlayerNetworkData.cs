@@ -49,6 +49,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
         invincibilityBubble = transform.GetChild(0).GetChild(3).gameObject;
 
+        //Sets all networked variables with a starting value
         PlayerName.OnValueChanged += OnNameChanged;
         Health.OnValueChanged += OnIntValueChanged;
         IsAlive.OnValueChanged += OnAliveChanged;
@@ -56,9 +57,6 @@ public class PlayerNetworkData : NetworkBehaviour
         IsPlaying.OnValueChanged += OnPlayingChanged;
         Score.OnValueChanged += OnIntValueChanged;
         FacingAngle.OnValueChanged += OnFacingAngleChanged;
-
-
-        //AddEntry(PlayerName, Score);
 
         UpdatePlayerDisplay();
 
@@ -70,6 +68,7 @@ public class PlayerNetworkData : NetworkBehaviour
             return;
         }
 
+        //Starts the session and sets the player name 
         NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
 
         string requestedName = gameManager.GetPlayerName();
@@ -86,6 +85,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
     public override void OnNetworkDespawn()
     {
+        //Unsubscribes from the Network variables on the despawned player
         PlayerName.OnValueChanged -= OnNameChanged;
         Health.OnValueChanged -= OnIntValueChanged;
         IsAlive.OnValueChanged -= OnAliveChanged;
@@ -339,8 +339,6 @@ public class PlayerNetworkData : NetworkBehaviour
     {
         float timeTillNotInvincible = InvincibilityTimer.Value - Time.time;
 
-        //UnityEngine.Debug.Log("time remaining for invincibility: " + timeTillNotInvincible);
-
         if (timeTillNotInvincible <= 0)
         {
             justRespawned.Value = false;
@@ -362,6 +360,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
     private void UpdateRespawnDisplay()
     {
+        Debug.Log("Showing respawn counter");
         if (playerInfoText == null)
         {
             return;
@@ -412,10 +411,10 @@ public class PlayerNetworkData : NetworkBehaviour
 
     private void Update()
     {
-        //if (!IsAlive.Value)
-        //{
-        //    UpdateRespawnDisplay();
-        //}
+        if (!IsAlive.Value)
+        {
+            UpdateRespawnDisplay();
+        }
 
         if (IsOwner && Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
         {
@@ -431,7 +430,6 @@ public class PlayerNetworkData : NetworkBehaviour
         {
             Respawn();
             ShowInvincibiltyRPC();
-            UpdateRespawnDisplay();
         }
 
         if (justRespawned.Value == true)
