@@ -18,7 +18,6 @@ public class NetworkEnemy : NetworkBehaviour
     public NetworkVariable<int> maxAmmoInClip = new NetworkVariable<int>(30);
     public NetworkVariable<int> ammoInClip = new NetworkVariable<int>(30);
     NetworkVariable<int> totalAmmoRemaining = new NetworkVariable<int>(120);
-    public PlayerInputs controls;
     private float nextFireTime;
     public int currentWeapon;
     private int nextShotId;
@@ -89,7 +88,7 @@ public class NetworkEnemy : NetworkBehaviour
         NetworkObject muzzleFlash = Instantiate(muzzleFlashPrefab, spawnPosition, spawnRotation);
 
         NetwrokProjectile projectileData = projectile.GetComponent<NetwrokProjectile>();
-        projectileData.Initialise(OwnerClientId, shotId);
+        projectileData.Initialise(NetworkObjectId, ShotID);
 
         projectile.Spawn();
         muzzleFlash.Spawn();

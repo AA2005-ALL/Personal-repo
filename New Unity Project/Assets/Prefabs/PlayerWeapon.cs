@@ -4,20 +4,31 @@ using Unity.Netcode;
 using UnityEngine;
 using TMPro;
 using System.Security.Cryptography;
+using System.Collections;
 
 
 public class PlayerWeapon : NetworkBehaviour
 {
     [SerializeField] NetworkObject projectilePrefab;
     [SerializeField] NetworkObject muzzleFlashPrefab;
+    [SerializeField] NetworkObject grenadePrefab;
+
     [SerializeField] GameObject predictedProjectilePrefab;
     private PlayerNetworkData networkData;
     [SerializeField] Transform firePoint;
     [SerializeField] float fireInterval = 0.25f;
+
     [SerializeField] TMP_Text ammoDisplay;
     public NetworkVariable<int> maxAmmoInClip = new NetworkVariable<int>(30);
     public NetworkVariable<int> ammoInClip = new NetworkVariable<int>(30);
+
+    public NetworkVariable<int> grenadeAmount = new NetworkVariable<int>(1);
+
+    NetworkVariable<int> maxGrenadeCount = new NetworkVariable<int>(2);
     NetworkVariable<int> totalAmmoRemaining = new NetworkVariable<int>(120);
+
+    public NetworkVariable<int> damageDealt = new NetworkVariable<int>(10);
+
     public PlayerInputs controls;
     private float nextFireTime;
     public int currentWeapon;
@@ -36,6 +47,7 @@ public class PlayerWeapon : NetworkBehaviour
     {
         updateAmmoUI();
     }
+
 
     public PredictedProjectile FindPredictedShot(int shotId)
     {
@@ -84,23 +96,29 @@ public class PlayerWeapon : NetworkBehaviour
             if (currentWeapon == 0)
             {
                 currentWeapon = 1;
+                damageDealt.Value = 2;
+                fireInterval = 0.0001f;
             }
 
             else
             {
                 currentWeapon = 0;
+                damageDealt.Value = 10;
+                fireInterval = 0.25f;
             }
         }
 
-        if (currentWeapon == 0)
-        {
-            fireInterval = 0.25f;
-        }
+        //if (currentWeapon == 0)
+        //{
+        //    damageDealt.Value = 10;
+        //    fireInterval = 0.25f;
+        //}
 
-        if (currentWeapon == 1)
-        {
-            fireInterval = 0.05f;
-        }
+        //if (currentWeapon == 1)
+        //{
+        //    damageDealt.Value = 2;
+        //    fireInterval = 0.0001f;
+        //}
 
         if (controls.Player.Fire.WasPressedThisFrame())
         {
@@ -113,6 +131,11 @@ public class PlayerWeapon : NetworkBehaviour
             }
 
             requestFireRpc(firePoint.position, firePoint.rotation, shotId);
+        }
+
+        if (controls.Player.ThrowGrenade.WasPressedThisFrame())
+        {
+            throwGrenadeRPC();
         }
 
         if (controls.Player.Reload.WasPressedThisFrame())
@@ -148,7 +171,7 @@ public class PlayerWeapon : NetworkBehaviour
         NetworkObject muzzleFlash = Instantiate(muzzleFlashPrefab, spawnPosition, spawnRotation);
 
         NetwrokProjectile projectileData = projectile.GetComponent<NetwrokProjectile>();
-        projectileData.Initialise(OwnerClientId, shotId);
+        projectileData.Initialise(NetworkObjectId, ShotID);
 
         projectile.Spawn();
         muzzleFlash.Spawn();
@@ -181,6 +204,24 @@ public class PlayerWeapon : NetworkBehaviour
         ammoInClip.Value = ammoInClip.Value + ammoToAddToClip;
 
         updateAmmoUI();
+    }
+
+    [Rpc(SendTo.Server)]
+    private void throwGrenadeRPC()
+    {
+        if (grenadeAmount.Value <= 0)
+        {
+            grenadeAmount.Value = 0;
+            return;
+        }
+
+        else
+        {
+            grenadeAmount.Value--;
+
+            NetworkObject grenade = Instantiate(grenadePrefab, firePoint.transform.position, firePoint.transform.rotation);
+            grenade.Spawn();
+        }
     }
 
     private void updateAmmoUI()

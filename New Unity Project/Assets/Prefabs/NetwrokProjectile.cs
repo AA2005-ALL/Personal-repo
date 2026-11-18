@@ -4,13 +4,13 @@ using static UnityEngine.GraphicsBuffer;
 
 public class NetwrokProjectile : NetworkBehaviour
 {
-    [SerializeField] private float speed = 10f;
-    [SerializeField] private float lifetime = 2f;
-    [SerializeField] private SpriteRenderer projectileVisual;
+    [SerializeField] float speed = 10f;
+    [SerializeField] float lifetime = 2f;
+    [SerializeField] SpriteRenderer projectileVisual;
     private NetworkVariable<ulong> syncedShooterClientId = new NetworkVariable<ulong>();
     private NetworkVariable<int> syncedShotId = new NetworkVariable<int>();
     private float despawnTime;
-    private ulong shooterClientId;
+    private ulong shooterNetworkObjectId;
     private Rigidbody2D rb;
     private PredictedProjectile matchedPredictedProjectile;
 
@@ -52,74 +52,108 @@ public class NetwrokProjectile : NetworkBehaviour
             return;
         }
 
-        PlayerNetworkData shooter = FindShooter();
-
-        NetworkEnemy enemy = other.GetComponent<NetworkEnemy>();
-
-        if (enemy != null)
+        if(other.TryGetComponent<NetworkObject>(out var hit))
         {
-            bool killedEnemy = enemy.TakeDamage(10);
-
-            if (killedEnemy)
+            if(hit.NetworkObjectId == shooterNetworkObjectId)
             {
-                if (shooter != null)
-                {
-                    shooter.AddScore(1);
-                }
+                //Debug.Log("This bullet is mine");
+                return;
             }
 
-            NetworkObject.Despawn();
+            PlayerNetworkData playerShooter = FindShooter();
+            NetworkEnemy enemyShooter = FindEnemyShooter();
 
-            return;
-        }
-
-
-        PlayerNetworkData target = other.GetComponent<PlayerNetworkData>();
-
-        if (target == null)
-        {
-            return;
-        }
-
-        if(target == shooter)
-        {
-            print("is this bullet mine? " + shooter.name);
-            //return;
-        }
-
-        else
-        {
-            Debug.Log("I know I'm hitting a player");
-            bool killedPlayer = target.TakeDamage(10);
-
-            if (killedPlayer)
+            if (hit.GetComponent<NetworkEnemy>())
             {
-                if (shooter != null)
+                NetworkEnemy enemy = hit.GetComponent<NetworkEnemy>();
+
+                bool killedEnemy = enemy.TakeDamage(playerShooter.GetComponent<PlayerWeapon>().damageDealt.Value);
+
+                if (killedEnemy)
                 {
-                    shooter.AddScore(1);
+                    if (playerShooter != null)
+                    {
+                        playerShooter.AddScore(1);
+                    }
                 }
+
+                NetworkObject.Despawn();
+
+                return;
             }
 
-            NetworkObject.Despawn();
+            if(hit.GetComponent<PlayerNetworkData>())
+            {
+                //Debug.Log("I know I'm hitting a player");
+                PlayerNetworkData target = hit.GetComponent<PlayerNetworkData>();
+
+                if (target == null)
+                {
+                    return;
+                }
+
+                bool killedPlayer;
+
+                if (enemyShooter != null)
+                {
+                    if (enemyShooter.NetworkObjectId == shooterNetworkObjectId)
+                    {
+                        killedPlayer = target.TakeDamage(10);
+                    }
+                }
+
+                if(playerShooter != null) 
+                {
+                    if (playerShooter.NetworkObjectId == shooterNetworkObjectId)
+                    {
+                        killedPlayer = target.TakeDamage(playerShooter.GetComponent<PlayerWeapon>().damageDealt.Value);
+
+                        if (killedPlayer)
+                        {
+                            if (playerShooter.GetComponent<NetworkEnemy>() == null)
+                            {
+                                Debug.Log("Whoever killed you is not an enemy");
+                                playerShooter.AddScore(1);
+                            }
+                        }
+                    }
+                }
+
+                NetworkObject.Despawn();
+            }
         }
+
+
+        //NetworkEnemy enemy = other.GetComponent<NetworkEnemy>();
+
+        //if (enemy != null)
+        //{
+        //    bool killedEnemy = enemy.TakeDamage(10);
+
+        //    if (killedEnemy)
+        //    {
+        //        if (shooter != null)
+        //        {
+        //            shooter.AddScore(1);
+        //        }
+        //    }
+
+        //    NetworkObject.Despawn();
+
+        //    return;
+        //}
+
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log("I know I'm hitting a player");
-        PlayerNetworkData target = collision.gameObject.GetComponent<PlayerNetworkData>();
-        bool killedPlayer = target.TakeDamage(10);
-    }
-
-    public void Initialise(ulong clientId, int shotId)
+    public void Initialise(ulong objectId, int shotId)
     {
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer)
         {
             return;
         }
 
-        shooterClientId = clientId;
-        syncedShooterClientId.Value = clientId;
+        shooterNetworkObjectId = objectId;
+        //syncedShooterObjectId.Value = clientId;
         syncedShotId.Value = shotId;
     }
 
@@ -148,17 +182,22 @@ public class NetwrokProjectile : NetworkBehaviour
 
     private PlayerNetworkData FindShooter()
     {
-        if (!NetworkManager.ConnectedClients.TryGetValue(shooterClientId, out NetworkClient client))
+        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(shooterNetworkObjectId, out NetworkObject shooter))
         {
             return null;
         }
 
-        if (client.PlayerObject == null)
+        return shooter.GetComponent<PlayerNetworkData>();
+    }
+
+    private NetworkEnemy FindEnemyShooter()
+    {
+        if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(shooterNetworkObjectId, out NetworkObject shooter))
         {
             return null;
         }
 
-        return client.PlayerObject.GetComponent<PlayerNetworkData>();
+        return shooter.GetComponent<NetworkEnemy>();
     }
 
     private void MatchPredictedProjectile()

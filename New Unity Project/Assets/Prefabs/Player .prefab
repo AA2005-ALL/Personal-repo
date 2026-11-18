@@ -360,6 +360,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   projectilePrefab: {fileID: -5807096821948281543, guid: 12b79f80b591d3d41955b1149798a0eb, type: 3}
   muzzleFlashPrefab: {fileID: 9142710698069575332, guid: 065437d29c592d746985f6b154d099aa, type: 3}
+  grenadePrefab: {fileID: 2134314155596368586, guid: 8f0d362e61711fa45930af7cad5c98fc, type: 3}
+  explosionPrefab: {fileID: 3320036271308733550, guid: 3d18229d6a91ddc468b0fae1f22d41dc, type: 3}
   predictedProjectilePrefab: {fileID: 4568150846817321196, guid: 582b6f4919fda00429d47d69b7d39223, type: 3}
   firePoint: {fileID: 770727045204811076}
   fireInterval: 0.25
@@ -374,6 +376,16 @@ MonoBehaviour:
       MinSecondsBetweenUpdates: 0
       MaxSecondsBetweenUpdates: 0
     m_InternalValue: 30
+  grenadeAmount:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 1
+  damageDealt:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: 10
   currentWeapon: 0
 --- !u!1 &1004835004632787234
 GameObject:

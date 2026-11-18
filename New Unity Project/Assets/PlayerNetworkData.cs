@@ -43,7 +43,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        UnityEngine.Debug.Log($"Spawned {OwnerClientId} | " + $"Name: {PlayerName.Value} | " + $"Health: {Health.Value} | " + $"Score: {Score.Value}");
+        Debug.Log($"Spawned {OwnerClientId} | " + $"Name: {PlayerName.Value} | " + $"Health: {Health.Value} | " + $"Score: {Score.Value}");
 
         playerInfoText = GetComponentInChildren<TMP_Text>();
 
@@ -358,7 +358,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
     private void UpdateRespawnDisplay()
     {
-        Debug.Log("Showing respawn counter");
+        //Debug.Log("Showing respawn counter");
         if (playerInfoText == null)
         {
             return;
