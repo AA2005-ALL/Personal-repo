@@ -1,5 +1,6 @@
 using Unity.Netcode;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class NetwrokProjectile : NetworkBehaviour
 {
@@ -51,6 +52,8 @@ public class NetwrokProjectile : NetworkBehaviour
             return;
         }
 
+        PlayerNetworkData shooter = FindShooter();
+
         NetworkEnemy enemy = other.GetComponent<NetworkEnemy>();
 
         if (enemy != null)
@@ -59,8 +62,6 @@ public class NetwrokProjectile : NetworkBehaviour
 
             if (killedEnemy)
             {
-                PlayerNetworkData shooter = FindShooter();
-
                 if (shooter != null)
                 {
                     shooter.AddScore(1);
@@ -72,6 +73,7 @@ public class NetwrokProjectile : NetworkBehaviour
             return;
         }
 
+
         PlayerNetworkData target = other.GetComponent<PlayerNetworkData>();
 
         if (target == null)
@@ -79,24 +81,34 @@ public class NetwrokProjectile : NetworkBehaviour
             return;
         }
 
-        if (target.OwnerClientId == shooterClientId)
+        if(target == shooter)
         {
-            return;
+            print("is this bullet mine? " + shooter.name);
+            //return;
         }
 
-        bool killedPlayer = target.TakeDamage(10);
-
-        if(killedPlayer)
+        else
         {
-            PlayerNetworkData shooter = FindShooter();
+            Debug.Log("I know I'm hitting a player");
+            bool killedPlayer = target.TakeDamage(10);
 
-            if (shooter != null)
+            if (killedPlayer)
             {
-                shooter.AddScore(1);
+                if (shooter != null)
+                {
+                    shooter.AddScore(1);
+                }
             }
-        }
 
-        NetworkObject.Despawn();
+            NetworkObject.Despawn();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("I know I'm hitting a player");
+        PlayerNetworkData target = collision.gameObject.GetComponent<PlayerNetworkData>();
+        bool killedPlayer = target.TakeDamage(10);
     }
 
     public void Initialise(ulong clientId, int shotId)

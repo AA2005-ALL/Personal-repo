@@ -15,7 +15,7 @@ public class PlayerNetworkData : NetworkBehaviour
 
     public NetworkVariable<float> FacingAngle = new NetworkVariable<float>(0f);
 
-    [SerializeField] Transform playerVisual;
+    [SerializeField] public Transform playerVisual;
 
     [SerializeField] GameObject invincibilityBubble;
 
@@ -98,14 +98,12 @@ public class PlayerNetworkData : NetworkBehaviour
     [Rpc(SendTo.ClientsAndHost)]
     private void ShowInvincibiltyRPC()
     {
-        Debug.Log("Showing bubble");
         invincibilityBubble.SetActive(true);
     }
 
     [Rpc(SendTo.ClientsAndHost)]
     private void HideInvincibiltyRPC()
     {
-        Debug.Log("Hiding bubble");
         invincibilityBubble.SetActive(false);
     }
 
