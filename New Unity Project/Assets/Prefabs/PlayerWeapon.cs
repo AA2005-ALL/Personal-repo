@@ -35,11 +35,14 @@ public class PlayerWeapon : NetworkBehaviour
     private int nextShotId;
     private Dictionary<int, PredictedProjectile> predictedShots = new Dictionary<int, PredictedProjectile>();
 
+    private AudioSource reloadAudio;
+
     private void Awake()
     {
         controls = new PlayerInputs();
         currentWeapon = 0;
         networkData = GetComponent<PlayerNetworkData>();
+        reloadAudio = GetComponent<AudioSource>();
         ammoDisplay = transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>();
     }
 
@@ -196,6 +199,8 @@ public class PlayerWeapon : NetworkBehaviour
             totalAmmoRemaining.Value = 0;
             return;
         }
+
+        reloadAudio.Play();
 
         int ammoToAddToClip = maxAmmoInClip.Value - ammoInClip.Value;
 

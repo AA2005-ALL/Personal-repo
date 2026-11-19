@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|e:\\gcu undergrad\\personal-repo\\new unity project\\assets\\prefabs\\playerweapon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\prefabs\\playerweapon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\grenadeExplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\grenadeExplosion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|e:\\gcu undergrad\\personal-repo\\new unity project\\assets\\prefabs\\playerweapon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\prefabs\\playerweapon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|e:\\gcu undergrad\\personal-repo\\new unity project\\assets\\prefabs\\netwrokprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\prefabs\\netwrokprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|e:\\gcu undergrad\\personal-repo\\new unity project\\assets\\playernetworkdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,10 +21,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|e:\\gcu undergrad\\personal-repo\\new unity project\\assets\\prefabs\\netwrokprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\prefabs\\netwrokprojectile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|e:\\gcu undergrad\\personal-repo\\new unity project\\assets\\playerdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,43 +46,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "grenadeExplosion.cs",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\grenadeExplosion.cs",
               "RelativeDocumentMoniker": "Assets\\grenadeExplosion.cs",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\grenadeExplosion.cs",
               "RelativeToolTip": "Assets\\grenadeExplosion.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAcwCkAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-18T18:12:00.154Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "PlayerWeapon.cs",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\Prefabs\\PlayerWeapon.cs",
               "RelativeDocumentMoniker": "Assets\\Prefabs\\PlayerWeapon.cs",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\Prefabs\\PlayerWeapon.cs",
               "RelativeToolTip": "Assets\\Prefabs\\PlayerWeapon.cs",
-              "ViewState": "AgIAALYAAAAAmKJcGlsuwM4AAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAMgAAAAAAAAAAAAqwNQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-13T15:55:38.621Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "NetwrokProjectile.cs",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\Prefabs\\NetwrokProjectile.cs",
               "RelativeDocumentMoniker": "Assets\\Prefabs\\NetwrokProjectile.cs",
               "ToolTip": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\Prefabs\\NetwrokProjectile.cs",
               "RelativeToolTip": "Assets\\Prefabs\\NetwrokProjectile.cs",
-              "ViewState": "AgIAAJEAAAAAAAAAAAAUwCcAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAIsAAAAAAAAAAAAUwCcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-13T15:23:41.497Z",
               "EditorCaption": ""
@@ -102,7 +102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "NetworkBehaviour.cs",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.unity.netcode.gameobjects@cfd429cc91ec\\Runtime\\Core\\NetworkBehaviour.cs",
@@ -115,7 +115,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PlayerNetworkData.cs",
               "DocumentMoniker": "E:\\GCU Undergrad\\Personal-repo\\New Unity Project\\Assets\\PlayerNetworkData.cs",
               "RelativeDocumentMoniker": "Assets\\PlayerNetworkData.cs",
