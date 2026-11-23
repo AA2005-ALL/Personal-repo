@@ -136,6 +136,15 @@
     <None Include="..\res\lighting.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\res\terrain.comp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\terrain.vert">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\res\object.frag">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Object Include="..\res\monkey3.obj">

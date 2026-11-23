@@ -1,151 +1,124 @@
 #include "MainGame.h"
 #include "Camera.h"
 #include <iostream>
-#include <string>
-#include <cmath> // ceilf, sqrtf
+#include <cmath>
 
-static const int MAX_OBJECT_COUNT = 100000;
+static const int START_OBJECT_COUNT = 10000;
+static const int MIN_OBJECT_COUNT = 100;
+static const int MAX_OBJECT_COUNT = 1000000;   // immutable storage cannot grow, so allocate the ceiling
+static const float GRID_SPACING = 2.0f;
+static const float OBJECT_SCALE = 0.6f;        // same 0.6 in move.comp
+static const int FRAMES_PER_TIMING_PRINT = 60;
+
+static const GLuint CAMERA_BINDING = 0;
+static const GLuint MODEL_BINDING = 2;
+static const GLuint POSITION_BINDING = 3;      // "binding = 3" in move.comp
+static const GLuint VELOCITY_BINDING = 4;      // "binding = 4" in move.comp
+
+static const int LOCAL_SIZE = 64;              // invocations per workgroup, local_size_x in move.comp
+
+// the box the objects bounce in: x and z within +-halfSide, y from 0 to BOX_HEIGHT
+static const float BOX_HEIGHT = 40.0f;
+static const float MIN_SPEED = 2.0f;
+static const float MAX_SPEED = 6.0f;
+
+// small LCG so every run starts the same
+static const unsigned int RANDOM_SEED = 12345u;
+static const unsigned int LCG_MULTIPLIER = 1664525u;
+static const unsigned int LCG_INCREMENT = 1013904223u;
+
+// camera backs off with the grid. 200 units gives the Week 8 position (0, 70, -150)
+static const float MIN_CAMERA_EXTENT = 200.0f;
+static const float CAMERA_HEIGHT_PER_EXTENT = 0.35f;
+static const float CAMERA_BACK_PER_EXTENT = 0.75f;
+static const float CAMERA_FOV = 70.0f;
+static const float CAMERA_FAR = 5000.0f;
+
+static const int TERRAIN_TEXTURE_SIZE = 512; // height map pixels per side
+static const int TERRAIN_LOCAL_SIZE = 16; // local_size_x and local_size_y in terrain.comp
+static const int TERRAIN_GRID = 256; // grid vertices per side
+static const float TERRAIN_SIZE = 400.0f; // world units per side. Same number in terrain.vert
+static const GLuint HEIGHT_IMAGE_UNIT = 0; // "binding = 0" in terrain.comp
+static const GLuint HEIGHT_TEXTURE_UNIT = 1; // "binding = 1" in terrain.vert
+
+// 0 up to just under 1. Top 24 bits, the low bits of an LCG are poor.
+static float nextRandom01(unsigned int& state)
+{
+	state = state * LCG_MULTIPLIER + LCG_INCREMENT;
+	return (float)(state >> 8) / 16777216.0f;
+}
+
+static float nextVelocityComponent(unsigned int& state)
+{
+	float speed = MIN_SPEED + (MAX_SPEED - MIN_SPEED) * nextRandom01(state);
+	if (nextRandom01(state) < 0.5f)
+		speed = -speed;
+	return speed;
+}
 
 MainGame::MainGame()
 {
 	_gameState = GameState::PLAY;
-	Display* _gameDisplay = new Display(); //new display
-	mode = 2; 
-	objectCount = 10000; 
-	frameIndex = 0; 
+	benchmark = false;
+	printsThisMode = 0;
+	mode = DrawMode::CPU_UPDATE;
+	objectCount = START_OBJECT_COUNT;
+	moveTimeLoc = moveDtLoc = moveCountLoc = moveHalfSideLoc = moveBoxHeightLoc = -1;
+	cameraUBO = 0;
+	modelSSBO = 0;
+	positionSSBO = 0;
+	velocitySSBO = 0;
+	frameIndex = 0;
+	computeTimer[0] = computeTimer[1] = 0;
+	drawTimer[0] = drawTimer[1] = 0;
 	frameStart = 0;
+	updateMsTotal = submitMsTotal = computeMsTotal = drawMsTotal = frameMsTotal = 0.0;
 	framesTimed = 0;
+	counter = 0.0f;
+	deltaSeconds = 0.0f;
+	terrainOn = false;
+	heightTexture = 0;
+	terrainTimeLoc = -1;
 }
 
 MainGame::~MainGame()
 {
+	glDeleteQueries(2, computeTimer);
+	glDeleteQueries(2, drawTimer);
+	glDeleteBuffers(1, &velocitySSBO);
+	glDeleteBuffers(1, &positionSSBO);
+	glDeleteBuffers(1, &modelSSBO);
+	glDeleteBuffers(1, &cameraUBO);
+	glDeleteTextures(1, &heightTexture);
 }
 
-struct CameraData
+void MainGame::run(bool bench, int startCount)
 {
-	glm::mat4 view;        // offset 0
-	glm::mat4 projection;  // offset 64
-	glm::vec3 position;    // offset 128
-	float pad;             // offset 140
-};
-static_assert(sizeof(CameraData) == 144, "CameraData does not match std140");
-
-
-void MainGame::run()
-{
+	benchmark = bench;
+	if (startCount >= MIN_OBJECT_COUNT && startCount <= MAX_OBJECT_COUNT)
+		objectCount = startCount;
 	initSystems();
 	gameLoop();
-}
-
-void MainGame::layoutGrid()
-{
-	positions.resize(MAX_OBJECT_COUNT);
-	transforms.resize(MAX_OBJECT_COUNT);
-	const int side = (int)ceilf(sqrtf((float)objectCount));
-	for (int i = 0; i < objectCount; i++)
-	{
-		int x = i % side - side / 2;
-		int z = i / side - side / 2;
-		positions[i] = glm::vec3(x * 2.0f, 0.0f, z * 2.0f);
-	}
-}
-
-void MainGame::updateTransforms()
-{
-	const glm::vec3 up(0.0f, 1.0f, 0.0f);
-	const glm::vec3 scale(0.6f);
-
-	for (int i = 0; i < objectCount; i++)
-	{
-		transforms[i] = glm::translate(positions[i]) * glm::rotate(counter + i * 0.01f, up) * glm::scale(scale);
-	}
-}
-
-void MainGame::drawPerObject()
-{
-	objectShader.Bind();
-	for (int i = 0; i < objectCount; i++)
-	{
-		glUniformMatrix4fv(modelLocation, 1, GL_FALSE, &transforms[i][0][0]);
-		ballMesh.draw();
-	}
 }
 
 void MainGame::initSystems()
 {
 	_gameDisplay.initDisplay();
-	//whistle = audioDevice.loadSound("..\\res\\bang.wav");
-	//backGroundMusic = audioDevice.loadSound("..\\res\\background.wav");
-	texture.load("..\\res\\bricks.jpg");
-	testTexture.load("..\\res\\Water.jpg");
-	rockMesh.loadModel("..\\res\\Rock1.obj");
-	ballMesh.loadModel("..\\res\\sphere.obj");
-	fogShader.init("..\\res\\fogShader.vert", "..\\res\\fogShader.frag"); 
-	toonShader.init("..\\res\\shaderToon.vert", "..\\res\\shaderToon.frag"); 
-	rimShader.init("..\\res\\shaderRim.vert", "..\\res\\shaderRim.frag");
-	eMapping.init("..\\res\\shaderReflection.vert", "..\\res\\shaderReflection.frag");
-	FBOShader.init("..\\res\\FBOShader.vert", "..\\res\\FBOShader.frag");
-	screenShake.init("..\\Lab2\\postProcessing.vert", "..\\Lab2\\postProcessing.frag");
-	lightShader.init("..\\res\\lighting.vert", "..\\res\\lighting.frag");
 
-	initModels(asteroid);
+	mesh1.loadModel("..\\res\\sphere.obj");
+	instancedShader.init("..\\res\\instanced.vert", "..\\res\\object.frag");
+	terrainDrawShader.init("..\\res\\terrain.vert", "..\\res\\object.frag");
 
-	geoShader.initGeo("..\\res\\shaderGeoText.vert", "..\\res\\shaderGeoText.geom", "..\\res\\shaderGeoText.frag");
+	moveShader.initCompute("..\\res\\move.comp");
+	terrainCompShader.initCompute("..\\res\\terrain.comp");
+	moveTimeLoc = glGetUniformLocation(moveShader.getID(), "time");
+	moveDtLoc = glGetUniformLocation(moveShader.getID(), "dt");
+	moveCountLoc = glGetUniformLocation(moveShader.getID(), "objectCount");
+	moveHalfSideLoc = glGetUniformLocation(moveShader.getID(), "halfSide");
+	moveBoxHeightLoc = glGetUniformLocation(moveShader.getID(), "boxHeight");
+	terrainTimeLoc = glGetUniformLocation(terrainCompShader.getID(), "time");
 
-	glCreateBuffers(1, &cameraUBO);
-	glNamedBufferStorage(cameraUBO, sizeof(CameraData), nullptr, GL_DYNAMIC_STORAGE_BIT);
-	glBindBufferBase(GL_UNIFORM_BUFFER, 0, cameraUBO);
-
-	glCreateBuffers(1, &modelSSBO);
-	glNamedBufferStorage(modelSSBO, MAX_OBJECT_COUNT * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
-	//glNamedBufferStorage(modelSSBO, sizeof(DrawElementsIndirectCommand), &drawElements, GL_DYNAMIC_STORAGE_BIT);
-
-	lightCount = 64;
-
-	const int MAX_LIGHTS = 4096;
-
-	glCreateBuffers(1, &lightSSBO);
-	glNamedBufferStorage(lightSSBO, MAX_LIGHTS * sizeof(Light), nullptr, GL_DYNAMIC_STORAGE_BIT);
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 1, lightSSBO);
-	lights.resize(MAX_LIGHTS);
-
-	std::vector<Light> readback(lightCount);
-
-	glGetNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), readback.data());
-
-	for (int i = 0; i < lightCount; i++)
-	{
-		if (memcmp(&readback[i], &lights[i], sizeof(Light)) != 0)
-		{
-			std::cout << "light " << i << " differs" << std::endl;
-		}
-	}
-
-	const char* names[] = { "lights[0].position", "lights[0].radius", "lights[0].colour", "lights[0].intensity" };
-
-	GLuint prog = lightShader.getID();
-
-	for (int i = 0; i < 4; i++)
-	{
-		GLuint idx = glGetProgramResourceIndex(prog, GL_BUFFER_VARIABLE, names[i]);
-		GLint offset = -1;
-		GLenum prop = GL_OFFSET;
-		glGetProgramResourceiv(prog, GL_BUFFER_VARIABLE, idx, 1, &prop, 1, nullptr, &offset);
-		std::cout << names[i] << " gpu offset " << offset << std::endl;
-	}
-
-	ballTransform.SetPos(glm::vec3(0.0f, 0.0f, 0.0f));
-
-
-	myCamera.initCamera(glm::vec3(0, 0, -50), 70.0f, (float)_gameDisplay.getWidth() / _gameDisplay.getHeight(), 0.01f, 1000.0f);
-
-	generateFBO(_gameDisplay.getWidth(), _gameDisplay.getHeight());
-
-	createScreenQuad();
-
-	//counter = 1.0f;
-
-	vector<std::string> faces
+	std::vector<std::string> faces
 	{
 		"..\\res\\skybox\\right.png",
 		"..\\res\\skybox\\left.png",
@@ -154,424 +127,148 @@ void MainGame::initSystems()
 		"..\\res\\skybox\\front.png",
 		"..\\res\\skybox\\back.png"
 	};
-
 	skybox.init(faces);
 
-	objectShader.init("..\\res\\object.vert", "..\\res\\object.frag");
-	instancedShader.init("..\\res\\instanced.vert", "..\\res\\object.frag"); // task 2, load it now
-    modelLocation = glGetUniformLocation(objectShader.getID(), "model");
-	myCamera.initCamera(glm::vec3(0.0f, 70.0f, -150.0f), 70.0f,(float)_gameDisplay.getWidth() / _gameDisplay.getHeight(), 0.1f, 2000.0f);
-	myCamera.setLook(glm::vec3(0.0f, 0.0f, 0.0f));
+	initGpuBuffers();   // before layoutGrid, which uploads into them
 	layoutGrid();
+	placeCamera();
 
-	glCreateQueries(GL_TIME_ELAPSED, 2, gpuTimer);
+#ifdef _DEBUG
+	std::cout << "DEBUG build: the CPU matrix loop is ~100x slower than Release. Measure in Release." << std::endl;
+#else
+	std::cout << "Release build" << std::endl;
+#endif
+	std::cout << "keys: 1 cpu update  2 compute move\n"
+		<< "      up / down: object count x10 / /10, from " << MIN_OBJECT_COUNT << " to " << MAX_OBJECT_COUNT
+		<< " (starting at " << objectCount << ")" << std::endl;
 }
 
-void MainGame::createScreenQuad()
+void MainGame::initTerrain()
 {
-	float quadVertices[] = {
-		 //vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
-		 //positions   // texCoords
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		-1.0f, -1.0f,  0.0f, 0.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
+	glCreateTextures(GL_TEXTURE_2D, 1, &heightTexture);
+	glTextureStorage2D(heightTexture, 1, GL_R32F, TERRAIN_TEXTURE_SIZE,TERRAIN_TEXTURE_SIZE);
+	glTextureParameteri(heightTexture, GL_TEXTURE_MIN_FILTER, GL_NEAREST); // the vertex shader uses texelFetch
+	glTextureParameteri(heightTexture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-		 1.0f,  1.0f,  1.0f, 1.0f
+	std::vector<Vertex> vertices(TERRAIN_GRID * TERRAIN_GRID);
 
-		//// vertex attributes for a quad that fills the top-left quarter of the screen
-		//-1.0f,  1.0f,  0.0f, 1.0f,  // Top-left
-		//-1.0f,  0.0f,  0.0f, 0.0f,  // Bottom-left
-		// 0.0f,  0.0f,  1.0f, 0.0f,  // Bottom-right
-
-		//-1.0f,  1.0f,  0.0f, 1.0f,  // Top-left
-		// 0.0f,  0.0f,  1.0f, 0.0f,  // Bottom-right
-		// 0.0f,  1.0f,  1.0f, 1.0f   // Top-right
-	};
-	// cube VAO
-	glGenVertexArrays(1, &quadVAO);
-	glGenBuffers(1, &quadVBO);
-	glBindVertexArray(quadVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-
-}
-
-void MainGame::gameLoop()
-{
-	while (_gameState != GameState::EXIT)
+	for (int j = 0; j < TERRAIN_GRID; j++)
 	{
-		processInput();
-		currentCamPos = myCamera.getPos();
-		drawGame();
-		updateDelta();
-		collision(rockMesh.getSpherePos(), rockMesh.getSphereRadius(), shipMesh.getSpherePos(), shipMesh.getSphereRadius());
-		//playAudio(backGroundMusic, glm::vec3(0.0f,0.0f,0.0f));
-		//cout << "x: " << myCamera.getPos().x << "y: " << myCamera.getPos().y << "z: " << myCamera.getPos().z << "\n";
-	}
-}
-
-void MainGame::processInput()
-{
-	SDL_Event evnt;
-
-	while (SDL_PollEvent(&evnt)) //get and process events
-	{
-		switch (evnt.type)
+		for (int i = 0; i < TERRAIN_GRID; i++)
 		{
-		case SDL_MOUSEWHEEL:
-			myCamera.MoveBack(evnt.wheel.y);
-			break;
-		default:
-			break;
-		case SDL_MOUSEBUTTONDOWN:
-			switch (evnt.button.button)
-			{
-			case SDL_BUTTON_LEFT:
-				//SDL_ShowSimpleMessageBox(0, "Mouse", "Left button was pressed!", _gameDisplay.getWindow());
-				break;
-			case SDL_BUTTON_RIGHT:
-				//SDL_ShowSimpleMessageBox(0, "Mouse", "Right button was pressed!", _gameDisplay.getWindow());
-				break;
-			case SDL_BUTTON_MIDDLE:
-				break;
-			default:
-				//SDL_ShowSimpleMessageBox(0, "Mouse", "Some other button was pressed!", window);
-				break;
-			}
-		case SDL_KEYDOWN:
-			/* Check the SDLKey values and move change the coords */
-			switch (evnt.key.keysym.sym)
-			{
-			case SDLK_a:
-				transform.SetPos(glm::vec3(transform.GetPos()->x + 1.0f * deltaTime, transform.GetPos()->y, 0.0));
-				//cout << myCamera.getPos().x;
-				break;
-			case SDLK_w:
-				transform.SetPos(glm::vec3(transform.GetPos()->x, transform.GetPos()->y + 1.0f * deltaTime, 0.0));
-				break;
-			case SDLK_s:
-				transform.SetPos(glm::vec3(transform.GetPos()->x, transform.GetPos()->y - 1.0f * deltaTime, 0.0));
-				break;
-			case SDLK_d:
-				transform.SetPos(glm::vec3(transform.GetPos()->x - 1.0f * deltaTime, transform.GetPos()->y, 0.0));
-				break;
-			case SDLK_LEFT:
-				myCamera.MoveLeft(10.0f * deltaTime);
-				//cout << myCamera.getPos().x;
-				break;
-			case SDLK_RIGHT:
-				myCamera.MoveRight(10.0f * deltaTime);
-				break;
-			case SDLK_UP:
-				myCamera.MoveUp(1.0f);
-				break;
-			case SDLK_DOWN:
-				myCamera.MoveDown(1.0f);
-				break;
-			case SDLK_SPACE:
-				if (look)
-					look = false;
-				else
-					look = true;
-				break;
-			default:
-				break;
-			case SDL_QUIT:
-				_gameState = GameState::EXIT;
-				break;
-			}
-		}
-
-	}
-}
-
-void MainGame::initModels(GameObject*& asteroid)
-{
-	for (int i = 0; i < 20; ++i)
-	{
-		float rX = -1.0 + static_cast <float>(rand()) / (static_cast <float>(RAND_MAX / (1.0 - -1.0)));
-		float rY = -1.0 + static_cast <float>(rand()) / (static_cast <float>(RAND_MAX / (1.0 - -1.0)));
-		float rZ = -1.0 + static_cast <float>(rand()) / (static_cast <float>(RAND_MAX / (1.0 - -1.0)));
-
-		asteroid[i].transformPositions(glm::vec3(2.0 * i * rX, 2.0 * i * rY, 2.0 * i * rX), glm::vec3(rX, rY, rZ), glm::vec3(1.1, 1.1, 1.1));
-		asteroid[i].update(&rockMesh);
-	}
-
-	ship.transformPositions(glm::vec3(0.0, 0.0, -3.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.2, 0.2, 0.2));
-
-	for (int i = 0; i < 20; ++i)
-	{
-		missiles[i].setActive(0);
-	}
-}
-
-void MainGame::drawAsteriods()
-{
-	texture.Bind(0);
-	eMapping.Bind();
-	//screenShake.Bind();
-	linkEmapping();
-	//linkShake();
-
-	for (int i = 0; i < 20; ++i)
-	{
-		asteroid[i].transformPositions(glm::vec3(*asteroid[i].getTM().GetPos()), glm::vec3(asteroid[i].getTM().GetRot()->x + deltaTime, asteroid[i].getTM().GetRot()->y + deltaTime, asteroid[i].getTM().GetRot()->z + deltaTime), glm::vec3(0.1, 0.1, 0.1));
-		asteroid[i].draw(&rockMesh);
-		asteroid[i].update(&rockMesh);
-		eMapping.Update(asteroid[i].getTM(), myCamera);
-		//screenShake.Update(asteroid[i].getTM(), myCamera);
-	}
-}
-
-void MainGame::drawMissiles()
-{
-	texture.Bind(0);
-	rimShader.Bind();
-	linkRimLighting();
-
-	for (int i = 0; i < 20; ++i)
-	{
-		if (missiles[i].getActive())
-		{
-			missiles[i].draw(&missileMesh);
-			missiles[i].update(&missileMesh);
-			rimShader.Update(missiles[i].getTM(), myCamera);
+			const float u = (float)i / (TERRAIN_GRID - 1);
+			const float v = (float)j / (TERRAIN_GRID - 1);
+			Vertex& vertex = vertices[j * TERRAIN_GRID + i];
+			vertex.position = glm::vec3((u - 0.5f) * TERRAIN_SIZE, 0.0f, (v - 0.5f) *
+				TERRAIN_SIZE);
+			vertex.texCoord = glm::vec2(u, v);
+			vertex.normal = glm::vec3(0.0f, 1.0f, 0.0f); // terrain.vert works the real one out
 		}
 	}
-}
 
-void MainGame::fireMissiles()
-{
-	/** CALL THIS FROM processInput()
-	* Set the missle transform to the ship transform ONCE (initial conditions)
-	* Set the missle to active (check it is not already active)
-	* Update the tranform to move the missle along its forward vector(more advanced, use seek to target)
-	* check for asteroid collision
-	* handle asteroid collision
-	*/
-}
+	std::vector<unsigned int> indices;
 
-void MainGame::drawShip()
-{
-	toonShader.Bind();
-	linkToon();
-
-	ship.draw(&shipMesh);
-	ship.update(&shipMesh);
-	toonShader.Update(ship.getTM(), myCamera);
-}
-
-
-void MainGame::drawSkyBox()
-{
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textureID);
-
-	//Uint64 now = SDL_GetPerformanceCounter();
-	//double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
-	//frameStart = now;
-	//counter += (float)(frameMs / 1000.0);
-
-
-	skybox.draw(&myCamera);
-
-	myCamera.setPos(currentCamPos);
-	//glEnableClientState(GL_COLOR_ARRAY);
-	//glEnd();
-}
-
-
-bool MainGame::collision(glm::vec3 m1Pos, float m1Rad, glm::vec3 m2Pos, float m2Rad)
-{
-	float distance = glm::sqrt((m2Pos.x - m1Pos.x) * (m2Pos.x - m1Pos.x) + (m2Pos.y - m1Pos.y) * (m2Pos.y - m1Pos.y) + (m2Pos.z - m1Pos.z) * (m2Pos.z - m1Pos.z));
-
-	if (distance < (m1Rad + m2Rad))
+	for (int j = 0; j < TERRAIN_GRID - 1; j++)
 	{
-		//audioDevice.setlistener(myCamera.getPos(), m1Pos); //add bool to mesh
-		//playAudio(whistle, m1Pos);
-		return true;
+		for (int i = 0; i < TERRAIN_GRID - 1; i++)
+		{
+			const unsigned int a = j * TERRAIN_GRID + i;
+			const unsigned int b = a + TERRAIN_GRID; // one row on
+			indices.push_back(a);
+			indices.push_back(b);
+			indices.push_back(a + 1);
+			indices.push_back(a + 1);
+			indices.push_back(b);
+			indices.push_back(b + 1);
+		}
 	}
-	else
+
+	terrainMesh.init(vertices.data(), (unsigned int)vertices.size(), indices.data(), (unsigned int)indices.size());
+}
+
+// the grid's width in world units, never less than MIN_CAMERA_EXTENT
+float MainGame::gridExtent()
+{
+	float extent = gridSide() * GRID_SPACING;
+	if (extent < MIN_CAMERA_EXTENT)
+		extent = MIN_CAMERA_EXTENT;
+	return extent;
+}
+
+void MainGame::placeCamera()
+{
+	float extent = gridExtent();
+	myCamera.initCamera(glm::vec3(0.0f, extent * CAMERA_HEIGHT_PER_EXTENT, -extent * CAMERA_BACK_PER_EXTENT),
+		CAMERA_FOV, (float)_gameDisplay.getWidth() / _gameDisplay.getHeight(), 0.1f, CAMERA_FAR);
+	myCamera.setLook(glm::vec3(0.0f, 0.0f, 0.0f));
+}
+
+// mode 2 moves the positions on the GPU, so a mode change starts the grid again
+void MainGame::setMode(DrawMode newMode)
+{
+	mode = newMode;
+	layoutGrid();
+}
+
+int MainGame::gridSide()
+{
+	return (int)ceilf(sqrtf((float)objectCount));
+}
+
+// Square grid on the XZ plane, centred on the origin. 10,000 objects is 100 x 100.
+// The only upload of positions and velocities. After this the compute shader owns them.
+void MainGame::layoutGrid()
+{
+	positions.resize(MAX_OBJECT_COUNT);
+	velocities.resize(MAX_OBJECT_COUNT);
+	transforms.resize(MAX_OBJECT_COUNT);
+
+	// mode 2 starts at random heights so the balls are not all on the floor
+	const bool scatterHeight = (mode != DrawMode::CPU_UPDATE);
+	const int side = gridSide();
+	unsigned int randomState = RANDOM_SEED;
+	for (int i = 0; i < objectCount; i++)
 	{
-		return false;
+		int x = i % side - side / 2;
+		int z = i / side - side / 2;
+		float y = 0.0f;
+		if (scatterHeight)
+			y = nextRandom01(randomState) * BOX_HEIGHT;
+		positions[i] = glm::vec4(x * GRID_SPACING, y, z * GRID_SPACING, 0.0f);
+
+		float vx = nextVelocityComponent(randomState);
+		float vy = nextVelocityComponent(randomState);
+		float vz = nextVelocityComponent(randomState);
+		velocities[i] = glm::vec4(vx, vy, vz, 0.0f);
 	}
+
+	glNamedBufferSubData(positionSSBO, 0, objectCount * sizeof(glm::vec4), positions.data());
+	glNamedBufferSubData(velocitySSBO, 0, objectCount * sizeof(glm::vec4), velocities.data());
 }
 
-//void MainGame::playAudio(unsigned int Source, glm::vec3 pos)
-//{
-//	
-//	ALint state; 
-//	alGetSourcei(Source, AL_SOURCE_STATE, &state);
-//	/*
-//	Possible values of state
-//	AL_INITIAL
-//	AL_STOPPED
-//	AL_PLAYING
-//	AL_PAUSED
-//	*/
-//	if (AL_PLAYING != state)
-//	{
-//		audioDevice.playSound(Source, pos);
-//	}
-//}
-
-void MainGame::linkFogShader()
+void MainGame::initGpuBuffers()
 {
-	//fogShader.setMat4("u_pm", myCamera.getProjection());
-	//fogShader.setMat4("u_vm", myCamera.getProjection());
-	fogShader.setFloat("maxDist", 20.0f);
-	fogShader.setFloat("minDist", 0.0f);
-	fogShader.setVec3("fogColor", glm::vec3(0.0f, 0.0f, 0.0f));
+	// Week 7: camera UBO, SubData every frame
+	glCreateBuffers(1, &cameraUBO);
+	glNamedBufferStorage(cameraUBO, sizeof(CameraData), nullptr, GL_DYNAMIC_STORAGE_BIT);
+	glBindBufferBase(GL_UNIFORM_BUFFER, CAMERA_BINDING, cameraUBO);
+
+	// Week 8: one matrix per object. Mode 1 fills it with SubData, mode 2 with compute.
+	glCreateBuffers(1, &modelSSBO);
+	glNamedBufferStorage(modelSSBO, MAX_OBJECT_COUNT * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+
+	glCreateBuffers(1, &positionSSBO);
+	glNamedBufferStorage(positionSSBO, MAX_OBJECT_COUNT * sizeof(glm::vec4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+	glCreateBuffers(1, &velocitySSBO);
+	glNamedBufferStorage(velocitySSBO, MAX_OBJECT_COUNT * sizeof(glm::vec4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+
+	// two timer pairs, compute then draw, each read a frame late
+	glCreateQueries(GL_TIME_ELAPSED, 2, computeTimer);
+	glCreateQueries(GL_TIME_ELAPSED, 2, drawTimer);
+
+	initTerrain();
 }
 
-void MainGame::linkToon()
-{
-	toonShader.setVec3("lightDir", glm::vec3(0.5f, 0.5f, 0.5f));
-}
-
-void MainGame::linkGeo()
-{
-	float randX = ((float)rand() / (RAND_MAX));
-	float randY = ((float)rand() / (RAND_MAX));
-	float randZ = ((float)rand() / (RAND_MAX));
-	// Frag: uniform float randColourX; uniform float randColourY; uniform float randColourZ;
-	geoShader.setFloat("randColourX", randX);
-	geoShader.setFloat("randColourY", randY);
-	geoShader.setFloat("randColourZ", randZ);
-	// Geom: uniform float time;
-	geoShader.setFloat("time", counter);
-}
-
-void MainGame::linkRimLighting()
-{
-	glm::vec3 camDir;
-	camDir = shipMesh.getSpherePos() - myCamera.getPos();
-	camDir = glm::normalize(camDir);
-	rimShader.setMat4("u_pm", myCamera.getProjection());
-	rimShader.setMat4("u_vm", myCamera.getView());
-	rimShader.setMat4("model", transform.GetModel());
-	rimShader.setMat4("view", myCamera.getView());
-	rimShader.setVec3("lightDir", glm::vec3(0.5f, 0.5f, 0.5f));
-}
-
-void MainGame::linkEmapping()
-{
-	eMapping.setMat4("model", asteroid[0].getModel());
-	//eMapping.setVec3("cameraPos", myCamera.getPos());
-}
-
-void MainGame::linkShake()
-{
-	screenShake.setFloat("time", counter);
-	//screenShake.setVec2("sampler2D", );
-}
-
-void MainGame::updateDelta()
-{
-	LAST = NOW;
-	NOW = SDL_GetPerformanceCounter();
-
-	deltaTime = (float)((NOW - LAST) / (float)SDL_GetPerformanceFrequency());
-}
-
-void MainGame::bindFBO()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	glEnable(GL_DEPTH_TEST);
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-void MainGame::unbindFBO()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-
-void MainGame::generateFBO(float w, float h)
-{
-	glGenFramebuffers(1, &FBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-
-	// create a colorbuffer for attachment texture
-	glGenTextures(1, &CBO);
-	glBindTexture(GL_TEXTURE_2D, CBO);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, CBO, 0);
-
-	// create a renderbuffer object for depth and stencil attachment 
-	glGenRenderbuffers(1, &RBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, w, h); // use a single renderbuffer object for both a depth AND stencil buffer.
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, RBO); // now actually attach it
-
-
-	// now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
-		cout << "FRAMEBUFFER:: Framebuffer is complete!" << endl;
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
-
-void MainGame::renderFBO()
-{
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessary actually, since we won't be able to see behind the quad anyways)
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	FBOShader.Bind();
-	glBindVertexArray(quadVAO);
-	glBindTexture(GL_TEXTURE_2D, CBO);	// use the color attachment texture as the texture of the quad plane
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-}
-
-static double msSince(Uint64 then)
-{
-	return (SDL_GetPerformanceCounter() - then) * 1000.0 /
-		SDL_GetPerformanceFrequency();
-}
-
-void MainGame::recordFrameTime()
-{
-	Uint64 now = SDL_GetPerformanceCounter();
-	if (frameStart != 0)
-	{
-		double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
-		counter += (float)(frameMs / 1000.0);
-		frameMsTotal += frameMs;
-	}
-	frameStart = now;
-	framesTimed++;
-	if (framesTimed == 60)
-	{
-		std::cout << (mode == 1 ? "per-object " : "instanced ") << objectCount << 
-			"objects"
-			<< " update " << updateMsTotal / framesTimed << " ms"
-			<< " submit " << submitMsTotal / framesTimed << " ms"
-			<< " gpu " << gpuMsTotal / framesTimed << " ms"
-			<< " frame " << frameMsTotal / framesTimed << " ms" << std::endl;
-		updateMsTotal = submitMsTotal = gpuMsTotal = frameMsTotal = 0.0;
-		framesTimed = 0;
-	}
-}
-
-// every frame, instead of drawPerObject
-void MainGame::drawInstanced()
-{
-	glNamedBufferSubData(modelSSBO, 0, objectCount * sizeof(glm::mat4),transforms.data());
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, modelSSBO);
-	instancedShader.Bind();
-	ballMesh.drawInstanced(objectCount);
-}
-
-// Task 2: per-frame camera data into the UBO.
 void MainGame::updateCameraBuffer()
 {
 	CameraData cd;
@@ -582,83 +279,249 @@ void MainGame::updateCameraBuffer()
 	glNamedBufferSubData(cameraUBO, 0, sizeof(cd), &cd);
 }
 
+// mode 1: the Week 8 loop. This is the update column.
+void MainGame::updateTransforms()
+{
+	const glm::vec3 up(0.0f, 1.0f, 0.0f);
+	const glm::vec3 scale(OBJECT_SCALE);
+	for (int i = 0; i < objectCount; i++)
+		transforms[i] = glm::translate(glm::vec3(positions[i])) * glm::rotate(counter + i * 0.01f, up) * glm::scale(scale);
+}
+
+void MainGame::uploadTransforms()
+{
+	glNamedBufferSubData(modelSSBO, 0, objectCount * sizeof(glm::mat4), transforms.data());
+}
+
+// mode 2: move.comp owns positions and velocities and writes the matrices
+void MainGame::dispatchMove()
+{
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, POSITION_BINDING, positionSSBO);   // read and written
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, VELOCITY_BINDING, velocitySSBO);   // read and written
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, MODEL_BINDING, modelSSBO);         // written
+
+	// the grid is side objects wide at GRID_SPACING each, centred on the origin
+	const float halfSide = gridSide() * GRID_SPACING / 2.0f;
+
+	moveShader.Bind();
+	glUniform1f(moveTimeLoc, counter);
+	glUniform1f(moveDtLoc, deltaSeconds);
+	glUniform1ui(moveCountLoc, (GLuint)objectCount);
+	glUniform1f(moveHalfSideLoc, halfSide);
+	glUniform1f(moveBoxHeightLoc, BOX_HEIGHT);
+
+	// round up: 10,000 / 64 is 157 groups. The shader skips the spare threads.
+	const GLuint groups = (GLuint)((objectCount + LOCAL_SIZE - 1) / LOCAL_SIZE);
+	glDispatchCompute(groups, 1, 1);
+
+	// the vertex shader reads what move.comp wrote
+	glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
+}
+
+void MainGame::dispatchTerrain()
+{
+	glBindImageTexture(HEIGHT_IMAGE_UNIT, heightTexture, 0, GL_FALSE, 0,GL_WRITE_ONLY, GL_R32F);
+	terrainCompShader.Bind();
+
+	glUniform1f(terrainTimeLoc, counter);
+
+	// Round up in x and y. 512 / 16 is exactly 32 here, but another size may not divide.
+	const GLuint groups = (GLuint)((TERRAIN_TEXTURE_SIZE + TERRAIN_LOCAL_SIZE - 1) / TERRAIN_LOCAL_SIZE);
+	glDispatchCompute(groups, groups, 1);
+
+	// The vertex shader samples what the dispatch wrote. The bit names the reader: a texture fetch.
+    glMemoryBarrier(GL_TEXTURE_FETCH_BARRIER_BIT);
+}
+
+void MainGame::drawInstanced()
+{
+	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, MODEL_BINDING, modelSSBO);
+	instancedShader.Bind();
+	mesh1.drawInstanced(objectCount);
+}
+
+void MainGame::drawTerrain()
+{
+	glBindTextureUnit(HEIGHT_TEXTURE_UNIT, heightTexture);
+	terrainDrawShader.Bind();
+	terrainMesh.draw();
+}
+
+void MainGame::beginTimer(GLuint* queries)
+{
+	glBeginQuery(GL_TIME_ELAPSED, queries[frameIndex & 1]);
+}
+
+void MainGame::endTimer()
+{
+	glEndQuery(GL_TIME_ELAPSED);
+}
+
+// last frame's query. This frame's has not run yet and asking for it would stall.
+double MainGame::readTimer(GLuint* queries)
+{
+	if (frameIndex == 0)
+		return 0.0;
+	GLuint64 ns = 0;
+	glGetQueryObjectui64v(queries[(frameIndex + 1) & 1], GL_QUERY_RESULT, &ns);
+	return ns / 1.0e6;
+}
+
+static double msSince(Uint64 then)
+{
+	return (SDL_GetPerformanceCounter() - then) * 1000.0 / SDL_GetPerformanceFrequency();
+}
+
+void MainGame::recordFrameTime()
+{
+	Uint64 now = SDL_GetPerformanceCounter();
+	if (frameStart != 0)
+	{
+		double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
+		deltaSeconds = (float)(frameMs / 1000.0);   // dt for move.comp next frame
+		counter += deltaSeconds;
+		frameMsTotal += frameMs;
+	}
+	frameStart = now;
+
+	framesTimed++;
+	if (framesTimed == FRAMES_PER_TIMING_PRINT)
+	{
+		static const char* names[] = { "", "cpu update", "compute move" };
+		std::cout << names[(int)mode] << "  " << objectCount << " objects"
+			<< "  update " << updateMsTotal / framesTimed << " ms"
+			<< "  submit " << submitMsTotal / framesTimed << " ms"
+			<< "  compute " << computeMsTotal / framesTimed << " ms"
+			<< "  draw " << drawMsTotal / framesTimed << " ms"
+			<< "  frame " << frameMsTotal / framesTimed << " ms" << std::endl;
+		updateMsTotal = submitMsTotal = computeMsTotal = drawMsTotal = frameMsTotal = 0.0;
+		framesTimed = 0;
+
+		// --bench: the first print of a mode includes the switch, keep the second, then move on
+		if (benchmark && ++printsThisMode == 2)
+		{
+			printsThisMode = 0;
+			if (mode == DrawMode::COMPUTE_MOVE)
+				_gameState = GameState::EXIT;
+			else
+				setMode((DrawMode)((int)mode + 1));
+		}
+	}
+}
+
+void MainGame::gameLoop()
+{
+	while (_gameState != GameState::EXIT)
+	{
+		processInput();
+		drawGame();
+	}
+}
+
+void MainGame::processInput()
+{
+	SDL_Event evnt;
+	while (SDL_PollEvent(&evnt))
+	{
+		switch (evnt.type)
+		{
+		case SDL_QUIT:
+			_gameState = GameState::EXIT;
+			break;
+		case SDL_KEYDOWN:
+			if (evnt.key.repeat)   // a held key must not fire again
+				break;
+
+			if (evnt.key.keysym.sym >= SDLK_1 && evnt.key.keysym.sym <= SDLK_2)
+			{
+				setMode((DrawMode)(evnt.key.keysym.sym - SDLK_1 + 1));
+			}
+
+			if (evnt.key.keysym.sym == SDLK_t)
+			{
+				terrainOn = !terrainOn;
+				std::cout << "terrain " << (terrainOn ? "on" : "off") << std::endl;
+			}
+
+			if (evnt.key.keysym.sym == SDLK_UP || evnt.key.keysym.sym == SDLK_DOWN)
+			{
+				const bool up = (evnt.key.keysym.sym == SDLK_UP);
+
+				if (up && objectCount * 10 > MAX_OBJECT_COUNT)
+				{
+					std::cout << "already at the ceiling: " << MAX_OBJECT_COUNT << " objects" << std::endl;
+				}
+
+				else if (!up && objectCount / 10 < MIN_OBJECT_COUNT)
+				{
+					std::cout << "already at the floor: " << MIN_OBJECT_COUNT << " objects" << std::endl;
+				}
+
+				else
+				{
+					objectCount = up ? objectCount * 10 : objectCount / 10;
+					std::cout << "object count " << objectCount << std::endl;
+					layoutGrid();
+					placeCamera();
+				}
+			}
+			break;
+		}
+	}
+}
+
 void MainGame::drawGame()
 {
+	_gameDisplay.clearDisplay(0.8f, 0.8f, 0.8f, 1.0f);
+
+	// update: CPU time making the per-object data. Mode 1 the loop, mode 2 the dispatch.
 	Uint64 t0 = SDL_GetPerformanceCounter();
-	updateCameraBuffer(); // view, projection, position into the UBO at binding 0
-    updateTransforms(); // task 1
+	updateCameraBuffer();
+	beginTimer(computeTimer); // nothing is dispatched in mode 1, so it reads ~0
+
+	switch (mode)
+	{
+	  case DrawMode::CPU_UPDATE:   updateTransforms();   break;
+	  case DrawMode::COMPUTE_MOVE: dispatchMove();       break;
+	}
+
+	// after the switch (mode), before endTimer()
+	if (terrainOn)
+	{
+		dispatchTerrain();
+	}
+
+	endTimer();
 	updateMsTotal += msSince(t0);
 
-	glBeginQuery(GL_TIME_ELAPSED, gpuTimer[frameIndex & 1]);
+	beginTimer(drawTimer);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.textureID);
+	skybox.draw(&myCamera);
 
-	for (int i = 0; i < lightCount; i++)
+	// after the switch (mode), before endTimer()
+	if (terrainOn)
 	{
-		float angle = i * 6.2831853f / lightCount + counter;
-		lights[i].position = glm::vec3(cosf(angle) * 2.0f, 0.4f, sinf(angle) * 2.0f);
-		lights[i].radius = 2.2f;
-		lights[i].colour = glm::vec3(0.5f + 0.5f * cosf(angle), 0.5f + 0.5f * sinf(angle), 0.5f);
-		lights[i].intensity = 24.0f / lightCount;
+		drawTerrain();
 	}
 
-	glNamedBufferSubData(lightSSBO, 0, lightCount * sizeof(Light), lights.data());
-
-	_gameDisplay.clearDisplay(0.8f, 0.8f, 0.8f, 1.0f); //sets our background colour	
-
-
-	bindFBO();
-
-	Uint64 now = SDL_GetPerformanceCounter();
-	double frameMs = (now - frameStart) * 1000.0 / SDL_GetPerformanceFrequency();
-	frameStart = now;
-	counter += (float)(frameMs / 1000.0);
-	//drawAsteriods();
-	drawSkyBox();
-
+	// submit: CPU time to issue the draw, not to run it. Mode 1 also issues its upload here.
 	Uint64 t1 = SDL_GetPerformanceCounter();
 
-	if (mode == 1)
+	if (mode == DrawMode::CPU_UPDATE)
 	{
-		drawPerObject();
-	}   // task 1
-
-	else
-	{
-		drawInstanced(); // task 2
-		submitMsTotal += msSince(t1);
+		uploadTransforms();
 	}
-	
 
-	lightShader.Bind();
-	lightShader.setMat4("model", ballTransform.GetModel());
-	lightShader.setInt("lightCount", lightCount);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture.getID());
-	//lightShader.setInt("diffuse", 0);
+	drawInstanced();
 
-	ballMesh.draw(); 
+	submitMsTotal += msSince(t1);
+	endTimer();
 
-	glEndQuery(GL_TIME_ELAPSED);
-
-	if (frameIndex > 0)
-	{
-		GLuint64 ns = 0;
-		glGetQueryObjectui64v(gpuTimer[(frameIndex + 1) & 1], GL_QUERY_RESULT, &ns);
-		gpuMsTotal += ns / 1.0e6;
-	}
+	computeMsTotal += readTimer(computeTimer);   // outside the CPU regions: a read can wait
+	drawMsTotal += readTimer(drawTimer);
 
 	_gameDisplay.swapBuffer();
 	frameIndex++;
 	recordFrameTime();
-
-	unbindFBO();
-
-	renderFBO();
-
-	glEnable(GL_DEPTH_TEST);
-
-	//drawAsteriods();
-	//drawSkyBox();
-
-	_gameDisplay.swapBuffer();
 }
-

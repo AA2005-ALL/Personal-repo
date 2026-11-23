@@ -104,6 +104,7 @@
     <None Include="..\res\FBOShader.vert" />
     <None Include="..\res\lighting.frag" />
     <None Include="..\res\lighting.vert" />
+    <None Include="..\res\object.frag" />
     <None Include="..\res\shader.frag" />
     <None Include="..\res\shader.vert" />
     <None Include="..\res\shaderGeoText.frag" />
@@ -111,6 +112,8 @@
     <None Include="..\res\shaderGeoText.vert" />
     <None Include="..\res\shaderSkybox.frag" />
     <None Include="..\res\shaderSkybox.vert" />
+    <None Include="..\res\terrain.comp" />
+    <None Include="..\res\terrain.vert" />
     <None Include="eMapping.frag">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </None>
