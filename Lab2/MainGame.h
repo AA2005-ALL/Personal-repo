@@ -41,6 +41,7 @@ private:
 	void initTerrain(); 
 	void dispatchTerrain();
 	void drawTerrain();
+	void drawWaterMine();
 	float gridExtent();
 	void placeCamera();
 	void setMode(DrawMode newMode);
@@ -65,10 +66,13 @@ private:
 	Display _gameDisplay;
 	GameState _gameState;
 	Mesh mesh1;            // ball
+	Mesh waterBomb;
+	Transform waterBombTransform;
 	Camera myCamera;
 	Shader instancedShader; // instanced.vert: model[gl_InstanceID] from the SSBO
 	Shader moveShader;      // move.comp
 	Skybox skybox;
+	Shader eMapping;
 
 	bool benchmark;        // --bench: cycle modes 1 and 2, one timing line each, then exit
 	int printsThisMode;

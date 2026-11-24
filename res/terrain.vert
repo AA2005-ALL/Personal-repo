@@ -48,3 +48,4 @@ void main()
 	texCoord = VertexTexCoord;
 	gl_Position = cam.projection * cam.view * vec4(wp, 1.0);
 }
+

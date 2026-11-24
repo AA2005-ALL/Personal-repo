@@ -10,7 +10,7 @@ layout (r32f, binding = 0) uniform writeonly image2D heightMap;   // image unit 
 uniform float time;
 
 const int OCTAVES = 4;
-const float BASE_FREQUENCY = 4.0;   // noise cells across the whole map
+const float BASE_FREQUENCY = 16.0;   // noise cells across the whole map
 
 // a number from 0 to 1 that is always the same for the same corner
 float hash(vec2 corner)
@@ -45,8 +45,8 @@ float terrainHeight(vec2 uv)
 	for (int octave = 0; octave < OCTAVES; octave++)
 	{
 		float direction = 1.0;
-		if (octave % 2 == 1)
-			direction = -1.0;
+		//if (octave % 2 == 1)
+		//	direction = -1.0;
 		vec2 drift = vec2(0.20, 0.13) * time * direction;
 		sum += weight * valueNoise(uv * frequency + drift);
 		total += weight;

@@ -1,4 +1,3 @@
-﻿C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180\Microsoft.CppBuild.targets(551,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Lab1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Mesh.cpp
-E:\GCU Undergrad\Personal-repo\Lab2\Mesh.cpp(63,9): warning C4930: 'Sphere meshSphere(void)': prototyped function not called (was a variable definition intended?)
+﻿C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Microsoft\VC\v180\Microsoft.CppBuild.targets(550,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Lab1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  MainGame.cpp
   Lab2.vcxproj -> E:\GCU Undergrad\Personal-repo\Debug\Lab2.exe

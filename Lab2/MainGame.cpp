@@ -3,9 +3,9 @@
 #include <iostream>
 #include <cmath>
 
-static const int START_OBJECT_COUNT = 10000;
-static const int MIN_OBJECT_COUNT = 100;
-static const int MAX_OBJECT_COUNT = 1000000;   // immutable storage cannot grow, so allocate the ceiling
+static const int START_OBJECT_COUNT = 0;
+static const int MIN_OBJECT_COUNT = 0;
+static const int MAX_OBJECT_COUNT = 0;   // immutable storage cannot grow, so allocate the ceiling
 static const float GRID_SPACING = 2.0f;
 static const float OBJECT_SCALE = 0.6f;        // same 0.6 in move.comp
 static const int FRAMES_PER_TIMING_PRINT = 60;
@@ -106,8 +106,11 @@ void MainGame::initSystems()
 	_gameDisplay.initDisplay();
 
 	mesh1.loadModel("..\\res\\sphere.obj");
+	waterBomb.loadModel("..\\res\\mine.obj");
+	waterBombTransform.GetModel();
 	instancedShader.init("..\\res\\instanced.vert", "..\\res\\object.frag");
 	terrainDrawShader.init("..\\res\\terrain.vert", "..\\res\\object.frag");
+	eMapping.init("..\\res\\eMapping.vert", "..\\res\\eMapping.frag");
 
 	moveShader.initCompute("..\\res\\move.comp");
 	terrainCompShader.initCompute("..\\res\\terrain.comp");
@@ -120,12 +123,12 @@ void MainGame::initSystems()
 
 	std::vector<std::string> faces
 	{
-		"..\\res\\skybox\\right.png",
-		"..\\res\\skybox\\left.png",
-		"..\\res\\skybox\\top.png",
-		"..\\res\\skybox\\bottom.png",
-		"..\\res\\skybox\\front.png",
-		"..\\res\\skybox\\back.png"
+		"..\\res\\skybox\\right.jpg",
+		"..\\res\\skybox\\left.jpg",
+		"..\\res\\skybox\\top.jpg",
+		"..\\res\\skybox\\bottom2.jpg",
+		"..\\res\\skybox\\front.jpg",
+		"..\\res\\skybox\\back.jpg"
 	};
 	skybox.init(faces);
 
@@ -133,6 +136,9 @@ void MainGame::initSystems()
 	layoutGrid();
 	placeCamera();
 
+	waterBombTransform.SetPos(glm::vec3(0, 0, 0));
+	waterBombTransform.SetScale(glm::vec3(5.0, 5.0, 5.0));
+	
 #ifdef _DEBUG
 	std::cout << "DEBUG build: the CPU matrix loop is ~100x slower than Release. Measure in Release." << std::endl;
 #else
@@ -198,8 +204,7 @@ float MainGame::gridExtent()
 void MainGame::placeCamera()
 {
 	float extent = gridExtent();
-	myCamera.initCamera(glm::vec3(0.0f, extent * CAMERA_HEIGHT_PER_EXTENT, -extent * CAMERA_BACK_PER_EXTENT),
-		CAMERA_FOV, (float)_gameDisplay.getWidth() / _gameDisplay.getHeight(), 0.1f, CAMERA_FAR);
+	myCamera.initCamera(glm::vec3(0.0f, extent * CAMERA_HEIGHT_PER_EXTENT, -extent * CAMERA_BACK_PER_EXTENT), CAMERA_FOV, (float)_gameDisplay.getWidth() / _gameDisplay.getHeight(), 0.1f, CAMERA_FAR);
 	myCamera.setLook(glm::vec3(0.0f, 0.0f, 0.0f));
 }
 
@@ -338,6 +343,15 @@ void MainGame::drawInstanced()
 	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, MODEL_BINDING, modelSSBO);
 	instancedShader.Bind();
 	mesh1.drawInstanced(objectCount);
+}
+
+void MainGame::drawWaterMine()
+{
+	eMapping.Bind();
+	eMapping.setMat4("model", waterBombTransform.GetModel());
+	eMapping.setMat4("view", myCamera.getView());
+	eMapping.setMat4("projection", myCamera.getProjection());
+	waterBomb.draw();
 }
 
 void MainGame::drawTerrain()
@@ -514,6 +528,7 @@ void MainGame::drawGame()
 	}
 
 	drawInstanced();
+	drawWaterMine();
 
 	submitMsTotal += msSince(t1);
 	endTimer();
