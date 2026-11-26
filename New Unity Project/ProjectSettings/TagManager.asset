@@ -10,6 +10,7 @@ TagManager:
   - Player Icon 1
   - Player Icon 2
   - Player Icon 3
+  - Player name
   layers:
   - Default
   - TransparentFX

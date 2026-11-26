@@ -394,7 +394,7 @@ public class PlayerNetworkData : NetworkBehaviour
     {
         NetworkGameManager gameManager = FindFirstObjectByType<NetworkGameManager>();
 
-        if (gameManager == null || gameManager.RoundStarted)
+        if (gameManager == null || gameManager.MatchStarted)
         {
             return;
         }

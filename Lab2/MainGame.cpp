@@ -111,6 +111,7 @@ void MainGame::initSystems()
 	instancedShader.init("..\\res\\instanced.vert", "..\\res\\object.frag");
 	terrainDrawShader.init("..\\res\\terrain.vert", "..\\res\\object.frag");
 	eMapping.init("..\\res\\eMapping.vert", "..\\res\\eMapping.frag");
+	geoShader.initGeo("..\\res\\shaderGeoText.vert", "..\\res\\shaderGeoText.geom", "..\\res\\shaderGeoText.frag");
 
 	moveShader.initCompute("..\\res\\move.comp");
 	terrainCompShader.initCompute("..\\res\\terrain.comp");
@@ -354,6 +355,17 @@ void MainGame::drawWaterMine()
 	waterBomb.draw();
 }
 
+void MainGame::drawExplosion()
+{
+	geoShader.Bind(); 
+	geoShader.setMat4("transform", waterBombTransform.GetModel());
+	geoShader.setFloat("randColourX", 1.0);
+	geoShader.setFloat("randColourY", 1.0);
+	geoShader.setFloat("randColourZ", 1.0);
+	geoShader.setFloat("time", counter);
+	waterBomb.draw();
+}
+
 void MainGame::drawTerrain()
 {
 	glBindTextureUnit(HEIGHT_TEXTURE_UNIT, heightTexture);
@@ -528,8 +540,8 @@ void MainGame::drawGame()
 	}
 
 	drawInstanced();
-	drawWaterMine();
-
+	//drawWaterMine();
+	drawExplosion();
 	submitMsTotal += msSince(t1);
 	endTimer();
 

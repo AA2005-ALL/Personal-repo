@@ -6,22 +6,22 @@ public class grenadeExplosion : NetworkBehaviour
 {
     [SerializeField] float speed = 100f;
 
-    [SerializeField] public float lifetime = 5f;
+    [SerializeField] NetworkVariable<float> lifetime = new NetworkVariable<float>(5f);
 
     [SerializeField] NetworkObject explosionPrefab;
 
-    private float despawnTime;
+    NetworkVariable<float> despawnTime = new NetworkVariable<float>(1f);
     private Rigidbody2D rb;
 
     private AudioSource explosionSound;
 
     private float outerExplosionRadius = 80f;
 
-    private float centralExplosionRadius = 60f;
+    private int centralExplosionRadius = 60;
 
-    private float innerExplosionRadius = 40f;
+    private int innerExplosionRadius = 40;
 
-    private float minimumDamageRadius = 13f;
+    private int minimumDamageRadius = 13;
 
     private int maxExplosionDamage = 80;
 
@@ -72,7 +72,7 @@ public class grenadeExplosion : NetworkBehaviour
 
     IEnumerator waitToExplode()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(lifetime.Value);
 
         PlayerNetworkData[] players = FindObjectsByType<PlayerNetworkData>(FindObjectsSortMode.None);
 
@@ -109,7 +109,7 @@ public class grenadeExplosion : NetworkBehaviour
         explosionSound.Play();
         explosion.Spawn();
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(despawnTime.Value);
 
         explosion.Despawn();
         NetworkObject.Despawn();

@@ -54,15 +54,17 @@ public class NetwrokProjectile : NetworkBehaviour
 
         if(other.TryGetComponent<NetworkObject>(out var hit))
         {
+            //Ensures the shooter can't hit themself
             if(hit.NetworkObjectId == shooterNetworkObjectId)
             {
-                //Debug.Log("This bullet is mine");
                 return;
             }
 
+            //Finds player and enemy shooters
             PlayerNetworkData playerShooter = FindShooter();
             NetworkEnemy enemyShooter = FindEnemyShooter();
 
+            //Carries out enemy damage logic
             if (hit.GetComponent<NetworkEnemy>())
             {
                 NetworkEnemy enemy = hit.GetComponent<NetworkEnemy>();
@@ -82,9 +84,9 @@ public class NetwrokProjectile : NetworkBehaviour
                 return;
             }
 
+            //Carries out player damage logic
             if(hit.GetComponent<PlayerNetworkData>())
             {
-                //Debug.Log("I know I'm hitting a player");
                 PlayerNetworkData target = hit.GetComponent<PlayerNetworkData>();
 
                 if (target == null)
@@ -94,6 +96,7 @@ public class NetwrokProjectile : NetworkBehaviour
 
                 bool killedPlayer;
 
+                //If the shooter was an enemy no score is added and damage is dealt
                 if (enemyShooter != null)
                 {
                     if (enemyShooter.NetworkObjectId == shooterNetworkObjectId)
@@ -102,6 +105,7 @@ public class NetwrokProjectile : NetworkBehaviour
                     }
                 }
 
+                //If the shooter is a player the bullet deals damage and if they get a kill score is added
                 if(playerShooter != null) 
                 {
                     if (playerShooter.NetworkObjectId == shooterNetworkObjectId)
@@ -122,27 +126,6 @@ public class NetwrokProjectile : NetworkBehaviour
                 NetworkObject.Despawn();
             }
         }
-
-
-        //NetworkEnemy enemy = other.GetComponent<NetworkEnemy>();
-
-        //if (enemy != null)
-        //{
-        //    bool killedEnemy = enemy.TakeDamage(10);
-
-        //    if (killedEnemy)
-        //    {
-        //        if (shooter != null)
-        //        {
-        //            shooter.AddScore(1);
-        //        }
-        //    }
-
-        //    NetworkObject.Despawn();
-
-        //    return;
-        //}
-
     }
 
     public void Initialise(ulong objectId, int shotId)
@@ -180,6 +163,7 @@ public class NetwrokProjectile : NetworkBehaviour
         rb.MovePosition(rb.position + (Vector2)transform.up * speed * Time.fixedDeltaTime);
     }
 
+    //Uses network object ID instead of client ID to allow enemy shooting logic to be handled
     private PlayerNetworkData FindShooter()
     {
         if (!NetworkManager.Singleton.SpawnManager.SpawnedObjects.TryGetValue(shooterNetworkObjectId, out NetworkObject shooter))

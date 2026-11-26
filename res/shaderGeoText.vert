@@ -3,10 +3,13 @@
 
 //The layout qualifers
 layout (location = 0) in vec3 VertexPosition;
+layout (location = 1) in vec2 tc;
 layout (location = 2) in vec3 VertexNormal;
 
 //Uniform variable
 uniform mat4 transform;
+
+vec2 texCoords;
 
 //Passing out the normal and position data
 out vec3 v_norm;
@@ -14,6 +17,7 @@ out vec4 v_pos;
 
 void main()
 {
+	texCoords = tc;
 	//Assigning the normal and position data
 	v_norm = VertexNormal;
 	v_pos = vec4(VertexPosition, 1.0);

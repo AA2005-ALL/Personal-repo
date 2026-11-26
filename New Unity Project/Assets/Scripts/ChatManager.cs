@@ -15,7 +15,6 @@ public class ChatManager : NetworkBehaviour
     [SerializeField] ScrollRect chatRenderer;
     [SerializeField] TMP_InputField playerNameInput;
     [SerializeField] TMP_InputField chatInput;
-    [SerializeField] TextMeshProUGUI showHideButtonText;
     [SerializeField] Sprite[] playerIcons;
     public string playername;
     public int iconIndex = 0;
@@ -66,14 +65,12 @@ public class ChatManager : NetworkBehaviour
     {
         if(chatRenderer.gameObject.activeInHierarchy == true && chatInput.gameObject.activeInHierarchy == true)
         {
-            showHideButtonText.text = "Show";
             chatRenderer.gameObject.SetActive(false);
             chatInput.gameObject.SetActive(false); 
         }
 
         else
         {
-            showHideButtonText.text = "Hide";
             chatRenderer.gameObject.SetActive(true);
             chatInput.gameObject.SetActive(true);
         }

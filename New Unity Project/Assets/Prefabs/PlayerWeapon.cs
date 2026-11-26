@@ -182,8 +182,6 @@ public class PlayerWeapon : NetworkBehaviour
         ammoInClip.Value--;
 
         updateAmmoUI();
-
-        muzzleFlash.Despawn();
     }
 
     [Rpc(SendTo.Server)]

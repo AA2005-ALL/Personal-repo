@@ -75,6 +75,16 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "ShowHideChat",
+                    "type": "Button",
+                    "id": "8d40c979-eac4-4d2e-8b86-33cfb65da3ab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -306,6 +316,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ThrowGrenade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "29479a53-8fac-44c7-8fe8-8628727c78e7",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowHideChat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

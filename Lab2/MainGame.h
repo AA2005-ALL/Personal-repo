@@ -42,6 +42,7 @@ private:
 	void dispatchTerrain();
 	void drawTerrain();
 	void drawWaterMine();
+	void drawExplosion();
 	float gridExtent();
 	void placeCamera();
 	void setMode(DrawMode newMode);
@@ -73,6 +74,7 @@ private:
 	Shader moveShader;      // move.comp
 	Skybox skybox;
 	Shader eMapping;
+	Shader geoShader;
 
 	bool benchmark;        // --bench: cycle modes 1 and 2, one timing line each, then exit
 	int printsThisMode;

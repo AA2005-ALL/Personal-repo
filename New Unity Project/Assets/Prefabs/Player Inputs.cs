@@ -161,6 +161,16 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""ShowHideChat"",
+                    ""type"": ""Button"",
+                    ""id"": ""8d40c979-eac4-4d2e-8b86-33cfb65da3ab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -394,6 +404,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""ThrowGrenade"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""29479a53-8fac-44c7-8fe8-8628727c78e7"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShowHideChat"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -409,6 +430,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_SwitchWeapon = m_Player.FindAction("SwitchWeapon", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_ThrowGrenade = m_Player.FindAction("ThrowGrenade", throwIfNotFound: true);
+        m_Player_ShowHideChat = m_Player.FindAction("ShowHideChat", throwIfNotFound: true);
     }
 
     ~@PlayerInputs()
@@ -496,6 +518,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SwitchWeapon;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_ThrowGrenade;
+    private readonly InputAction m_Player_ShowHideChat;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -535,6 +558,10 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ThrowGrenade".
         /// </summary>
         public InputAction @ThrowGrenade => m_Wrapper.m_Player_ThrowGrenade;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ShowHideChat".
+        /// </summary>
+        public InputAction @ShowHideChat => m_Wrapper.m_Player_ShowHideChat;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -582,6 +609,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @ThrowGrenade.started += instance.OnThrowGrenade;
             @ThrowGrenade.performed += instance.OnThrowGrenade;
             @ThrowGrenade.canceled += instance.OnThrowGrenade;
+            @ShowHideChat.started += instance.OnShowHideChat;
+            @ShowHideChat.performed += instance.OnShowHideChat;
+            @ShowHideChat.canceled += instance.OnShowHideChat;
         }
 
         /// <summary>
@@ -614,6 +644,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @ThrowGrenade.started -= instance.OnThrowGrenade;
             @ThrowGrenade.performed -= instance.OnThrowGrenade;
             @ThrowGrenade.canceled -= instance.OnThrowGrenade;
+            @ShowHideChat.started -= instance.OnShowHideChat;
+            @ShowHideChat.performed -= instance.OnShowHideChat;
+            @ShowHideChat.canceled -= instance.OnShowHideChat;
         }
 
         /// <summary>
@@ -703,5 +736,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnThrowGrenade(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ShowHideChat" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShowHideChat(InputAction.CallbackContext context);
     }
 }

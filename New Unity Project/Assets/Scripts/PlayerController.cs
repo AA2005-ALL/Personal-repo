@@ -21,6 +21,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] Button joinButton;
 
     private PlayerInputs controls;
+
+    private ChatManager chat;
     private Vector2 moveInput;
     private float shiftInput;
     private Rigidbody2D rb;
@@ -34,6 +36,7 @@ public class PlayerController : NetworkBehaviour
         networkData = GetComponent<PlayerNetworkData>();
         playerCam = FindFirstObjectByType<Camera>();
         spawn = FindFirstObjectByType<SpawnManager>();
+        chat = FindFirstObjectByType<ChatManager>();
     }
 
     public override void OnNetworkSpawn() 
@@ -63,6 +66,7 @@ public class PlayerController : NetworkBehaviour
 
         GameObject hostButtonObj = GameObject.FindWithTag("Host");
         GameObject joinButtonObj = GameObject.FindWithTag("Join");
+        GameObject playerNameInput = GameObject.FindWithTag("Player name");
 
         if (hostButtonObj != null)
         {
@@ -72,7 +76,7 @@ public class PlayerController : NetworkBehaviour
 
         else
         {
-            UnityEngine.Debug.LogError("Host Button is null for some reason");
+            Debug.LogError("Host Button is null for some reason");
         }
 
         if (joinButtonObj != null)
@@ -83,10 +87,18 @@ public class PlayerController : NetworkBehaviour
 
         else
         {
-            UnityEngine.Debug.LogError("Join Button is null for some reason");
+            Debug.LogError("Join Button is null for some reason");
         }
 
-        //playerNameInput.gameObject.SetActive(false);
+        if (playerNameInput != null)
+        {
+            playerNameInput.gameObject.SetActive(false);
+        }
+
+        else
+        {
+            Debug.LogError("player name input is null for some reason");
+        }
 
         CameraFollow cameraFollow = GameObject.FindFirstObjectByType<Camera>().GetComponent<CameraFollow>(); 
         cameraFollow.SetTarget(transform);
@@ -145,6 +157,11 @@ public class PlayerController : NetworkBehaviour
         else
         {
             moveSpeed = 64;
+        }
+
+        if(controls.Player.ShowHideChat.WasPressedThisFrame())
+        {
+            chat.HideOrShowChat();
         }
 
         Vector3 movement = new Vector3(moveInput.x, moveInput.y, 0f);

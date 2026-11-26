@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7409109145974117634}
   - component: {fileID: 9142710698069575332}
   - component: {fileID: -2111158946564096254}
+  - component: {fileID: 3041271495982389218}
   m_Layer: 0
   m_Name: MuzzleFlash
   m_TagString: Untagged
@@ -4911,3 +4912,16 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &3041271495982389218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6620957493706770946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 234481f6376ab9f4a8619b0936ef293a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::muzzleFlashDespawner
+  ShowTopMostFoldoutHeaderGroup: 1

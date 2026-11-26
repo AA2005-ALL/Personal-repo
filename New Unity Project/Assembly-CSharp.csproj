@@ -49,23 +49,24 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.21f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\muzzleFlashDespawner.cs" />
+    <Compile Include="Assets\Scripts\PlayerData.cs" />
     <Compile Include="Assets\Prefabs\PlayerWeapon.cs" />
-    <Compile Include="Assets\PlayerNetworkData.cs" />
-    <Compile Include="Assets\NetworkGameManager.cs" />
-    <Compile Include="Assets\grenadeExplosion.cs" />
-    <Compile Include="Assets\PlayerData.cs" />
-    <Compile Include="Assets\SpawnManager.cs" />
-    <Compile Include="Assets\PlayerController.cs" />
-    <Compile Include="Assets\LeaderboardManager.cs" />
+    <Compile Include="Assets\Scripts\LeaderboardManager.cs" />
+    <Compile Include="Assets\Scripts\PredictedProjectile.cs" />
+    <Compile Include="Assets\Scripts\NetworkEnemy.cs" />
+    <Compile Include="Assets\Scripts\ChatMessage.cs" />
+    <Compile Include="Assets\Scripts\ChatManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\NetworkGameManager.cs" />
+    <Compile Include="Assets\Scripts\ammoPickUp.cs" />
     <Compile Include="Assets\Prefabs\Player Inputs.cs" />
     <Compile Include="Assets\Prefabs\NetwrokProjectile.cs" />
-    <Compile Include="Assets\NetworkEnemy.cs" />
-    <Compile Include="Assets\PredictedProjectile.cs" />
-    <Compile Include="Assets\PlayerIconSelect.cs" />
-    <Compile Include="Assets\CameraFollow.cs" />
-    <Compile Include="Assets\ChatMessage.cs" />
-    <Compile Include="Assets\ChatManager.cs" />
-    <Compile Include="Assets\ammoPickUp.cs" />
+    <Compile Include="Assets\Scripts\PlayerIconSelect.cs" />
+    <Compile Include="Assets\Scripts\SpawnManager.cs" />
+    <Compile Include="Assets\Scripts\CameraFollow.cs" />
+    <Compile Include="Assets\Scripts\grenadeExplosion.cs" />
+    <Compile Include="Assets\Scripts\PlayerNetworkData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
