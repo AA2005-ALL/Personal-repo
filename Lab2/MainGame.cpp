@@ -108,9 +108,11 @@ void MainGame::initSystems()
 	mesh1.loadModel("..\\res\\sphere.obj");
 	waterBomb.loadModel("..\\res\\mine.obj");
 	waterBombTransform.GetModel();
+	explodingTexture.load("..\\res\\water.jpg");
+	eMappingTexture.load("..\\res\\bomb.jpg");
 	instancedShader.init("..\\res\\instanced.vert", "..\\res\\object.frag");
 	terrainDrawShader.init("..\\res\\terrain.vert", "..\\res\\object.frag");
-	eMapping.init("..\\res\\eMapping.vert", "..\\res\\eMapping.frag");
+	eMapping.init("..\\Lab2\\eMapping.vert", "..\\Lab2\\eMapping.frag");
 	geoShader.initGeo("..\\res\\shaderGeoText.vert", "..\\res\\shaderGeoText.geom", "..\\res\\shaderGeoText.frag");
 
 	moveShader.initCompute("..\\res\\move.comp");
@@ -349,20 +351,23 @@ void MainGame::drawInstanced()
 void MainGame::drawWaterMine()
 {
 	eMapping.Bind();
+	eMappingTexture.Bind(0);
 	eMapping.setMat4("model", waterBombTransform.GetModel());
 	eMapping.setMat4("view", myCamera.getView());
 	eMapping.setMat4("projection", myCamera.getProjection());
+	eMapping.setVec3("cameraPos", myCamera.getPos());
+	eMapping.setInt("sampleTexture", 0);
+	eMapping.setInt("skybox", 2);
 	waterBomb.draw();
 }
 
 void MainGame::drawExplosion()
 {
 	geoShader.Bind(); 
-	geoShader.setMat4("transform", waterBombTransform.GetModel());
-	geoShader.setFloat("randColourX", 1.0);
-	geoShader.setFloat("randColourY", 1.0);
-	geoShader.setFloat("randColourZ", 1.0);
+	explodingTexture.Bind(0);
+	geoShader.setMat4("transform", myCamera.getViewProjection());
 	geoShader.setFloat("time", counter);
+	geoShader.setInt("sampleTexture", 0);
 	waterBomb.draw();
 }
 
@@ -469,27 +474,42 @@ void MainGame::processInput()
 				std::cout << "terrain " << (terrainOn ? "on" : "off") << std::endl;
 			}
 
-			if (evnt.key.keysym.sym == SDLK_UP || evnt.key.keysym.sym == SDLK_DOWN)
+			if (evnt.key.keysym.sym == SDLK_UP)
 			{
-				const bool up = (evnt.key.keysym.sym == SDLK_UP);
+				//const bool up = (evnt.key.keysym.sym == SDLK_UP);
+				myCamera.MoveForward(5.0f);
+				//if (up && objectCount * 10 > MAX_OBJECT_COUNT)
+				//{
+				//	std::cout << "already at the ceiling: " << MAX_OBJECT_COUNT << " objects" << std::endl;
+				//}
 
-				if (up && objectCount * 10 > MAX_OBJECT_COUNT)
-				{
-					std::cout << "already at the ceiling: " << MAX_OBJECT_COUNT << " objects" << std::endl;
-				}
+				//else if (!up && objectCount / 10 < MIN_OBJECT_COUNT)
+				//{
+				//	std::cout << "already at the floor: " << MIN_OBJECT_COUNT << " objects" << std::endl;
+				//}
 
-				else if (!up && objectCount / 10 < MIN_OBJECT_COUNT)
-				{
-					std::cout << "already at the floor: " << MIN_OBJECT_COUNT << " objects" << std::endl;
-				}
+				//else
+				//{
+				//	objectCount = up ? objectCount * 10 : objectCount / 10;
+				//	std::cout << "object count " << objectCount << std::endl;
+				//	layoutGrid();
+				//	placeCamera();
+				//}
+			}
 
-				else
-				{
-					objectCount = up ? objectCount * 10 : objectCount / 10;
-					std::cout << "object count " << objectCount << std::endl;
-					layoutGrid();
-					placeCamera();
-				}
+			if (evnt.key.keysym.sym == SDLK_DOWN)
+			{
+				myCamera.MoveBack(5.0f);
+			}
+
+			if (evnt.key.keysym.sym == SDLK_LEFT)
+			{
+				myCamera.MoveLeft(5.0f);
+			}
+
+			if (evnt.key.keysym.sym == SDLK_RIGHT)
+			{
+				myCamera.MoveRight(5.0f);
 			}
 			break;
 		}
@@ -540,7 +560,7 @@ void MainGame::drawGame()
 	}
 
 	drawInstanced();
-	//drawWaterMine();
+	drawWaterMine();
 	drawExplosion();
 	submitMsTotal += msSince(t1);
 	endTimer();

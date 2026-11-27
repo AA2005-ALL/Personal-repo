@@ -19,5 +19,14 @@ void main()
 	vec3 tint = 0.55 + 0.45 * cos(vec3(worldPos.x, worldPos.z, worldPos.x + worldPos.z) * 0.15 + vec3(0.0, 2.1, 4.2));
 	vec3 waterColour = vec3(0.0, 0.35, 0.65);
 	//FragColour = vec4(tint * (AMBIENT + (1.0 - AMBIENT) * ndl), 1.0);
-	FragColour = vec4(waterColour * (AMBIENT + (1.0 - AMBIENT) * ndl),1.0);
+
+	if(gl_FragCoord.y > 500)
+	{
+	  FragColour = vec4(1.0, 1.0, 1.0, 1.0);
+	}
+
+	else
+	{
+	  FragColour = vec4(waterColour * (AMBIENT + (1.0 - AMBIENT) * ndl),1.0);
+    }
 }

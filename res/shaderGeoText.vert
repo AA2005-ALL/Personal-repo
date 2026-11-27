@@ -9,19 +9,16 @@ layout (location = 2) in vec3 VertexNormal;
 //Uniform variable
 uniform mat4 transform;
 
-vec2 texCoords;
-
-//Passing out the normal and position data
-out vec3 v_norm;
-out vec4 v_pos; 
+//Passing out texture data 
+out VS_OUT
+{
+   vec2 texCoords;
+} vs_out;
 
 void main()
 {
-	texCoords = tc;
-	//Assigning the normal and position data
-	v_norm = VertexNormal;
-	v_pos = vec4(VertexPosition, 1.0);
+	vs_out.texCoords = tc;
 
 	// Sets the position of the current vertex
-	gl_Position = transform * v_pos;
+	gl_Position = transform * vec4(VertexPosition, 1.0);
 }

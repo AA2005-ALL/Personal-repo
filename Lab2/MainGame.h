@@ -107,6 +107,8 @@ private:
 	Mesh terrainMesh; // the flat grid
 	GLuint heightTexture; // R32F: written by terrain.comp, sampled by terrain.vert
 	GLint terrainTimeLoc;
+	Texture explodingTexture;
+	Texture eMappingTexture;
 	bool terrainOn; // t key
 
 	float counter;         // seconds since start
