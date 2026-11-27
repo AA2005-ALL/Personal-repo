@@ -171,6 +171,26 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""initialStateCheck"": false,
                     ""priority"": 0
+                },
+                {
+                    ""name"": ""nextPlayer"",
+                    ""type"": ""Button"",
+                    ""id"": ""e56b3f60-67a7-4d24-a4fb-742332478703"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
+                },
+                {
+                    ""name"": ""previousPlayer"",
+                    ""type"": ""Button"",
+                    ""id"": ""4e77d3c6-dc54-488a-bedb-67e4c78f29f5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false,
+                    ""priority"": 0
                 }
             ],
             ""bindings"": [
@@ -415,6 +435,28 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""ShowHideChat"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8b4b48ac-00ec-4624-89f1-e106b923ef65"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""nextPlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""afec08d7-023f-48a7-aa65-b1b634b36cf6"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""previousPlayer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -431,6 +473,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_ThrowGrenade = m_Player.FindAction("ThrowGrenade", throwIfNotFound: true);
         m_Player_ShowHideChat = m_Player.FindAction("ShowHideChat", throwIfNotFound: true);
+        m_Player_nextPlayer = m_Player.FindAction("nextPlayer", throwIfNotFound: true);
+        m_Player_previousPlayer = m_Player.FindAction("previousPlayer", throwIfNotFound: true);
     }
 
     ~@PlayerInputs()
@@ -519,6 +563,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_ThrowGrenade;
     private readonly InputAction m_Player_ShowHideChat;
+    private readonly InputAction m_Player_nextPlayer;
+    private readonly InputAction m_Player_previousPlayer;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -562,6 +608,14 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ShowHideChat".
         /// </summary>
         public InputAction @ShowHideChat => m_Wrapper.m_Player_ShowHideChat;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/nextPlayer".
+        /// </summary>
+        public InputAction @nextPlayer => m_Wrapper.m_Player_nextPlayer;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/previousPlayer".
+        /// </summary>
+        public InputAction @previousPlayer => m_Wrapper.m_Player_previousPlayer;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -612,6 +666,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @ShowHideChat.started += instance.OnShowHideChat;
             @ShowHideChat.performed += instance.OnShowHideChat;
             @ShowHideChat.canceled += instance.OnShowHideChat;
+            @nextPlayer.started += instance.OnNextPlayer;
+            @nextPlayer.performed += instance.OnNextPlayer;
+            @nextPlayer.canceled += instance.OnNextPlayer;
+            @previousPlayer.started += instance.OnPreviousPlayer;
+            @previousPlayer.performed += instance.OnPreviousPlayer;
+            @previousPlayer.canceled += instance.OnPreviousPlayer;
         }
 
         /// <summary>
@@ -647,6 +707,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @ShowHideChat.started -= instance.OnShowHideChat;
             @ShowHideChat.performed -= instance.OnShowHideChat;
             @ShowHideChat.canceled -= instance.OnShowHideChat;
+            @nextPlayer.started -= instance.OnNextPlayer;
+            @nextPlayer.performed -= instance.OnNextPlayer;
+            @nextPlayer.canceled -= instance.OnNextPlayer;
+            @previousPlayer.started -= instance.OnPreviousPlayer;
+            @previousPlayer.performed -= instance.OnPreviousPlayer;
+            @previousPlayer.canceled -= instance.OnPreviousPlayer;
         }
 
         /// <summary>
@@ -743,5 +809,19 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnShowHideChat(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "nextPlayer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNextPlayer(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "previousPlayer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPreviousPlayer(InputAction.CallbackContext context);
     }
 }

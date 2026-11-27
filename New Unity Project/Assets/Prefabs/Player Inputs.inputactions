@@ -85,6 +85,26 @@
                     "interactions": "",
                     "initialStateCheck": false,
                     "priority": 0
+                },
+                {
+                    "name": "nextPlayer",
+                    "type": "Button",
+                    "id": "e56b3f60-67a7-4d24-a4fb-742332478703",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "previousPlayer",
+                    "type": "Button",
+                    "id": "4e77d3c6-dc54-488a-bedb-67e4c78f29f5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
                 }
             ],
             "bindings": [
@@ -327,6 +347,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ShowHideChat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b4b48ac-00ec-4624-89f1-e106b923ef65",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "nextPlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "afec08d7-023f-48a7-aa65-b1b634b36cf6",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "previousPlayer",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

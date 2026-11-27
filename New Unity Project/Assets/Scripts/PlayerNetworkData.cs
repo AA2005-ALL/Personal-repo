@@ -19,6 +19,10 @@ public class PlayerNetworkData : NetworkBehaviour
 
     [SerializeField] GameObject invincibilityBubble;
 
+    [SerializeField] Canvas spectatorView;
+
+    [SerializeField] Canvas gameplayView;
+
     public NetworkVariable<int> Health = new NetworkVariable<int>(100);
 
     public NetworkVariable<bool> IsAlive = new NetworkVariable<bool>(true);
@@ -48,6 +52,30 @@ public class PlayerNetworkData : NetworkBehaviour
         playerInfoText = GetComponentInChildren<TMP_Text>();
 
         invincibilityBubble = transform.GetChild(0).GetChild(3).gameObject;
+
+        GameObject spectatorview = GameObject.FindWithTag("Spectator");
+
+        GameObject gameplayview = GameObject.FindWithTag("Gameplay");
+
+        if(spectatorview == null)
+        {
+            Debug.LogError("No spectator view");
+        }
+
+        else
+        {
+            spectatorView = spectatorview.GetComponent<Canvas>();
+        }
+
+        if(gameplayview == null)
+        {
+            Debug.LogError("No gameplay view either");
+        }
+
+        else
+        {
+            gameplayView  = gameplayview.GetComponent<Canvas>();
+        }
 
         //Sets all networked variables with a starting value
         PlayerName.OnValueChanged += OnNameChanged;
@@ -297,6 +325,18 @@ public class PlayerNetworkData : NetworkBehaviour
         if (playerVisual != null)
         {
             playerVisual.gameObject.SetActive(IsAlive.Value);
+        }
+
+        if(IsAlive.Value == true)
+        {
+            gameplayView.GetComponent<Canvas>().enabled = true;
+            spectatorView.GetComponent<Canvas>().enabled = false;
+        }
+
+        else
+        {
+            gameplayView.GetComponent<Canvas>().enabled = false;
+            spectatorView.GetComponent<Canvas>().enabled = true;
         }
     }
 

@@ -29,6 +29,8 @@ public class NetworkGameManager : NetworkBehaviour
     [SerializeField] TextMeshProUGUI roundCountUI;
 
     [SerializeField] TextMeshProUGUI enemiesLeftToClearRoundUI;
+
+    [SerializeField] TextMeshProUGUI playersLostMessage; 
     private bool matchStarted = false;
     public bool MatchStarted => matchStarted;
     private float ammoCooldown;
@@ -55,6 +57,16 @@ public class NetworkGameManager : NetworkBehaviour
     public bool TryGetSavedSession(string sessionId, out PlayerData player)
     {
         return savedSessions.TryGetValue(sessionId, out player);
+    }
+
+    private void Awake()
+    {
+        sessionId = Guid.NewGuid().ToString();
+    }
+
+    public string GetSessionId()
+    {
+        return sessionId;
     }
 
     public override void OnNetworkSpawn()
@@ -96,11 +108,6 @@ public class NetworkGameManager : NetworkBehaviour
     private void OnEnemiesLeftToClearChanged(int previous, int current)
     {
         UpdateEnemiesLeftUI();
-    }
-
-    public string GetSessionId()
-    {
-        return sessionId;
     }
 
     private void OnEnable()
@@ -333,6 +340,8 @@ public class NetworkGameManager : NetworkBehaviour
 
                 roundCount.Value = 0;
 
+                playersLostMessage.gameObject.SetActive(true);
+
                 PlayerNetworkData[] players = FindObjectsByType<PlayerNetworkData>(FindObjectsSortMode.None);
 
                 for (int i = 0; i < livingEnemies.Count; i++)
@@ -522,6 +531,7 @@ public class NetworkGameManager : NetworkBehaviour
         if(matchStarted)
         {
             Debug.Log("All players ready! Round starting...");
+            playersLostMessage.gameObject.SetActive(false);
             maxEnemiesLeftToClear.Value = 3;
             maxRoundTimerMinutes.Value = 2; 
             enemiesLeftToClearRound.Value = maxEnemiesLeftToClear.Value;

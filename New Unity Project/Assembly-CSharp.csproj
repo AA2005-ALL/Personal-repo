@@ -62,6 +62,7 @@
     <Compile Include="Assets\Scripts\ammoPickUp.cs" />
     <Compile Include="Assets\Prefabs\Player Inputs.cs" />
     <Compile Include="Assets\Prefabs\NetwrokProjectile.cs" />
+    <Compile Include="Assets\Scripts\movingBarricade.cs" />
     <Compile Include="Assets\Scripts\PlayerIconSelect.cs" />
     <Compile Include="Assets\Scripts\SpawnManager.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />

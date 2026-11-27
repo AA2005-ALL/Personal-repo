@@ -1,8 +1,9 @@
+using System;
+using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode; 
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using System;
 
 public class PlayerController : NetworkBehaviour
 {
@@ -11,6 +12,8 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] private float aimAngleOffset = -90f;
 
     private PlayerNetworkData networkData;
+
+    private CameraFollow cameraFollow;
     [SerializeField] Camera playerCam;
     private Vector2 aimInput;
 
@@ -29,6 +32,8 @@ public class PlayerController : NetworkBehaviour
 
     [SerializeField] SpawnManager spawn;
 
+    private int playerBeingSpectated;
+
     private void Awake()
     {
         controls = new PlayerInputs();
@@ -37,6 +42,7 @@ public class PlayerController : NetworkBehaviour
         playerCam = FindFirstObjectByType<Camera>();
         spawn = FindFirstObjectByType<SpawnManager>();
         chat = FindFirstObjectByType<ChatManager>();
+        cameraFollow = GameObject.FindFirstObjectByType<Camera>().GetComponent<CameraFollow>();
     }
 
     public override void OnNetworkSpawn() 
@@ -100,8 +106,10 @@ public class PlayerController : NetworkBehaviour
             Debug.LogError("player name input is null for some reason");
         }
 
-        CameraFollow cameraFollow = GameObject.FindFirstObjectByType<Camera>().GetComponent<CameraFollow>(); 
-        cameraFollow.SetTarget(transform);
+        if (networkData.IsAlive.Value == true)
+        {
+            cameraFollow.SetTarget(transform);
+        }
     }
 
     private void OnEnable()
@@ -124,7 +132,55 @@ public class PlayerController : NetworkBehaviour
         if (!networkData.IsAlive.Value)
         {
             moveInput = Vector2.zero;
+
+            List<PlayerNetworkData> livingPlayers = new List<PlayerNetworkData>();
+
+            PlayerNetworkData[] players = FindObjectsByType<PlayerNetworkData>(FindObjectsSortMode.None);
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                //Only adds a player to the list if they are ready 
+                if (players[i].IsAlive.Value == true)
+                {
+                    livingPlayers.Add(players[i]);
+                }
+
+                //Ignores players that aren't alive 
+                else
+                {
+                    continue;
+                }
+            }
+
+            if(controls.Player.nextPlayer.WasPressedThisFrame() && playerBeingSpectated < livingPlayers.Count)
+            {
+                playerBeingSpectated++;
+            }
+
+            else
+            {
+                Debug.Log("No more players to spectate");
+            }
+
+            if(controls.Player.previousPlayer.WasPressedThisFrame() && playerBeingSpectated > 0)
+            {
+                playerBeingSpectated--;
+            }
+
+            else
+            {
+                Debug.Log("Spectating first living player in list");
+            }
+
+            cameraFollow.SetTarget(livingPlayers[playerBeingSpectated].gameObject.transform);
+
             return;
+        }
+
+        else
+        {
+            cameraFollow.SetTarget(transform);
+            playerBeingSpectated = 0;
         }
 
         moveInput = controls.Player.Move.ReadValue<Vector2>();

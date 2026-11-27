@@ -11,6 +11,8 @@ TagManager:
   - Player Icon 2
   - Player Icon 3
   - Player name
+  - Gameplay
+  - Spectator
   layers:
   - Default
   - TransparentFX

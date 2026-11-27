@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 public class NetworkEnemy : NetworkBehaviour
 {
-    [SerializeField] private float moveSpeed = 58f;
+    private float moveSpeed = 20f;
     private Rigidbody2D rb;
 
     [SerializeField] NetworkObject projectilePrefab;
@@ -42,10 +42,13 @@ public class NetworkEnemy : NetworkBehaviour
             return;
         }
 
-
-        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, target.playerVisual.rotation, 90);
-
         Vector2 direction = ((Vector2)target.transform.position - rb.position).normalized;
+
+        float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
+
+        Quaternion rotationToTarget = Quaternion.Euler(0f, 0f, angle);
+
+        transform.localRotation = Quaternion.RotateTowards(transform.localRotation, rotationToTarget, 90);
 
         float shootingDistance = 100f;
 
